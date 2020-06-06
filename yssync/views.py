@@ -75,7 +75,7 @@ class CreatePlaylist:
         response = request.execute()
 
         for item in response["items"]:
-            self.urlInfoDict = {'id': item["id"], 'title': item["snippet"]["title"],'thumbnail': item["snippet"]["thumbnails"]["high"]["url"],'counter': item["contentDetails"]["itemCount"]}
+            self.urlInfoDict = {'id': item["id"], 'title': item["snippet"]["title"],'thumbnail': item["snippet"]["thumbnails"]["medium"]["url"],'counter': item["contentDetails"]["itemCount"]}
 
         print(self.urlInfoDict)
 

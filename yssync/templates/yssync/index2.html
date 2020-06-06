@@ -15,9 +15,10 @@
 </head>
 
 <body class="full-height-grow">
+
     <header class="main-header">
         <div class=left-header>
-            <img class="burger-menu" src="{% static 'yssync/burger.png' %}" height="25" width="20">
+            <img class="burger-menu" id="burger-icon" src="{% static 'yssync/burger.png' %}" height="25" width="20">
             <a href="/" class="brand-logo">
                 {% load static %}
                 <img class="logo-file" src="{% static  'yssync/spotify.png'  %}" height="30" width="30">
@@ -41,16 +42,15 @@
         </div>
     </header>
     <div class="app-body-container">
-        <div class="app-body-menu-container">
+        <div id="app-body-menu-id" class="app-body-menu-container">
 
-            <div class="app-body-menu-list">
-
+            <div id="main-menu-id" class="app-body-menu-list">
 
                 <div class="item-hover selected" id="my-playlist" data-hidden-id-info="hidden-my-playlist"
                     data-hidden-playlist-id="playlist-list-id">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image" src="{% static  'yssync/playlist.png'  %}" height="30"
-                            width="30"></li>
+                            width="30">
                         <div> My playlists</div>
                     </div>
                     <div class="hidden hidden-item" id="hidden-my-playlist">
@@ -64,11 +64,11 @@
                     data-hidden-playlist-id="url-list-id">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image picture-circle" src="{% static  'yssync/url.png'  %}"
-                            height="30" width="30"></li>
+                            height="30" width="30">
                         <div> Add playlist by URL</div>
                     </div>
                     <div class="hidden hidden-item" id="hidden-url-append">
-                        <input id="url-append-input" type="text">
+                        <input id="searchInput" type="text">
                         <button id="url-search-button" class="url-append-button" type="submit">+</button>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="item-hover" id="app-info" data-hidden-id-info="hidden-app-info">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image picture-circle" src="{% static  'yssync/info.png'  %}"
-                            height="30" width="30"></li>
+                            height="30" width="30">
                         <div> Information</div>
                     </div>
                     <div class="hidden hidden-item" id="hidden-app-info">
@@ -88,25 +88,46 @@
 
             </div>
 
+            <div id="second-menu-id" class="app-body-menu-list-shrink menu-hidden">
+
+                <div class="item-hover" id="my-playlist" data-hidden-id-info="hidden-my-playlist"
+                    data-hidden-playlist-id="playlist-list-id">
+                    <div class="app-body-menu-list-item">
+                        <img class="app-menu-item-image" src="{% static  'yssync/playlist.png'  %}" height="30" width="30">
+                    </div>
+                </div>
+
+                <div class="item-hover " id="url-append" data-hidden-id-info="hidden-url-append"
+                    data-hidden-playlist-id="url-list-id">
+                    <div class="app-body-menu-list-item">
+                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/url.png'  %}" height="30" width="30">
+                    </div>
+                </div>
+
+                <div class="item-hover" id="app-info" data-hidden-id-info="hidden-app-info">
+                    <div class="app-body-menu-list-item">
+                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/info.png'  %}" height="30" width="30">
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="app-body-playlists-container">
 
-            <div class="youtube-list-header">
-
-                <div>Select all</div>>
-
-
-                <div class="checkbox-listitem">
-                    <input class="youtube-playlist-itemlist" type="checkbox" id="select-all">
-                    <label for="select-all"></label>
-                </div>
-            </div>
-
-
             <form id="form-id">
 
                 <div id="playlist-list-id" class="playlist-list">
+
+                    <div class="youtube-list-header">
+                        <div class="checkbox-listitem">
+                            <div>Select all</div>
+                            <input class="youtube-playlist-itemlist playlist-ckeckbox-input" type="checkbox"
+                                id="select-all-playlist" data-checkbox-class="playlist-item-checkbox">
+                            <label for="select-all-playlist"></label>
+                        </div>
+                    </div>
 
                     <ul class="youtube-playlist-item-list">
                         {% for item in listitem %}
@@ -128,8 +149,8 @@
                                 </div>
 
                                 <div class="checkbox-listitem">
-                                    <input class="youtube-playlist-itemlist" type="checkbox" id="{{item.1}}"
-                                        name="{{item.1}}" value="{{item.0}}">
+                                    <input class="youtube-playlist-itemlist playlist-checkbox playlist-item-checkbox"
+                                        type="checkbox" id="{{item.1}}" name="{{item.1}}" value="{{item.0}}">
                                     <label for="{{item.1}}"></label>
                                 </div>
 
@@ -141,8 +162,15 @@
                 </div>
 
                 <div id="url-list-id" class="playlist-list playlist-hidden">
-                    <ul class="youtube-playlist-item-list">
-                        DOG inThePWO
+                    <div class="youtube-list-header">
+                        <div class="checkbox-listitem">
+                            <div>Select all</div>
+                            <input class="youtube-playlist-itemlist playlist-ckeckbox-input" type="checkbox"
+                                id="select-all-url" data-checkbox-class="url-item-checkbox">
+                            <label for="select-all-url"></label>
+                        </div>
+                    </div>
+                    <ul id="url-append-list" class="youtube-playlist-item-list">
                     </ul>
                 </div>
 
@@ -240,7 +268,34 @@
         <button type="submit" class="button button-sync"> SYNC </button>
     </div>
 
-    <div class="footer-menu-3"></div>
+    <footer class="main-footer">
+        <div class="container">
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="#"> About us </a></li>
+                    <li><a href="#"> Contact </a></li>
+                </ul>
+            </nav>
+            <nav class="footer-nav">
+                <ul>
+                    <li>
+                        <a href="#" class="social-link">
+                            <img class="picture-circle footer-picture"
+                                src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+                            Github
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="social-link">
+                            <img class="picture-circle footer-picture"
+                                src="https://cdn.blog.st-hatena.com/images/common/logo-icon.svg">
+                            hatena
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
 
 
     {% block js %}
@@ -269,12 +324,29 @@
                 return false;
             });
 
+
             function spotifyLogin() {
                 var SPOTIPY_CLIENT_ID = "0693e474b35d441987e83f0de3c6fa85"
                 var SPOTIPY_REDIRECT_URI = "http://localhost:8000/yssync/callback/"
                 var spotifyScope = "playlist-modify-public"
                 var spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
                 var wnd = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=500,width=400');
+            }
+
+            document.getElementById("burger-icon").addEventListener("click", function () {
+                hideMenu();
+                return false;
+            });
+
+            function hideMenu() {
+                if(document.getElementById("main-menu-id").className == 'app-body-menu-list'){
+                    document.getElementById("main-menu-id").className = 'app-body-menu-list menu-hidden';
+                    document.getElementById("second-menu-id").className = 'app-body-menu-list-hidden';
+                }
+                else{
+                    document.getElementById("main-menu-id").className = 'app-body-menu-list';
+                    document.getElementById("second-menu-id").className = 'app-body-menu-list-hidden menu-hidden';
+                }
             }
 
             window.addEventListener("storage", syncPlaylists);
@@ -305,6 +377,30 @@
                 document.getElementById("hidden-my-playlist").className = 'shown hidden-item';
                 document.getElementById("playlist-list-id").className = 'playlist-list';
             });
+            /*
+                        document.getElementById("select-all-playlist").addEventListener("click", function () {
+                            selectAllCheckbox();
+                            return false;
+                        });
+                        */
+
+            var inputs = document.getElementsByClassName('playlist-ckeckbox-input');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener("click", function () { selectAllCheckbox(this.id, this.getAttribute('data-checkbox-class')); return false; });
+            }
+
+            function selectAllCheckbox(id, checkboxClass) {
+                var elements = document.getElementsByClassName(checkboxClass);
+                if (document.getElementById(id).checked) {
+                    for (var i = 0; i < elements.length; i++) {
+                        elements[i].checked = true;
+                    };
+                } else {
+                    for (var i = 0; i < elements.length; i++) {
+                        elements[i].checked = false;
+                    };
+                }
+            }
 
             var inputs = document.getElementsByClassName('item-hover');
             for (var i = 0; i < inputs.length; i++) {
@@ -343,11 +439,6 @@
 
             };
 
-
-
-
-
-
             var playlistInputs = document.getElementsByClassName('youtube-list-item');
             for (var i = 0; i < playlistInputs.length; i++) {
                 playlistInputs[i].addEventListener("click", function () { SelectPlaylistItems(this.id) });
@@ -364,6 +455,75 @@
                 clearPlaylistsSelected();
                 document.getElementById(id).className = 'playlist-selected youtube-list-item';
             };
+
+            document.getElementById("url-search-button").onclick = function () { verifyPlaylist(); };
+
+            function verifyPlaylist() {
+                var urlInfo = document.getElementById("searchInput");
+                var urlName = urlInfo.value.split("=").pop();
+                var elementExists = document.getElementById(urlName);
+                if (elementExists) {
+                    alert("Playlist already added");
+                }
+                else {
+                    sendUrlInfo(urlName);
+                }
+
+                /*
+                var urlArray = document.getElementsByClassName('youtube-list-item');
+                alert(urlArray);
+                var urlInfo = document.getElementById("searchInput");
+                var urlArray = document.getElementsByClassName('youtube-list-item');
+                if (urlArray.includes(urlInfo.value)) {
+                    alert("inside");
+                }
+                
+                
+                if (urlArray.includes(urlName)) {
+                    alert("inside");
+                }*/
+            }
+
+            function sendUrlInfo(urlName) {
+                var urlInfo = document.getElementById("searchInput");
+
+                $.ajax({
+                    url: "http://localhost:8000/yssync/ajax_url/",
+                    type: 'post',
+                    beforeSend: function (request) {
+                        request.setRequestHeader('X-CSRFToken', csrftoken);
+                    },
+                    data: { playListURL: urlName },
+                    success: function (data) {
+                        var json_data = JSON.parse(data);
+                        $("#url-append-list").append(
+                            '<li class="youtube-list-item-element">' +
+                            '<div class="youtube-list-item" id="{{item.0}}">' +
+
+                            '<img class="youtube-list-picture youtube-playlist-itemlist" src="' + json_data["thumbnail"] + '" />' +
+
+                            '<div class="youtube-playlist-itemlist">' +
+                            '<ul>' +
+                            '<li>' +
+                            '<div> ' + json_data["title"] + ' </div>' +
+                            '</li>' +
+                            '<li>' +
+                            '<div> ' + json_data["counter"] + ' <span>Videos </span></div>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+
+                            '<div class="checkbox-listitem">' +
+                            '<input class="youtube-playlist-itemlist playlist-checkbox url-item-checkbox" type="checkbox" id="' + json_data["title"] + '" name="' + json_data["title"] + '" value="' + json_data["id"] + '">' +
+                            '<label for="' + json_data["title"] + '"></label>' +
+                            '</div>' +
+
+                            '</div>' +
+                            '</li>'
+                        );
+                    },
+                });
+            }
 
 
 
