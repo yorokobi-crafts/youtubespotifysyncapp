@@ -1,11 +1,263 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF=8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'yssync/styles.css' %}">
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'yssync/jquery-3.5.1.min.js' %}"></script>
+    <title> Youtube Spotify Sync </title>
 </head>
+
 <body>
-Sweet
-{{sutoringu}}
+    <div class="container">
+        <header class="main-header">
+            <a href="/" class="brand-logo">
+                {% load static %}
+                <img class="logo-file" src="{% static  'yssync/logo.png'  %}" height="50" width="60">
+                <div class="brand-logo-name">Yolocobi Crafts</div>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="github.com">Github</a></li>
+                    <li><a href="Hateno.com">Hateno blog</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="main-menu">
+            <a href="/" class="change-option">
+                {% load static %}
+                <img class="option-file" src="{% static  'yssync/Spotify.png'  %}" height="45" width="45">
+                <div class="option-name">Switch to Spotify</div>
+            </a>
+            <nav class="option-nav">
+                <ul>
+                    <li><a href="github.com">Settings</a></li>
+                    <li><a href="Hateno.com">Log out</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="card-body">
+            <div class="content-card">
+
+                <div class="user-info-card">
+                    <img class="picture-circle user-picture" src={{userpicture}} />
+                    <ul>
+                        <li><span> {{username}} </span></li>
+                        <li><span> lmaooo </span></li>
+                    </ul>
+                    <div class="search-item">
+                        {% load static %}
+                        <label class="seacrh-label" for="fname">Playlist URL<img class="youtube-icon"
+                                src="{% static  'yssync/youtube.png'  %}" height=20px width=40px /></label>
+                        <div class="button-form">
+                            <input id="searchInput" type="search" name="search" />
+                            <button id="url-search-button" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <form method="post" id="form-id">
+                    <div class="list-feeder">
+                        <ul class="youtube-playlist-item-list">
+
+                            {% for item in listitem %}
+
+
+                            <li class="youtube-list-item-element">
+                                <div class="youtube-list-item">
+                                    <img class="youtube-list-picture youtube-playlist-itemlist" src="{{item.2}}" />
+                                    <div class="youtube-playlist-itemlist">
+                                        <ul>
+                                            <li>
+                                                <div> {{item.1}} </div>
+                                            </li>
+                                            <li>
+                                                <div> {{item.3}} <span> Items</span></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="checkbox-listitem">
+                                        <input class="youtube-playlist-itemlist" type="checkbox" id="{{item.1}}" name="{{item.1}}" value="{{item.0}}">
+                                        <label for="{{item.1}}"></label>
+                                    </div>
+
+                                    
+                                </div>
+                            </li>
+
+
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                    <diV class="inline-button">
+                        <button type="submit" class="button"> Sync </button>
+                    </diV>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="#"> About us </a></li>
+                    <li><a href="#"> Contact </a></li>
+                </ul>
+            </nav>
+            <nav class="footer-nav">
+                <ul>
+                    <li>
+                        <a href="#" class="social-link">
+                            <img class="picture-circle footer-picture"
+                                src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+                            Github
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="social-link">
+                            <img class="picture-circle footer-picture"
+                                src="https://cdn.blog.st-hatena.com/images/common/logo-icon.svg">
+                            hatena
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+
+    {% block js %}
+    <script>
+        $(function () {
+            'use strict';
+            $('#form-id').on('submit', function () {
+                spotifyLogin();
+                return false;
+            });
+
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            var csrftoken = getCookie('csrftoken');
+
+            window.addEventListener("storage", myFunction);
+
+            document.getElementById("url-search-button").onclick = function () { deleteList(); sendUrlInfo(); };
+
+            function myFunction(event) {
+                if (event.key == "accessToken") {
+                    var spAccessToken = event.newValue;
+                    var playlistForm = document.getElementById("form-id");
+                    var playlistFormData = new FormData(playlistForm);
+                    playlistFormData.append('accessToken', spAccessToken);
+
+                    $.ajax({
+                        url: "http://localhost:8000/yssync/ajax/",
+                        type: 'post',
+                        beforeSend: function (request) {
+                            request.setRequestHeader('X-CSRFToken', csrftoken);
+                        },
+                        data: playlistFormData,
+                        processData: false,
+                        contentType: false,
+                        success: function () { alert("Ready"); },
+                    });
+                }
+            }
+
+            function urlListFeeder() {
+                if (event.key == "accessToken") {
+                    var spAccessToken = event.newValue;
+                    var playlistForm = document.getElementById("form-id");
+                    var playlistFormData = new FormData(playlistForm);
+                    playlistFormData.append('accessToken', spAccessToken);
+
+                    $.ajax({
+                        url: "http://localhost:8000/yssync/ajax/",
+                        type: 'post',
+                        beforeSend: function (request) {
+                            request.setRequestHeader('X-CSRFToken', csrftoken);
+                        },
+                        data: playlistFormData,
+                        processData: false,
+                        contentType: false,
+                        success: function () { alert("Ready"); },
+                    });
+                }
+            }
+
+            function spotifyLogin() {
+                var SPOTIPY_CLIENT_ID = "0693e474b35d441987e83f0de3c6fa85"
+                var SPOTIPY_REDIRECT_URI = "http://localhost:8000/yssync/callback/"
+                var spotifyScope = "playlist-modify-public"
+                var spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
+                var wnd = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=500,width=400');
+            }
+
+            function deleteList() {
+                $('.youtube-list-item-element').remove();
+            }
+
+            function sendUrlInfo() {
+                var urlInfo = document.getElementById("searchInput");
+                $.ajax({
+                    url: "http://localhost:8000/yssync/ajax_url/",
+                    type: 'post',
+                    beforeSend: function (request) {
+                        request.setRequestHeader('X-CSRFToken', csrftoken);
+                    },
+                    data: { playListURL: urlInfo.value },
+                    success: function (data) {
+                        var json_data = JSON.parse(data);
+                        $(".youtube-playlist-item-list").append(
+                            '<li class="youtube-list-item-element">' +
+                            '<div class="youtube-list-item">' +
+                            '<img class="youtube-list-picture youtube-playlist-itemlist" src="' + json_data["thumbnail"] + '" />' +
+                            '<div class="youtube-playlist-itemlist">' +
+                            '<ul>' +
+                            '<li>' +
+                            '<div> ' + json_data["title"] + ' </div>' +
+                            '</li>' +
+                            '<li>' +
+                            '<div> ' + json_data["counter"] + ' <span> Items</span></div>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="checkbox-listitem">' +
+                            '<input class="youtube-playlist-itemlist" type="checkbox" id="' + json_data["title"] + '" name="' + json_data["title"] + '" value="' + json_data["id"] + '">' +
+                            '<label for="' + json_data["title"] + '"></label>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>'
+                        );
+                    },
+                });
+            }
+
+        });
+    </script>
+
+    {% endblock %}
+
 </body>
+
+
 </html>

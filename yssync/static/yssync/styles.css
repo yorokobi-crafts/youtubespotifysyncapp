@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+:root {
+  --search-bar-color: #f54242;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #2e2e2e;
+  font-family: Poppins, sans-serif;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.brand-logo{
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  color: inherit;
+  text-decoration: none;
+}
+
+.logo-file{
+  margin-left: 1rem;
+}
+
+.brand-logo-name {
+ margin-left: 1rem;
+}
+
+.main-nav ul, .footer-nav ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-nav a, .footer-nav a {
+  color: inherit;
+  text-decoration: none;
+  padding: 1rem;
+}
+
+.main-nav a:hover, .footer-nav a:hover{
+  color: #5d516e;
+}
+
+.main-header, .main-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-header {
+  border-radius: 5px 5px 30px 30px;
+  position: sticky;
+  height: 90px;
+  background-color: #f54242;
+  top: 0;
+  z-index: 1
+}
+
+.main-footer {
+  background-color: black;
+  font-weight: bold;
+}
+
+.main-footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.social-link img {
+margin-right: .25rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.change-option, .social-link{
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.option-name {
+  margin-left: 1em;
+ }
+
+ .main-menu {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   height: 70px;
+   padding: 0 60px;
+ }
+
+ .option-nav a {
+  color: inherit;
+  text-decoration: none;
+  padding: 1em;
+}
+
+.option-nav ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  color: #2F303A;
+}
+
+.content-card {
+  background-color: #e8e8e8;
+  color: #2d2e2e;
+  border-radius: 5px 5px 15px 15px;
+  padding: 1rem;
+  height: 800px;
+  width: 1000px;
+
+}
+
+.picture-circle{
+  margin: 10px;
+  border-radius: 50%;
+}
+
+.user-picture{
+  height: 6em;
+  width: auto;
+}
+
+.footer-picture{
+  height: 2em;
+  width: auto;
+}
+
+.user-info-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 10px solid #cf4848;
+  margin: 0 0 1em 0;
+  border-radius: 15px 15px 15px 15px ;
+  background-color: #f7f2f2;
+}
+
+.list-feeder {
+  background-color: #2b2b2b;
+  color: white;
+  margin: 0 2rem;
+  height: 500px;
+  border-radius: 5px 15px 5px 15px ;
+  padding: 1rem;
+  overflow: auto;
+}
+
+  .youtube-list-item {
+    background-color: #f7f2f2;
+    height: 6em;
+    border-radius: 15px 15px 15px 15px ;
+    padding: 1em;
+    color: #2b2b2b;
+    display: flex;
+    align-items: center;
+  }
+
+  .list-feeder ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    z-index: 1;
+  }
+
+  .youtube-playlist-item-list > li{
+    margin: 0 0 1em 0;
+  }
+
+.youtube-playlist-itemlist {
+  padding: 1rem;
+}
+
+.checkbox-listitem {
+  flex-grow: 1;
+}
+
+input[type=checkbox] {
+  vertical-align: middle;
+  float: right;
+  transform: scale(1.5);
+}
+
+input[type=text] {
+  vertical-align: middle;
+  float: right;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.search-item {
+  padding: 1rem;
+  text-align: center;
+}
+
+.youtube-icon {
+  vertical-align: middle;
+  padding: 0 3px 3px 10px;
+}
+
+.button-form {
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+input[type="search"] {
+  border: none;
+  white-space: wrap;
+  border-radius: 5px 0px 0px 5px;
+	background: #E9E9E9;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  white-space: nowrap;
+  border-style: solid;
+	padding: 0.35em 0.75em;
+  border-width: thick;
+  border-color: var(--search-bar-color);
+  font-size: 1.1em;
+  color: inherit;
+}
+
+button {
+  background: var(--search-bar-color);
+  color: white;
+  border: none;
+  letter-spacing: .2em;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.35em 0.75em;
+}
+
+form button {
+  border-radius: 0px 5px 5px 0px;
+  max-height: 3em;
+}
+
+button:hover {
+  background: skyblue;
+  transition: background 400ms ease-in-out;
+}
+
+input[type="search"]:focus {
+  background: white;
+  color: inherit;
+  transition: background 400ms ease-in-out;
+  outline: none;
+}
+
+.inline-button {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+.inline-button button{
+  border-radius: 10px 10px 10px 10px;
+}
+
+
+.main-footer .container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.youtube-list-picture{
+  max-width: 10rem;
+}
+
+.checkbox-listitem input[type="checkbox"] {
+  cursor: pointer;
+  opacity: 0;
+}
+
+.checkbox-listitem label{
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.checkbox-listitem label::before{
+  content: '';
+  width: 2em;
+  height: 2em;
+  border-radius: 10px;
+  margin-right: .5em;
+  border: 3px solid var(--search-bar-color);
+}
+
+.checkbox-listitem label:hover::before,
+.checkbox-listitem input[type="checkbox"]:hover + label::before {
+border-color: skyblue;
+transition: border-color 400ms ease-in-out;
+}
+
+.checkbox-listitem input[type="checkbox"]:checked + label::before {
+  border-color: skyblue;
+  color: skyblue;
+  content: '\002714';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

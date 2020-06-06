@@ -1,0 +1,202 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF=8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href= "{% static 'yssync/styles.css' %}">
+    <title> Youtube Spotify Sync </title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="main-header">
+            <a href="/" class="brand-logo">
+                <img class="logo-file" src="logo.png" height="50" width="60">
+                <div class="brand-logo-name">Yolocobi Crafts</div>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="github.com">Github</a></li>
+                    <li><a href="Hateno.com">Hateno blog</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="main-menu">
+            <a href="/" class="change-option">
+                <img class="option-file" src="Spotify.png" height="45" width="45">
+                <div class="option-name">Switch to Spotify</div>
+            </a>
+            <nav class="option-nav">
+                <ul>
+                    <li><a href="github.com">Settings</a></li>
+                    <li><a href="Hateno.com">Log out</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="card-body">
+            <div class="content-card">
+                <div class="user-info-card">
+                    <img class="picture-circle user-picture" src="user.jpg" />
+                    <ul>
+                        <li><span>Jaziel Juárez</span></li>
+                        <li><span>jazieljuarezlmad39@gmail.com</span></li>
+                    </ul>
+                    <div class="search-item">
+                        <label class="seacrh-label" for="fname">Playlist URL<img class="youtube-icon" src="youtube.png"
+                                height=20px width=40px /></label>
+                        <form>
+                            <input type="search" name="search" />
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="list-feeder">
+                    <ul class="youtube-playlist-item-list">
+                        <li>
+                            <div class="youtube-list-item">
+                                <img class="youtube-list-picture youtube-playlist-itemlist"
+                                    src="https://i.ytimg.com/vi/9WNYIA1N4NU/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCvoCAi7rYXapcecuataKgPNGy6fA" />
+                                <div class="youtube-playlist-itemlist">
+                                    <ul>
+                                        <li>
+                                            <div> Lady Gaga</div>
+                                        </li>
+                                        <li>
+                                            <div> 5 <span> Items</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="checkbox-listitem">
+                                    <input class="youtube-playlist-itemlist" type="checkbox" id="cb1" name="vehicle1"
+                                        value="Bike">
+                                    <label for="cb1"></label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="youtube-list-item">
+                                <img class="youtube-list-picture youtube-playlist-itemlist"
+                                    src="https://i.ytimg.com/vi/-6QlvyHB2gI/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCeLJgsJGH65P9qv1b4Uqz85baXhA" />
+                                <div class="youtube-playlist-itemlist">
+                                    <ul>
+                                        <li>
+                                            <div> MY FAVE SONGS</div>
+                                        </li>
+                                        <li>
+                                            <div> 50 <span> Items</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="checkbox-listitem">
+                                    <input class="youtube-playlist-itemlist" type="checkbox" id="cb2" name="vehicle1"
+                                        value="Bike">
+                                    <label for="cb2"></label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="youtube-list-item">
+                                <img class="youtube-list-picture youtube-playlist-itemlist"
+                                    src="https://i.ytimg.com/vi/yFHFeSRQUJk/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCC6QORk8iE8JMkHzev1wq0wop9dQ" />
+                                <div class="youtube-playlist-itemlist">
+                                    <ul>
+                                        <li>
+                                            <div> Japan</div>
+                                        </li>
+                                        <li>
+                                            <div> 11 <span> Items</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="checkbox-listitem">
+                                    <input class="youtube-playlist-itemlist" type="checkbox" id="cb3" name="vehicle1"
+                                        value="Bike">
+                                    <label for="cb3"></label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="youtube-list-item">
+                                <img class="youtube-list-picture youtube-playlist-itemlist"
+                                    src="https://i.ytimg.com/vi/yFHFeSRQUJk/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCC6QORk8iE8JMkHzev1wq0wop9dQ" />
+                                <div class="youtube-playlist-itemlist">
+                                    <ul>
+                                        <li>
+                                            <div> Japan</div>
+                                        </li>
+                                        <li>
+                                            <div> 11 <span> Items</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="checkbox-listitem">
+                                    <input class="youtube-playlist-itemlist" type="checkbox" id="cb4" name="vehicle1"
+                                        value="Bike">
+                                    <label for="cb4"></label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="youtube-list-item">
+                                <img class="youtube-list-picture youtube-playlist-itemlist"
+                                    src="https://i.ytimg.com/vi/yFHFeSRQUJk/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCC6QORk8iE8JMkHzev1wq0wop9dQ" />
+                                <div class="youtube-playlist-itemlist">
+                                    <ul>
+                                        <li>
+                                            <div> Japan</div>
+                                        </li>
+                                        <li>
+                                            <div> 11 <span> Items</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="checkbox-listitem">
+                                    <input class="youtube-playlist-itemlist" type="checkbox" id="cb5" name="vehicle1"
+                                        value="Bike">
+                                    <label for="cb5"></label>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <diV class="inline-button">
+                    <button class="button">Sync</button>
+                </diV>
+            </div>
+        </div>
+    </div>
+
+<footer class="main-footer">
+    <div class="container">
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="#"> About us </a></li>
+                <li><a href="#"> Contact </a></li>
+            </ul>
+        </nav>
+        <nav class="footer-nav">
+            <ul>
+                <li>
+                    <a href="#" class="social-link"> 
+                        <img class="picture-circle footer-picture"  src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+                        Github
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="social-link"> 
+                        <img class="picture-circle footer-picture"  src="https://cdn.blog.st-hatena.com/images/common/logo-icon.svg">
+                        hatena
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+
+</body>
+
+</html>

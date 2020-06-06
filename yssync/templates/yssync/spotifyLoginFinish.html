@@ -1,0 +1,20 @@
+LMAOOOOOOOOO 2
+
+
+{% block js %}
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        var url = location.hash;
+        var urlAux = url.split('=');
+        var urlAux2 = urlAux[1].split('&');
+        localStorage.setItem('accessToken', urlAux2[0]);
+        window.close();
+    });
+
+
+</script>
+
+
+{% endblock %}

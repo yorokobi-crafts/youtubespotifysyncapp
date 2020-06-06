@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74a76cd7-9df1-444e-98b2-8762308ab4e6" name="Default Changelist" comment="" />
+    <list default="true" id="74a76cd7-9df1-444e-98b2-8762308ab4e6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/token.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/token.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yssync/templates/yssync/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/templates/yssync/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yssync/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yssync/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,15 +22,21 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1bZuqqZaF86svMTGPJBWAcmZQOT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SvnConfiguration">
@@ -44,5 +57,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1588938532035" />
+    <state x="811" y="300" width="672" height="678" key="search.everywhere.popup" timestamp="1589732111494">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="811" y="300" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589732111494" />
   </component>
 </project>

@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    background-color: white;
+    font-family: Poppins, sans-serif;
+    color: #2e2e2e;
+    min-height: 100vh;
+  }
+
+  .full-height-grow {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .logo-file, .burger-menu, .brand-logo-name{
+    margin: 1rem;
+  }
+  
+  .brand-logo{
+    display: flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .main-nav ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+  }
+
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #a1a1a1;
+  }
+
+  .main-header {
+    position: sticky;
+    height: 55px;
+    background-color: white;
+    top: 0;
+    z-index: 1
+  }
+
+  .left-header, .right-header {
+    display: flex;
+    align-items: center;
+  }
+
+  .picture-circle{
+    border-radius: 50%;
+  }
+
+  .app-body-container{
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+  }
+
+  .app-body-menu-container{
+    flex-grow: 1;
+    position: sticky;
+    align-self: flex-start;
+    top: 55px;
+}
+
+.app-body-playlists-container{
+    background-color: rgba(245, 237, 237, 0.76);
+    flex-grow: 5;
+}
+
+.app-body-videos-container{
+    background-color: #4d4d4d;
+    flex-grow: 2;
+    
+}
+
+.app-body-menu-list {
+    padding: 15px 0px 15px 0px ;
+    border-bottom: 1px solid #a1a1a1;
+}
+
+.main-nav ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+  }
+
+.app-body-menu-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+   /*min-width: 300px;*/
+}
+
+.item-hover {
+    padding: 8px 0px 8px 0px;
+}
+
+.app-menu-item-image {
+    margin: 5px 20px 5px 20px;
+}
+ 
+.hidden-item {
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden{
+    display: none;
+}
+
+  input[type=text] {
+    width: 80%;
+    padding: 8px;
+    margin: 0px 0px 10px 0px;
+    border: 1px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+  }
+
+  input[type=text]:focus {
+    border: 1px solid red;
+  }
+
+  button {
+    background: red;
+    color: white;
+    border: none;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 6px 12px 6px 12px;
+    font-family: inherit;
+  }
+
+  .url-append-button {
+    border-radius: 7px;
+    margin: 0px 0px 11px 5px;
+  }
+
+  .button-sync {
+    border-radius: 7px 7px 7px 7px;
+    width: 30%;
+  }
+
+  button:hover {
+    background: rgb(167, 1, 1);
+  }
+
+  .user-name, .hidden-a{
+      margin: 0px 20px;
+  }
+
+ .selected  {
+    background:#f7f1f1;
+}
+
+ .item-hover:hover {
+    background:#e3dcdc;
+    cursor: pointer;
+}
+
+.selected:hover  {
+    cursor: initial;
+    background:#f7f1f1;
+}
+
+.shown {
+    display: flex;
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+}
+
+
+.playlist-selected{
+    color:white;
+    background:#4d4d4d;
+}
+
+.playlist-item-hover:hover {
+    color:white;
+    background-color:#333333;
+    cursor: pointer;
+}
+
+.youtube-list-item {
+    height: 7em;
+    margin: 0px 0px 0px 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #a1a1a1;
+  }
+
+  .youtube-list-header {
+    height: 4em;
+    margin: 0px 0px 0px 1rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 1px solid #a1a1a1;
+
+  }
+
+  .youtube-playlist-itemlist {
+    padding: 1rem;
+  }
+
+  .youtube-list-picture{
+    max-width: 12rem;
+  }
+
+  .youtube-video-item {
+    height: 6em;
+    margin: 0px 1rem 0px 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #a1a1a1;
+  }
+
+  .youtube-video-itemlist {
+    padding: 1rem;
+    color:white;
+  }
+
+  .youtube-video-picture{
+    max-width: 10rem;
+  }
+
+  .checkbox-listitem {
+    flex-grow: 1;
+  }
+  
+  input[type=checkbox] {
+    vertical-align: middle;
+    float: right;
+    transform: scale(1.2);
+  }
+
+  .checkbox-listitem input[type="checkbox"] {
+    cursor: pointer;
+    opacity: 0;
+  }
+  
+  .checkbox-listitem label{
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .checkbox-listitem label::before{
+    content: '';
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 5px;
+    margin-right: 2em;
+    border: 2px solid #7d7d7d;
+  }
+
+  .checkbox-listitem label:hover::before,
+.checkbox-listitem input[type="checkbox"]:hover + label::before {
+border-color: red;
+transition: border-color 400ms ease-in-out;
+}
+
+.checkbox-listitem input[type="checkbox"]:checked + label::before {
+  border-color: red;
+  color: red;
+  content: '\002714';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-menu-3 {
+  height:300px; 
+  background-color: black;
+  bottom: 0;
+  left: 0;
+  right: 0;
+ }
+
+
+ .sync-button-footer {
+  height: 70px; 
+  background-color: white;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #a1a1a1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+
+  .playlist-hidden{
+    display: none;
+  }
+
+  
