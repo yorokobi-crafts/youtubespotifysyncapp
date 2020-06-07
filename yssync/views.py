@@ -68,11 +68,13 @@ class CreatePlaylist:
         self.sutoringu = request.execute()
 
     def get_url_info(self, url_info):
+
         request = self.youtube_client.playlists().list(
             id=url_info,
             part="snippet,contentDetails"
         )
         response = request.execute()
+        print(response)
 
         for item in response["items"]:
             self.urlInfoDict = {'id': item["id"], 'title': item["snippet"]["title"],'thumbnail': item["snippet"]["thumbnails"]["medium"]["url"],'counter': item["contentDetails"]["itemCount"]}
@@ -177,16 +179,23 @@ class CreatePlaylist:
             for item in response["items"]:
                 video_title = item["snippet"]["title"]
                 youtube_url = "https://www.youtube.com/watch?v={}".format(item["snippet"]["resourceId"]["videoId"])
-                video = youtube_dl.YoutubeDL().extract_info(youtube_url, download=False)
-                song_name = video['track']
-                artist = video['artist']
-                if song_name is not None and artist is not None:
-                    self.all_song_info[video_title] = {
-                        "youtube_url": youtube_url,
-                        "song_name": song_name,
-                        "artist": artist,
-                        "spotify_uri": self.get_spotify_uri(song_name, artist)
-                    }
+
+                try:
+                  video = youtube_dl.YoutubeDL().extract_info(youtube_url, download=False)
+
+                  song_name = video['track']
+                  artist = video['artist']
+                  if song_name is not None and artist is not None:
+                      print(video_title)
+                      self.all_song_info[video_title] = {
+                          "youtube_url": youtube_url,
+                          "song_name": song_name,
+                          "artist": artist,
+                          "spotify_uri": self.get_spotify_uri(song_name, artist)
+                      }
+                except:
+                 print("Video not available")
+
             if ReturnToken == 'NULL':
                 break
 
@@ -274,7 +283,7 @@ def retrieve_playlist_url(request):
     cp = CreatePlaylist()
     cp.get_user_info()
     urlInfoFull = request.POST['playListURL']
-    urlInfo = urlInfoFull.strip('https://www.youtube.com/playlist?list=')
+    urlInfo = urlInfoFull.lstrip('https://www.youtube.com/playlist?list=')
     cp.get_url_info(urlInfo)
     response_json = json.dumps(cp.urlInfoDict)
     print(response_json)

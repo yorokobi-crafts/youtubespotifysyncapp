@@ -16,6 +16,7 @@
 
 <body class="full-height-grow">
 
+
     <header class="main-header">
         <div class=left-header>
             <img class="burger-menu" id="burger-icon" src="{% static 'yssync/burger.png' %}" height="25" width="20">
@@ -37,11 +38,13 @@
             <nav class="main-nav">
                 <ul>
                     <img class="logo-file picture-circle" src="{% static  'yssync/gear.png'  %}" height="35" width="35">
-                    <img class="logo-file picture-circle" src="{% static  'yssync/me.jfif'  %}" height="35" width="35">
+                    <img class="logo-file picture-circle" src="{{userpicture}}" height="35" width="35">
                 </ul>
         </div>
     </header>
-    <div class="app-body-container">
+
+
+    <div id="app-body-container-id" class="app-body-container">
         <div id="app-body-menu-id" class="app-body-menu-container">
 
             <div id="main-menu-id" class="app-body-menu-list">
@@ -54,8 +57,8 @@
                         <div> My playlists</div>
                     </div>
                     <div class="hidden hidden-item" id="hidden-my-playlist">
-                        <img class="picture-circle" src="{% static  'yssync/me.jfif'  %}" height="70" width="70">
-                        <div class="user-name">Jaziel Juárez</div>
+                        <img class="picture-circle" src="{{userpicture}}" height="70" width="70">
+                        <div class="user-name">{{username}}</div>
                         <span class="user-playlists">(Playlists: 5)</span>
                     </div>
                 </div>
@@ -69,7 +72,8 @@
                     </div>
                     <div class="hidden hidden-item" id="hidden-url-append">
                         <input id="searchInput" type="text">
-                        <button id="url-search-button" class="url-append-button" type="submit">+</button>
+                        <button id="url-search-button" class="url-append-button button-item button-input"
+                            type="submit">+</button>
                     </div>
                 </div>
 
@@ -93,20 +97,23 @@
                 <div class="item-hover" id="my-playlist" data-hidden-id-info="hidden-my-playlist"
                     data-hidden-playlist-id="playlist-list-id">
                     <div class="app-body-menu-list-item">
-                        <img class="app-menu-item-image" src="{% static  'yssync/playlist.png'  %}" height="30" width="30">
+                        <img class="app-menu-item-image" src="{% static  'yssync/playlist.png'  %}" height="30"
+                            width="30">
                     </div>
                 </div>
 
                 <div class="item-hover " id="url-append" data-hidden-id-info="hidden-url-append"
                     data-hidden-playlist-id="url-list-id">
                     <div class="app-body-menu-list-item">
-                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/url.png'  %}" height="30" width="30">
+                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/url.png'  %}"
+                            height="30" width="30">
                     </div>
                 </div>
 
                 <div class="item-hover" id="app-info" data-hidden-id-info="hidden-app-info">
                     <div class="app-body-menu-list-item">
-                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/info.png'  %}" height="30" width="30">
+                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/info.png'  %}"
+                            height="30" width="30">
                     </div>
                 </div>
 
@@ -264,8 +271,10 @@
         </div>
 
     </div>
+
+
     <div id="sync-button" class="sync-button-footer">
-        <button type="submit" class="button button-sync"> SYNC </button>
+        <button id="sync-button-item" type="submit" class="button-item button-sync button-input"> SYNC </button>
     </div>
 
     <footer class="main-footer">
@@ -320,10 +329,15 @@
             var csrftoken = getCookie('csrftoken');
 
             document.getElementById("sync-button").addEventListener("click", function () {
-                spotifyLogin();
+
+                if(document.getElementById("sync-button-item").className == 'button-item button-sync button-input'){
+                    spotifyLogin();
+                }
+                else{
+                    abortAjax();
+                }
                 return false;
             });
-
 
             function spotifyLogin() {
                 var SPOTIPY_CLIENT_ID = "0693e474b35d441987e83f0de3c6fa85"
@@ -339,11 +353,11 @@
             });
 
             function hideMenu() {
-                if(document.getElementById("main-menu-id").className == 'app-body-menu-list'){
+                if (document.getElementById("main-menu-id").className == 'app-body-menu-list') {
                     document.getElementById("main-menu-id").className = 'app-body-menu-list menu-hidden';
                     document.getElementById("second-menu-id").className = 'app-body-menu-list-hidden';
                 }
-                else{
+                else {
                     document.getElementById("main-menu-id").className = 'app-body-menu-list';
                     document.getElementById("second-menu-id").className = 'app-body-menu-list-hidden menu-hidden';
                 }
@@ -351,14 +365,33 @@
 
             window.addEventListener("storage", syncPlaylists);
 
+            function insertAfter(referenceNode, newNode) {
+                referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+            }
+
             function syncPlaylists(event) {
                 if (event.key == "accessToken") {
+
+                    var el = document.createElement("div");
+                    el.className = "dark-screen"
+                    el.id = "dark-screen-id"
+                    var div = document.getElementById("sync-button");
+                    insertAfter(div, el);
+
+
+                    $("#dark-screen-id").append(
+                        '<div class="loading-item">' +
+                        '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>' +
+                        '<div class="sync-label">Synchronizing</div>' +
+                        '</div>'
+                    );
+
                     var spAccessToken = event.newValue;
                     var playlistForm = document.getElementById("form-id");
                     var playlistFormData = new FormData(playlistForm);
                     playlistFormData.append('accessToken', spAccessToken);
 
-                    $.ajax({
+                    xhr = $.ajax({
                         url: "http://localhost:8000/yssync/ajax/",
                         type: 'post',
                         beforeSend: function (request) {
@@ -367,16 +400,27 @@
                         data: playlistFormData,
                         processData: false,
                         contentType: false,
-                        success: function () { alert("Ready"); },
+                        success: function () {
+                            el.remove();
+                            alert("Ready");
+                        },
                     });
                 }
             }
 
             $(document).ready(function () {
+                var xhr;
                 document.getElementById("my-playlist").className = 'selected item-hover';
                 document.getElementById("hidden-my-playlist").className = 'shown hidden-item';
                 document.getElementById("playlist-list-id").className = 'playlist-list';
+
+                var elements = document.getElementsByClassName(checkboxClass);
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].checked = false;
+                };
             });
+
+
             /*
                         document.getElementById("select-all-playlist").addEventListener("click", function () {
                             selectAllCheckbox();
