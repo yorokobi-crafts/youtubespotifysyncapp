@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/token.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/token.pickle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yssync/static/yssync/styles2.css" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/static/yssync/styles2.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yssync/templates/yssync/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/templates/yssync/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yssync/templates/yssync/index2.html" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/templates/yssync/index2.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yssync/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/views.py" afterDir="false" />
     </list>

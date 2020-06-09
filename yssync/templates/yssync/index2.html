@@ -307,6 +307,23 @@
     </footer>
 
 
+    <div id="modal-id" class="modal">
+
+        <div class="tooltip-wrapper">
+
+            <div class="modal-header">
+                <button id="close-button-id" class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul id="modal-list-id" class="modal-list">
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+
     {% block js %}
     <script>
         $(function () {
@@ -330,13 +347,17 @@
 
             document.getElementById("sync-button").addEventListener("click", function () {
 
-                if(document.getElementById("sync-button-item").className == 'button-item button-sync button-input'){
+                if (document.getElementById("sync-button-item").className == 'button-item button-sync button-input') {
                     spotifyLogin();
                 }
-                else{
+                else {
                     abortAjax();
                 }
                 return false;
+            });
+
+            document.getElementById("close-button-id").addEventListener("click", function () {
+                document.getElementById("modal-id").classList.remove('active');
             });
 
             function spotifyLogin() {
@@ -377,12 +398,13 @@
                     el.id = "dark-screen-id"
                     var div = document.getElementById("sync-button");
                     insertAfter(div, el);
-
+                    document.getElementById("modal-id").classList.remove("active");
 
                     $("#dark-screen-id").append(
                         '<div class="loading-item">' +
                         '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>' +
-                        '<div class="sync-label">Synchronizing</div>' +
+                        '<div class="sync-label sync-info">This may take a while</div>' +
+                        '<div class="sync-label wait-info">Synchronizing</div>' +
                         '</div>'
                     );
 
@@ -400,9 +422,24 @@
                         data: playlistFormData,
                         processData: false,
                         contentType: false,
-                        success: function () {
+                        success: function (response) {
                             el.remove();
-                            alert("Ready");
+                            document.getElementById("modal-id").classList.add("active");
+                            var json_data = JSON.parse(response);
+
+                            var list = document.getElementById("modal-list-id");
+                            while (list.firstChild) {
+                                list.removeChild(list.firstChild);
+                            }
+
+                            Object.keys(json_data).forEach(function (key) {
+                                $("#modal-list-id").append(
+                                    '<li>' +
+                                    '<div class="list-name">' + key + '</div>' +
+                                    '<div class="list-status ' + json_data[key] + ' ""></div>' +
+                                    '</li>'
+                                );
+                            })
                         },
                     });
                 }
@@ -419,7 +456,6 @@
                     elements[i].checked = false;
                 };
             });
-
 
             /*
                         document.getElementById("select-all-playlist").addEventListener("click", function () {

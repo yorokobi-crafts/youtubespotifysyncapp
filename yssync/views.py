@@ -29,6 +29,8 @@ class CreatePlaylist:
         self.urlInfoDict = {}
         self.spotify_token = {}
         self.youtube_ulr = ""
+        self.playlist_lister = {}
+        self.playlist_collection = []
 
     def get_user_info(self):
         self.youtube_client = self.get_youtube_client()
@@ -230,22 +232,61 @@ class CreatePlaylist:
         for song, info in self.all_song_info.items():
             if info['spotify_uri'] != "lmao":
                 uris.append(info['spotify_uri'])
-        print(uris)
-        playlist_id = self.create_spotify_playlist(playlist_name)
-        request_data = json.dumps(uris)
-        query = "https://api.spotify.com/v1/playlists/{}/tracks?position=0".format(playlist_id)
-        response = requests.post(
-            query,
-            data=request_data,
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": "Bearer {}".format(self.spotify_token)
-            }
-        )
-        response_json = response.json()
-        print(response_json)
-        return response_json
 
+        if not uris:
+            self.playlist_lister[playlist_name] = "no-songs-found"
+            print("it is null")
+            response_json = "it is null"
+            return response_json
+
+        else:
+            self.playlist_lister[playlist_name] = "completed"
+            print("it is not null")
+
+            query = "https://api.spotify.com/v1/me"
+            response = requests.get(
+                query,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer {}".format(self.spotify_token)
+                }
+            )
+            response_json = response.json()
+            myid =response_json["id"]
+
+            query = "https://api.spotify.com/v1/users/{}/playlists?limit=50".format(myid)
+            response = requests.get(
+                query,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer {}".format(self.spotify_token)
+                }
+            )
+            response_json = response.json()
+
+            for item in response_json["items"]:
+                self.playlist_collection.append([item["name"], item["id"]])
+
+            for item in self.playlist_collection:
+                if playlist_name == item[0]:
+                    playlist_id = item[1]
+                    break
+                else:
+                    playlist_id = self.create_spotify_playlist(playlist_name)
+                    break
+
+            request_data = json.dumps(uris)
+            query = "https://api.spotify.com/v1/playlists/{}/tracks?position=0".format(playlist_id)
+            response = requests.post(
+                query,
+                data=request_data,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer {}".format(self.spotify_token)
+                }
+            )
+            response_json = response.json()
+            return response_json
 
 def index2(request):
     cp = CreatePlaylist()
@@ -265,7 +306,6 @@ def index(request):
 def callback(request):
     return render(request, 'yssync/spotifyLoginFinish.html', {})
 
-
 def create_playlist_spotify(request):
     cp = CreatePlaylist()
     cp.get_user_info()
@@ -276,8 +316,9 @@ def create_playlist_spotify(request):
             cp.get_songs_list(url)
             cp.add_songs_to_playlist_url(playlist_name)
             cp.all_song_info.clear()
-    return HttpResponse('Ready')
-
+    print(cp.playlist_lister)
+    json_response = json.dumps(cp.playlist_lister)
+    return HttpResponse(json_response)
 
 def retrieve_playlist_url(request):
     cp = CreatePlaylist()
