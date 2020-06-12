@@ -70,24 +70,6 @@ class CreatePlaylist:
 
         self.sutoringu = request.execute()
 
-    def get_url_info(self, url_info):
-
-        request = self.youtube_client.playlists().list(
-            id=url_info,
-            part="snippet,contentDetails"
-        )
-        response = request.execute()
-        print(response)
-
-        for item in response["items"]:
-            self.urlInfoDict = {'id': item["id"], 'title': item["snippet"]["title"],
-                                'thumbnail': item["snippet"]["thumbnails"]["medium"]["url"],
-                                'counter': item["contentDetails"]["itemCount"]}
-
-        print(self.urlInfoDict)
-
-        return response
-
     def get_youtube_lists(self):
         request = self.youtube_client.playlists().list(
             mine=True,
@@ -126,7 +108,15 @@ class CreatePlaylist:
                     host='localhost',
                     port=8088,
                     authorization_prompt_message='Please visit this URL: {url}',
-                    success_message='The auth flow is complete; you may close this window.',
+                    success_message='<script>' +
+
+                                    'function closeWin() {' +
+                                    'myWindow.close();   // Closes the new window' +
+                                    '} ' +
+
+                                    'document.addEventListener("DOMContentLoaded", closeWin);' +
+
+                                    '</script>',
                     open_browser=True)
 
             with open('token.pickle', 'wb') as token:
@@ -270,16 +260,6 @@ class CreatePlaylist:
             response_json = response.json()
             return response_json
 
-
-
-
-
-
-
-
-
-
-
     def add_songs_to_spotify(self, playlist_name, playlist_url):
         print("add_songs_to_spotify")
         playlist_id = self.playlist_exists(playlist_name)
@@ -334,9 +314,13 @@ class CreatePlaylist:
                 return item[1]
 
     def get_songs_per_page(self, playlist_id, list_url, user_uri_list, playlist_name):
+
+        self.playlist_lister[playlist_name] = "no-changes-applied"
+
         if user_uri_list is None:
             user_uri_list = []
-        self.playlist_lister[playlist_name] = "no-songs-found"
+            self.playlist_lister[playlist_name] = "no-songs-found"
+
         ReturnToken = 'NULL'
         song_info = {}
         while True:
@@ -475,7 +459,25 @@ class CreatePlaylist:
         response_json = response.json()
         return response_json["id"]
 
+    def get_url_info(self, url_info):
 
+        urlInfoDict = {}
+
+        request = self.youtube_client.playlists().list(
+            id=url_info,
+            part="snippet,contentDetails"
+        )
+        response = request.execute()
+        print(response)
+
+        for item in response["items"]:
+            urlInfoDict = {'id': item["id"], 'title': item["snippet"]["title"],
+                           'thumbnail': item["snippet"]["thumbnails"]["medium"]["url"],
+                           'counter': item["contentDetails"]["itemCount"]}
+        if urlInfoDict:
+            return urlInfoDict
+        else:
+            return False
 
 
 def index2(request):
@@ -508,13 +510,9 @@ def create_playlist_spotify(request):
     for playlist_name, url in request.POST.items():
         if playlist_name != 'accessToken':
             cp.add_songs_to_spotify(playlist_name, url)
-        # cp.get_songs_list(url)
-        # cp.add_songs_to_playlist_url(playlist_name)
-        # cp.all_song_info.clear()
-    # print(cp.playlist_lister)
-    # json_response = json.dumps(cp.playlist_lister)
-    # return HttpResponse(json_response)
-    return HttpResponse("lol")
+    json_response = json.dumps(cp.playlist_lister)
+    print(json_response)
+    return HttpResponse(json_response)
 
 
 def retrieve_playlist_url(request):
@@ -522,7 +520,9 @@ def retrieve_playlist_url(request):
     cp.get_user_info()
     urlInfoFull = request.POST['playListURL']
     urlInfo = urlInfoFull.lstrip('https://www.youtube.com/playlist?list=')
-    cp.get_url_info(urlInfo)
-    response_json = json.dumps(cp.urlInfoDict)
-    print(response_json)
+    playlist_info_dict = cp.get_url_info(urlInfo)
+    if playlist_info_dict:
+        response_json = json.dumps(playlist_info_dict)
+    else:
+        response_json = "NULL"
     return HttpResponse(response_json)

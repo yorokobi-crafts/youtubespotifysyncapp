@@ -496,6 +496,11 @@ transition: border-color 400ms ease-in-out;
       content:"No songs found"
     }
 
+    .no-changes-applied:after{
+      color:rgb(62, 66, 85);
+      content:"No changes applied"
+    }
+
     .modal-header .close-button{
       color:white;
       cursor: pointer;
@@ -506,7 +511,6 @@ transition: border-color 400ms ease-in-out;
       font-weight: bold;
       margin: 0px 3px;
     }
-
 
     .tooltip-bottom {
       width: 0; 

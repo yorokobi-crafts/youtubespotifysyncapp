@@ -360,6 +360,8 @@
                 document.getElementById("modal-id").classList.remove('active');
             });
 
+            window.addEventListener("storage", syncPlaylists);
+
             function spotifyLogin() {
                 var SPOTIPY_CLIENT_ID = "0693e474b35d441987e83f0de3c6fa85"
                 var SPOTIPY_REDIRECT_URI = "http://localhost:8000/yssync/callback/"
@@ -383,8 +385,6 @@
                     document.getElementById("second-menu-id").className = 'app-body-menu-list-hidden menu-hidden';
                 }
             }
-
-            window.addEventListener("storage", syncPlaylists);
 
             function insertAfter(referenceNode, newNode) {
                 referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
@@ -436,7 +436,7 @@
                                 $("#modal-list-id").append(
                                     '<li>' +
                                     '<div class="list-name">' + key + '</div>' +
-                                    '<div class="list-status ' + json_data[key] + ' ""></div>' +
+                                    '<div class="list-status ' + json_data[key] + ' "></div>' +
                                     '</li>'
                                 );
                             })
@@ -456,13 +456,6 @@
                     elements[i].checked = false;
                 };
             });
-
-            /*
-                        document.getElementById("select-all-playlist").addEventListener("click", function () {
-                            selectAllCheckbox();
-                            return false;
-                        });
-                        */
 
             var inputs = document.getElementsByClassName('playlist-ckeckbox-input');
             for (var i = 0; i < inputs.length; i++) {
@@ -575,47 +568,47 @@
                     },
                     data: { playListURL: urlName },
                     success: function (data) {
-                        var json_data = JSON.parse(data);
-                        $("#url-append-list").append(
-                            '<li class="youtube-list-item-element">' +
-                            '<div class="youtube-list-item" id="{{item.0}}">' +
 
-                            '<img class="youtube-list-picture youtube-playlist-itemlist" src="' + json_data["thumbnail"] + '" />' +
+                        if (data == "NULL") {
+                            alert("Enlace no válido")
+                        }
+                        else {
+                            var json_data = JSON.parse(data);
 
-                            '<div class="youtube-playlist-itemlist">' +
-                            '<ul>' +
-                            '<li>' +
-                            '<div> ' + json_data["title"] + ' </div>' +
-                            '</li>' +
-                            '<li>' +
-                            '<div> ' + json_data["counter"] + ' <span>Videos </span></div>' +
-                            '</li>' +
-                            '</ul>' +
-                            '</div>' +
+                            $("#url-append-list").append(
+                                '<li class="youtube-list-item-element">' +
+                                '<div class="youtube-list-item" id="' + json_data["id"] + '">' +
 
-                            '<div class="checkbox-listitem">' +
-                            '<input class="youtube-playlist-itemlist playlist-checkbox url-item-checkbox" type="checkbox" id="' + json_data["title"] + '" name="' + json_data["title"] + '" value="' + json_data["id"] + '">' +
-                            '<label for="' + json_data["title"] + '"></label>' +
-                            '</div>' +
+                                '<img class="youtube-list-picture youtube-playlist-itemlist" src="' + json_data["thumbnail"] + '" />' +
 
-                            '</div>' +
-                            '</li>'
-                        );
+                                '<div class="youtube-playlist-itemlist">' +
+                                '<ul>' +
+                                '<li>' +
+                                '<div> ' + json_data["title"] + ' </div>' +
+                                '</li>' +
+                                '<li>' +
+                                '<div> ' + json_data["counter"] + ' <span>Videos </span></div>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</div>' +
+
+                                '<div class="checkbox-listitem">' +
+                                '<input class="youtube-playlist-itemlist playlist-checkbox url-item-checkbox" type="checkbox" checked id="' + json_data["title"] + '" name="' + json_data["title"] + '" value="' + json_data["id"] + '">' +
+                                '<label for="' + json_data["title"] + '"></label>' +
+                                '</div>' +
+
+                                '</div>' +
+                                '</li>'
+                            );
+
+                            var playlistInputs = document.getElementsByClassName('youtube-list-item');
+                            for (var i = 0; i < playlistInputs.length; i++) {
+                                playlistInputs[i].addEventListener("click", function () { SelectPlaylistItems(this.id) });
+                            }
+                        }
                     },
                 });
             }
-
-
-
-
-
-
-
-
-
-
-
-
 
         });
     </script>
