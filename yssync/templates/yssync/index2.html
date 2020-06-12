@@ -177,7 +177,10 @@
                             <label for="select-all-url"></label>
                         </div>
                     </div>
+
                     <ul id="url-append-list" class="youtube-playlist-item-list">
+
+
                     </ul>
                 </div>
 
@@ -188,83 +191,14 @@
 
         <div class="app-body-videos-container">
 
-            <ul class="youtube-video-item-list">
+            <div class="youtube_videos_navigation_section">
+                <nav class="youtube_videos_navigation_bar">
+                    <div data-page="NULL" class="arrow" id="prev-page">&lt;</div>
+                    <div data-page="NULL" class="arrow" id="next-page">&gt;</div>
+                </nav>
+            </div>
 
-                <li>
-                    <div class="youtube-video-item youtube-item" id="video-item-id-1">
-                        <img class="youtube-video-picture youtube-video-itemlist"
-                            src="https://i.ytimg.com/vi/9WNYIA1N4NU/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAO_dtHJPMJqcJsmqTWn88gYIF4lQ" />
-
-                        <div class="youtube-video-itemlist">
-                            <ul>
-                                <li>
-                                    <div> Bad Romance </div>
-                                </li>
-                                <li>
-                                    <div> 5 <span> Min</span></div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="checkbox-listitem">
-                            <input class="youtube-video-itemlist" type="checkbox" id="video-item-1" name="1" value="1">
-                            <label for="video-item-1"></label>
-                        </div>
-
-                    </div>
-
-                </li>
-
-
-                <li>
-                    <div class="youtube-video-item youtube-item" id="video-item-id-2">
-                        <img class="youtube-video-picture youtube-video-itemlist"
-                            src="https://i.ytimg.com/vi/9WNYIA1N4NU/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAO_dtHJPMJqcJsmqTWn88gYIF4lQ" />
-
-                        <div class="youtube-video-itemlist">
-                            <ul>
-                                <li>
-                                    <div> Bad Romance </div>
-                                </li>
-                                <li>
-                                    <div> 5 <span> Min</span></div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="checkbox-listitem">
-                            <input class="youtube-video-itemlist" type="checkbox" id="video-item-2" name="1" value="1">
-                            <label for="video-item-2"></label>
-                        </div>
-
-                    </div>
-
-                </li>
-
-                <li>
-                    <div class="youtube-video-item youtube-item" id="video-item-id-3">
-                        <img class="youtube-video-picture youtube-video-itemlist"
-                            src="https://i.ytimg.com/vi/9WNYIA1N4NU/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAO_dtHJPMJqcJsmqTWn88gYIF4lQ" />
-
-                        <div class="youtube-video-itemlist">
-                            <ul>
-                                <li>
-                                    <div> Bad Romance </div>
-                                </li>
-                                <li>
-                                    <div> 5 <span> Min</span></div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="checkbox-listitem">
-                            <input class="youtube-video-itemlist" type="checkbox" id="video-item-3" name="1" value="1">
-                            <label for="video-item-3"></label>
-                        </div>
-
-                    </div>
-
-                </li>
+            <ul id="youtube-video-list-id" class="youtube-video-item-list">
 
             </ul>
 
@@ -527,7 +461,112 @@
             function SelectPlaylistItems(id) {
                 clearPlaylistsSelected();
                 document.getElementById(id).className = 'playlist-selected youtube-list-item';
+                feedVideoList(id);
+
             };
+
+
+
+            /*
+            var elements = document.getElementsByClassName("arrow");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].addEventListener("click", function () { gaToPage(this.getAttribute("data-page")); });
+            };
+
+            function gaToPage(dataPage){
+                alert(dataPage)
+            };
+            */
+            var arrows = document.getElementsByClassName("arrow");
+            for (var i = 0; i < arrows.length; i++) {
+                arrows[i].addEventListener("click", function () { goToPage(this.getAttribute("data-page")); });
+            };
+
+            function goToPage(pageData){
+                alert(pageData);
+                var playlistId = document.getElementById(id).className = 'selected item-hover';
+                alert(playlistId);
+            };
+
+            function feedVideoList(playlist_id) {
+                var ul = document.getElementById("youtube-video-list-id");
+                while (ul.firstChild) ul.removeChild(ul.firstChild);
+
+                $("#youtube-video-list-id").append(
+                    '<div id="loading-videos-id" class="loading-videos-icon">' +
+                    ' <div>Loading</div>' +
+                    '<div class="loading-dots loading-dots-1">.</div>' +
+                    '<div class="loading-dots loading-dots-2">.</div>' +
+                    '<div class="loading-dots loading-dots-3">.</div>' +
+                    '  </div>'
+                );
+
+                document.getElementById("prev-page").classList.remove("active-arrow");
+                document.getElementById("next-page").classList.remove("active-arrow");
+
+                $.ajax({
+                    url: "http://localhost:8000/yssync/ajax_videos/",
+                    type: 'post',
+                    beforeSend: function (request) {
+                        request.setRequestHeader('X-CSRFToken', csrftoken);
+                    },
+                    data: { playListId: playlist_id },
+                    success: function (data) {
+
+                        if (data == "NULL") {
+                            alert("Enlace no válido")
+                        }
+                        else {
+                            var json_data = JSON.parse(data);
+
+                            var loadingItem = document.getElementById("loading-videos-id");
+                            loadingItem.remove();
+
+                            if (json_data["prev_page"] != "NULL") {
+                                var prevPageItem = document.getElementById("prev-page");
+                                prevPageItem.classList.add("active-arrow");
+                                prevPageItem.setAttribute("data-page", json_data["prev-page"]);
+                            }
+
+                            if (json_data["next_page"] != "NULL") {
+                                var nextPageItem = document.getElementById("next-page");
+                                nextPageItem.classList.add("active-arrow");
+                                nextPageItem.setAttribute("data-page", json_data["next_page"]);
+                            }
+
+                            for (i = 0; i < json_data["videos"].length; i++) {
+                                $("#youtube-video-list-id").append(
+                                    '<li>' +
+                                    '<div class="youtube-video-item youtube-item" id="' + json_data["videos"][i][0] + '">' +
+                                    '<img class="youtube-video-picture youtube-video-itemlist"' +
+                                    'src="' + json_data["videos"][i][2] + '" />' +
+
+                                    '<div class="youtube-video-itemlist">' +
+                                    '<ul>' +
+                                    '<li>' +
+                                    '<div class="itemlist-title" > ' + json_data["videos"][i][1] + ' </div>' +
+                                    '</li>' +
+                                    '<li>' +
+                                    '<div> 5 <span> Min</span></div>' +
+                                    '</li>' +
+                                    '</ul>' +
+                                    '</div>' +
+
+                                    '<div class="checkbox-listitem">' +
+                                    '<input class="youtube-video-itemlist" type="checkbox" id="' + json_data["videos"][i][0] + '-video" name=' + json_data["videos"][i][0] + '" value="' + json_data["videos"][i][1] + '">' +
+                                    '<label for="' + json_data["videos"][i][0] + '-video"></label>' +
+                                    '</div>' +
+
+                                    '</div>' +
+
+                                    '</li>'
+                                );
+                            }
+                        }
+                    },
+                });
+
+            }
 
             document.getElementById("url-search-button").onclick = function () { verifyPlaylist(); };
 
@@ -541,20 +580,6 @@
                 else {
                     sendUrlInfo(urlName);
                 }
-
-                /*
-                var urlArray = document.getElementsByClassName('youtube-list-item');
-                alert(urlArray);
-                var urlInfo = document.getElementById("searchInput");
-                var urlArray = document.getElementsByClassName('youtube-list-item');
-                if (urlArray.includes(urlInfo.value)) {
-                    alert("inside");
-                }
-                
-                
-                if (urlArray.includes(urlName)) {
-                    alert("inside");
-                }*/
             }
 
             function sendUrlInfo(urlName) {

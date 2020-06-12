@@ -479,6 +479,40 @@ class CreatePlaylist:
         else:
             return False
 
+    def get_url_videos(self, playlist_id, goto_page):
+        print("get_url_videos")
+
+        request = self.youtube_client.playlistItems().list(
+                playlistId=playlist_id,
+                part="snippet",
+                maxResults=50
+            )
+
+        response = request.execute()
+
+        try:
+            prev_page = response["prevPageToken"]
+        except:
+            prev_page = "NULL"
+
+        try:
+            next_page = response["nextPageToken"]
+        except:
+            next_page = "NULL"
+
+        videos_collection = []
+        for item in response["items"]:
+            videos_collection.append([item["snippet"]["resourceId"]["videoId"], item["snippet"]["title"], item["snippet"]["thumbnails"]["medium"]["url"]])
+
+        context = {
+            'videos': videos_collection,
+            'prev_page': prev_page,
+            'next_page': next_page,
+        }
+
+        data = json.dumps(context, indent=4, sort_keys=True, default=str)
+        return data
+
 
 def index2(request):
     cp = CreatePlaylist()
@@ -526,3 +560,44 @@ def retrieve_playlist_url(request):
     else:
         response_json = "NULL"
     return HttpResponse(response_json)
+
+def retrieve_video_list(request):
+    cp = CreatePlaylist()
+    cp.get_user_info()
+    urlInfoFull = request.POST['playListId']
+
+    try:
+        goto_page = request.POST['goto_page']
+    except:
+        goto_page = None
+
+    videos_collection = cp.get_url_videos(urlInfoFull, goto_page)
+    response_json = json.dumps(videos_collection)
+    return HttpResponse(response_json, content_type='application/json')
+    #return HttpResponse(response_json)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

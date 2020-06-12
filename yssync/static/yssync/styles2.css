@@ -251,6 +251,7 @@ ul {
   .youtube-video-itemlist {
     padding: 1rem;
     color:white;
+    max-width: 300px;
   }
 
   .youtube-video-picture{
@@ -578,8 +579,89 @@ transition: border-color 400ms ease-in-out;
       100% {opacity: 1;}
     }
 
+    .youtube_videos_navigation_section{
+      height: 50px;
+      width: 100%;
+      background-color: rgb(46, 46, 46);
+      border-bottom: 1px solid rgb(148, 148, 148);
+      box-shadow:10px 10px 10px 10px rgb(61, 61, 61);
+    }
 
+    .youtube_videos_navigation_bar{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
+    .youtube_videos_navigation_bar div{
+      color:rgb(85, 85, 85);
+      font-weight: bold;
+      font-size: 2rem;
+      margin: 0px 10px;
+      padding: 0px 10px;
+      user-select: none;
+    }
+
+    .youtube_videos_navigation_bar div:hover.active-arrow{
+      background-color: rgb(27, 27, 27);
+      cursor: pointer;
+    }
+
+    div.active-arrow{
+      color:white;
+    }
+
+    .loading-videos-icon{
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+    }
+
+    .loading-dots{
+      font-size: 4rem;
+      margin: 0px 10px;
+      padding: 0px 0px 25px 0px;
+    }
+
+    .loading-dots-1{
+      animation: vanish1 2s infinite;
+    }
+
+    .loading-dots-2{
+      animation: vanish2 2s infinite;
+    }
+
+    .loading-dots-3{
+      animation: vanish3 2s infinite;
+    }
+
+    @keyframes vanish1 {
+      0% { opacity: 1; }
+      33% { opacity: 0; }
+      66% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes vanish2 {
+      0% { opacity: 0; }
+      33% { opacity: 1; }
+      66% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes vanish3 {
+      0% { opacity: 0; }
+      33% { opacity: 0; }
+      66% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .itemlist-title{
+      max-height: 50px;
+      overflow:hidden;
+    }
 
 
 
