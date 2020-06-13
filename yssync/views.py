@@ -482,9 +482,18 @@ class CreatePlaylist:
     def get_url_videos(self, playlist_id, goto_page):
         print("get_url_videos")
 
-        request = self.youtube_client.playlistItems().list(
+
+        if goto_page == "NULL":
+            request = self.youtube_client.playlistItems().list(
                 playlistId=playlist_id,
                 part="snippet",
+                maxResults=50
+            )
+        else:
+            request = self.youtube_client.playlistItems().list(
+                playlistId=playlist_id,
+                part="snippet",
+                pageToken=goto_page,
                 maxResults=50
             )
 
@@ -565,12 +574,7 @@ def retrieve_video_list(request):
     cp = CreatePlaylist()
     cp.get_user_info()
     urlInfoFull = request.POST['playListId']
-
-    try:
-        goto_page = request.POST['goto_page']
-    except:
-        goto_page = None
-
+    goto_page = request.POST['goto_page']
     videos_collection = cp.get_url_videos(urlInfoFull, goto_page)
     response_json = json.dumps(videos_collection)
     return HttpResponse(response_json, content_type='application/json')

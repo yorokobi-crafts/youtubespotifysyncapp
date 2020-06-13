@@ -16,6 +16,8 @@
 
 <body class="full-height-grow">
 
+    <div id="current-playlist-id" class="current-playlist" data-playlist="NULL"></div>
+
 
     <header class="main-header">
         <div class=left-header>
@@ -77,6 +79,14 @@
                     </div>
                 </div>
 
+                <div class="item-hover" id="ignored-list" data-hidden-id-info="null">
+                    <div class="app-body-menu-list-item">
+                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/ignored.png'  %}"
+                            height="30" width="30">
+                        <div> Ignored items</div>
+                    </div>
+                </div>
+
                 <div class="item-hover" id="app-info" data-hidden-id-info="hidden-app-info">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image picture-circle" src="{% static  'yssync/info.png'  %}"
@@ -106,6 +116,13 @@
                     data-hidden-playlist-id="url-list-id">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image picture-circle" src="{% static  'yssync/url.png'  %}"
+                            height="30" width="30">
+                    </div>
+                </div>
+
+                <div class="item-hover" id="ignored-list" data-hidden-id-info="null">
+                    <div class="app-body-menu-list-item">
+                        <img class="app-menu-item-image picture-circle" src="{% static  'yssync/ignored.png'  %}"
                             height="30" width="30">
                     </div>
                 </div>
@@ -409,12 +426,27 @@
                 }
             }
 
+           
+
+
             var inputs = document.getElementsByClassName('item-hover');
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].addEventListener("click", function () { SelectItems(this.id, this.getAttribute('data-hidden-id-info'), this.getAttribute('data-hidden-playlist-id')) });
             }
 
+            function SelectItems(id, childId, playlistId) {
+                alert(id);
+                clearSelected(id);
+                document.getElementById(id).className = 'selected item-hover';
+                document.getElementById(childId).className = 'shown hidden-item';
+                if (id != "app-info" && id != "ignored-list") {
+                    document.getElementById(playlistId).className = 'playlist-list';
+                }
+            };
+
+
             function clearSelected(id) {
+
                 var elements = document.getElementsByClassName('selected');
                 for (var i = 0; i < elements.length; i++) {
                     elements[i].className = 'item-hover';
@@ -425,26 +457,14 @@
                     elements[i].className = 'hidden hidden-item';
                 };
 
-                if (id != "app-info") {
+                if (id != "app-info" && id != "ignored-list") {
                     var elements = document.getElementsByClassName('playlist-list');
                     for (var i = 0; i < elements.length; i++) {
                         elements[i].className = 'playlist-list playlist-hidden';
                     };
                 }
-
-
             }
 
-            function SelectItems(id, childId, playlistId) {
-                clearSelected(id);
-                document.getElementById(id).className = 'selected item-hover';
-                document.getElementById(childId).className = 'shown hidden-item';
-
-                if (id != "app-info") {
-                    document.getElementById(playlistId).className = 'playlist-list';
-                }
-
-            };
 
             var playlistInputs = document.getElementsByClassName('youtube-list-item');
             for (var i = 0; i < playlistInputs.length; i++) {
@@ -462,36 +482,29 @@
                 clearPlaylistsSelected();
                 document.getElementById(id).className = 'playlist-selected youtube-list-item';
                 feedVideoList(id);
-
+                var currentPlaylist = document.getElementById("current-playlist-id");
+                currentPlaylist.setAttribute("data-playlist", id);
             };
 
-
-
-            /*
-            var elements = document.getElementsByClassName("arrow");
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].addEventListener("click", function () { gaToPage(this.getAttribute("data-page")); });
-            };
-
-            function gaToPage(dataPage){
-                alert(dataPage)
-            };
-            */
             var arrows = document.getElementsByClassName("arrow");
             for (var i = 0; i < arrows.length; i++) {
                 arrows[i].addEventListener("click", function () { goToPage(this.getAttribute("data-page")); });
             };
 
-            function goToPage(pageData){
-                alert(pageData);
-                var playlistId = document.getElementById(id).className = 'selected item-hover';
-                alert(playlistId);
+            function goToPage(pageData) {
+                var currentPlaylist = document.getElementById("current-playlist-id").getAttribute("data-playlist");
+                ajaxSender(currentPlaylist, pageData);
             };
 
             function feedVideoList(playlist_id) {
+                var goTo = "NULL";
+                ajaxSender(playlist_id, goTo);
+            };
+
+            function ajaxSender(playlist_id, goTo) {
+
                 var ul = document.getElementById("youtube-video-list-id");
                 while (ul.firstChild) ul.removeChild(ul.firstChild);
-
                 $("#youtube-video-list-id").append(
                     '<div id="loading-videos-id" class="loading-videos-icon">' +
                     ' <div>Loading</div>' +
@@ -510,7 +523,7 @@
                     beforeSend: function (request) {
                         request.setRequestHeader('X-CSRFToken', csrftoken);
                     },
-                    data: { playListId: playlist_id },
+                    data: { playListId: playlist_id, goto_page: goTo },
                     success: function (data) {
 
                         if (data == "NULL") {
@@ -525,7 +538,7 @@
                             if (json_data["prev_page"] != "NULL") {
                                 var prevPageItem = document.getElementById("prev-page");
                                 prevPageItem.classList.add("active-arrow");
-                                prevPageItem.setAttribute("data-page", json_data["prev-page"]);
+                                prevPageItem.setAttribute("data-page", json_data["prev_page"]);
                             }
 
                             if (json_data["next_page"] != "NULL") {
@@ -546,27 +559,34 @@
                                     '<li>' +
                                     '<div class="itemlist-title" > ' + json_data["videos"][i][1] + ' </div>' +
                                     '</li>' +
-                                    '<li>' +
-                                    '<div> 5 <span> Min</span></div>' +
-                                    '</li>' +
                                     '</ul>' +
                                     '</div>' +
-
                                     '<div class="checkbox-listitem">' +
-                                    '<input class="youtube-video-itemlist" type="checkbox" id="' + json_data["videos"][i][0] + '-video" name=' + json_data["videos"][i][0] + '" value="' + json_data["videos"][i][1] + '">' +
-                                    '<label for="' + json_data["videos"][i][0] + '-video"></label>' +
+                                    ' <button data-video-id="' + json_data["videos"][i][0] + '" class="ignore-button-item"type="button">IGNORE</button> ' +
                                     '</div>' +
-
                                     '</div>' +
 
                                     '</li>'
                                 );
                             }
                         }
+
+                        var arrows = document.getElementsByClassName("ignore-button-item");
+                        for (var i = 0; i < arrows.length; i++) {
+                            arrows[i].addEventListener("click", function () { 
+/*
+                                alert(this.getAttribute("data-video-id")); 
+                                var videoItem = this.closest(".youtube-item");
+                                alert(videoItem.id);
+*/
+                                });
+                        };
+
+                        
+
                     },
                 });
-
-            }
+            };
 
             document.getElementById("url-search-button").onclick = function () { verifyPlaylist(); };
 
@@ -574,6 +594,8 @@
                 var urlInfo = document.getElementById("searchInput");
                 var urlName = urlInfo.value.split("=").pop();
                 var elementExists = document.getElementById(urlName);
+
+
                 if (elementExists) {
                     alert("Playlist already added");
                 }
