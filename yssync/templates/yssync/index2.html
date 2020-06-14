@@ -38,9 +38,30 @@
         <div class=right-header>
             {% load static %}
             <nav class="main-nav">
-                <ul>
-                    <img class="logo-file picture-circle" src="{% static  'yssync/gear.png'  %}" height="35" width="35">
-                    <img class="logo-file picture-circle" src="{{userpicture}}" height="35" width="35">
+                <ul class="header-item-list">
+                    <li><img class="logo-file picture-circle" src="{% static  'yssync/gear.png'  %}" height="35"
+                            width="35"></li>
+                    <li>
+                        <img id="data-option-img-id" data-option-target="#user-option-menu-id" class="picture-circle" src="{{userpicture}}"
+                            height="35" width="35">
+                        <div id="user-option-menu-id" class="user-option-menu">
+                            <div class="info-item">
+                                <img class="picture-circle info-picture-user" src="{{userpicture}}" height="35"
+                                    width="35">
+                                <div>{{username}}</div>
+                            </div>
+                            <div class="info-item info-option">
+                                <img class="info-picture-user" src="{% static  'yssync/logout.png'  %}" height="20"
+                                    width="20">
+                                <div>Log out</div>
+                            </div>
+                            <div class="info-item info-option">
+                                <img class="info-picture-user" src="{% static  'yssync/refresh.png'  %}" height="20"
+                                    width="20">
+                                <div>Change user</div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
         </div>
     </header>
@@ -51,6 +72,14 @@
 
             <div id="main-menu-id" class="app-body-menu-list">
 
+                <div class="user-info-main">
+                    <div>
+                        <img class="picture-circle" src="{{userpicture}}" height="120" width="120">
+                        <div class="user-name">{{username}}</div>
+                    </div>
+                </div>
+
+
                 <div class="item-hover selected" id="my-playlist" data-hidden-id-info="hidden-my-playlist"
                     data-hidden-playlist-id="playlist-list-id">
                     <div class="app-body-menu-list-item">
@@ -59,9 +88,7 @@
                         <div> My playlists</div>
                     </div>
                     <div class="hidden hidden-item" id="hidden-my-playlist">
-                        <img class="picture-circle" src="{{userpicture}}" height="70" width="70">
-                        <div class="user-name">{{username}}</div>
-                        <span class="user-playlists">(Playlists: 5)</span>
+                        <span class="user-playlists">(Playlists: {{itemCount}})</span>
                     </div>
                 </div>
 
@@ -79,7 +106,8 @@
                     </div>
                 </div>
 
-                <div class="item-hover" id="ignored-list" data-hidden-id-info="null">
+                <div class="item-hover" id="ignored-list" data-modal-target="#modal-ignored-id"
+                    data-hidden-id-info="null">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image picture-circle" src="{% static  'yssync/ignored.png'  %}"
                             height="30" width="30">
@@ -93,10 +121,10 @@
                             height="30" width="30">
                         <div> Information</div>
                     </div>
-                    <div class="hidden hidden-item" id="hidden-app-info">
-                        <a class="hidden-a" href="/">FAQ</a>
-                        <a class="hidden-a" href="/">Tutorial</a>
-                        <a class="hidden-a" href="/">About us</a>
+                    <div class="hidden hidden-item hidden-info" id="hidden-app-info">
+                        <div>FAQ</div>
+                        <div>Tutorial</div>
+                        <div>About us</div>
                     </div>
                 </div>
 
@@ -120,7 +148,8 @@
                     </div>
                 </div>
 
-                <div class="item-hover" id="ignored-list" data-hidden-id-info="null">
+                <div class="item-hover" id="ignored-list" data-modal-target="#modal-ignored-id"
+                    data-hidden-id-info="null">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image picture-circle" src="{% static  'yssync/ignored.png'  %}"
                             height="30" width="30">
@@ -164,7 +193,9 @@
                                 <div class="youtube-playlist-itemlist">
                                     <ul>
                                         <li>
-                                            <div> {{item.1}} </div>
+                                            <div> <a target="_blank"
+                                                    href="https://www.youtube.com/playlist?list={{item.0}}"> {{item.1}}
+                                                </a></div>
                                         </li>
                                         <li>
                                             <div> {{item.3}} <span> Videos</span></div>
@@ -173,7 +204,8 @@
                                 </div>
 
                                 <div class="checkbox-listitem">
-                                    <input class="youtube-playlist-itemlist playlist-checkbox playlist-item-checkbox"
+                                    <input data-checkbox
+                                        class="youtube-playlist-itemlist playlist-checkbox playlist-item-checkbox"
                                         type="checkbox" id="{{item.1}}" name="{{item.1}}" value="{{item.0}}">
                                     <label for="{{item.1}}"></label>
                                 </div>
@@ -228,6 +260,44 @@
         <button id="sync-button-item" type="submit" class="button-item button-sync button-input"> SYNC </button>
     </div>
 
+
+    <div id="dark-screen-id" class="dark-screen"></div>
+
+    <div id="loading-item-id" class="loading-item">
+        <div class="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="sync-label sync-info">This may take a while</div>
+        <div class="sync-label wait-info">Synchronizing</div>
+    </div>
+
+
+    <div class="modal modal-ignored" id="modal-ignored-id">
+        <div class="modal-ignored-header header-ignored">
+            <div>Ignored items:</div>
+            <button data-close-button id="close-ignore-button-id" class="close-button">
+                <div>&times;</div>
+            </button>
+        </div>
+        <div class="modal-body ignore-body">
+            <ul id="modal-ignored-list-id" class="modal-list">
+                <div id="ignore-message-id" class="ignored-message ignored-video-list-item active">
+                    <div>
+                        No ignored videos
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+
     <footer class="main-footer">
         <div class="container">
             <nav class="footer-nav">
@@ -258,15 +328,15 @@
     </footer>
 
 
-    <div id="modal-id" class="modal">
+    <div id="modal-id" class="modal modal-result">
 
         <div class="tooltip-wrapper">
 
-            <div class="modal-header">
+            <div class="modal-header header-result">
                 <button id="close-button-id" class="close-button">&times;</button>
             </div>
-            <div class="modal-body">
-                <ul id="modal-list-id" class="modal-list">
+            <div class="modal-body result-body">
+                <ul id="modal-list-id" class="modal-list result">
                 </ul>
             </div>
         </div>
@@ -278,6 +348,71 @@
     {% block js %}
     <script>
         $(function () {
+
+
+            const openModalButtons = document.querySelectorAll('[data-modal-target]')
+            const openOptionButtons = document.querySelectorAll('[data-option-target]')
+            const closeModalButtons = document.querySelectorAll('[data-close-button]')
+            const overlay = document.getElementById('dark-screen-id')
+            const loadingItem = document.getElementById('loading-item-id')
+            const modalResult = document.getElementById("modal-id");
+
+            openModalButtons.forEach(div => {
+                div.addEventListener('click', () => {
+                    const modal = document.querySelector(div.dataset.modalTarget)
+                    openModal(modal)
+                })
+            })
+
+            openOptionButtons.forEach(div => {
+                div.addEventListener('click', () => {
+                    const modal = document.querySelector(div.dataset.optionTarget)
+                    openOption(modal)
+                })
+            })
+
+            function openOption(modal) {
+                if (modal == null) return
+                modal.classList.add('active');
+            };
+
+
+            document.addEventListener('click', hideOptionMenu);
+
+            function hideOptionMenu(event) {
+                if (!event.target.closest('.user-option-menu') && !event.target.dataset.optionTarget) {
+                    const closeOptionItem = document.querySelector('.user-option-menu.active');
+                    closeOptionItem.classList.remove('active');
+                }
+            }
+
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.modal')
+                    closeModal(modal)
+                })
+            })
+
+            overlay.addEventListener('click', () => {
+                const modals = document.querySelectorAll('.modal.modal-ignored.active')
+                modals.forEach(modal => {
+                    closeModal(modal)
+                })
+            })
+
+            function openModal(modal) {
+                if (modal == null) return
+                modal.classList.add('active');
+                overlay.classList.add('active');
+            };
+
+
+
+            function closeModal(modal) {
+                if (modal == null) return
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+            };
 
             function getCookie(name) {
                 var cookieValue = null;
@@ -344,55 +479,67 @@
             function syncPlaylists(event) {
                 if (event.key == "accessToken") {
 
-                    var el = document.createElement("div");
-                    el.className = "dark-screen"
-                    el.id = "dark-screen-id"
-                    var div = document.getElementById("sync-button");
-                    insertAfter(div, el);
-                    document.getElementById("modal-id").classList.remove("active");
+                    var isEmpty = true;
+                    const checkboxList = document.querySelectorAll('[data-checkbox]');
+                    for (var i = 0; i < checkboxList.length; i++) {
+                        if (checkboxList[i].checked == true) {
+                            isEmpty = false;
+                        }
+                    }
 
-                    $("#dark-screen-id").append(
-                        '<div class="loading-item">' +
-                        '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>' +
-                        '<div class="sync-label sync-info">This may take a while</div>' +
-                        '<div class="sync-label wait-info">Synchronizing</div>' +
-                        '</div>'
-                    );
+                    if (isEmpty == true) {
+                        alert("Please select at least one playlist");
+                    }
+                    else {
 
-                    var spAccessToken = event.newValue;
-                    var playlistForm = document.getElementById("form-id");
-                    var playlistFormData = new FormData(playlistForm);
-                    playlistFormData.append('accessToken', spAccessToken);
+                        overlay.classList.add('active');
+                        loadingItem.classList.add('active');
+                        modalResult.classList.remove("active");
 
-                    xhr = $.ajax({
-                        url: "http://localhost:8000/yssync/ajax/",
-                        type: 'post',
-                        beforeSend: function (request) {
-                            request.setRequestHeader('X-CSRFToken', csrftoken);
-                        },
-                        data: playlistFormData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            el.remove();
-                            document.getElementById("modal-id").classList.add("active");
-                            var json_data = JSON.parse(response);
+                        ignoredArray = [];
+                        ignoredItems = document.querySelectorAll('[data-ignored-video-id]')
+                        for (var i = 0; i < ignoredItems.length; i++) {
+                            ignoredArray.push(ignoredItems[i].dataset.ignoredVideoId);
+                        }
 
-                            var list = document.getElementById("modal-list-id");
-                            while (list.firstChild) {
-                                list.removeChild(list.firstChild);
-                            }
+                        var spAccessToken = event.newValue;
+                        var playlistForm = document.getElementById("form-id");
+                        var playlistFormData = new FormData(playlistForm);
 
-                            Object.keys(json_data).forEach(function (key) {
-                                $("#modal-list-id").append(
-                                    '<li>' +
-                                    '<div class="list-name">' + key + '</div>' +
-                                    '<div class="list-status ' + json_data[key] + ' "></div>' +
-                                    '</li>'
-                                );
-                            })
-                        },
-                    });
+                        playlistFormData.append('accessToken', spAccessToken);
+                        playlistFormData.append('ignored_array', ignoredArray);
+
+                        xhr = $.ajax({
+                            url: "http://localhost:8000/yssync/ajax/",
+                            type: 'post',
+                            beforeSend: function (request) {
+                                request.setRequestHeader('X-CSRFToken', csrftoken);
+                            },
+                            data: playlistFormData,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+
+                                overlay.classList.remove('active');
+                                loadingItem.classList.remove('active');
+                                modalResult.classList.add("active");
+                                var json_data = JSON.parse(response);
+
+                                var list = document.getElementById("modal-list-id");
+                                while (list.firstChild) {
+                                    list.removeChild(list.firstChild);
+                                }
+                                Object.keys(json_data).forEach(function (key) {
+                                    $("#modal-list-id").append(
+                                        '<li>' +
+                                        '<div class="list-name">' + key + '</div>' +
+                                        '<div class="list-status ' + json_data[key] + ' "></div>' +
+                                        '</li>'
+                                    );
+                                })
+                            },
+                        });
+                    }
                 }
             }
 
@@ -426,16 +573,12 @@
                 }
             }
 
-           
-
-
             var inputs = document.getElementsByClassName('item-hover');
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].addEventListener("click", function () { SelectItems(this.id, this.getAttribute('data-hidden-id-info'), this.getAttribute('data-hidden-playlist-id')) });
             }
 
             function SelectItems(id, childId, playlistId) {
-                alert(id);
                 clearSelected(id);
                 document.getElementById(id).className = 'selected item-hover';
                 document.getElementById(childId).className = 'shown hidden-item';
@@ -444,8 +587,9 @@
                 }
             };
 
-
             function clearSelected(id) {
+
+
 
                 var elements = document.getElementsByClassName('selected');
                 for (var i = 0; i < elements.length; i++) {
@@ -458,13 +602,16 @@
                 };
 
                 if (id != "app-info" && id != "ignored-list") {
+
+                    var ul = document.getElementById("youtube-video-list-id");
+                    while (ul.firstChild) ul.removeChild(ul.firstChild);
+
                     var elements = document.getElementsByClassName('playlist-list');
                     for (var i = 0; i < elements.length; i++) {
                         elements[i].className = 'playlist-list playlist-hidden';
                     };
                 }
             }
-
 
             var playlistInputs = document.getElementsByClassName('youtube-list-item');
             for (var i = 0; i < playlistInputs.length; i++) {
@@ -547,43 +694,100 @@
                                 nextPageItem.setAttribute("data-page", json_data["next_page"]);
                             }
 
+
+
                             for (i = 0; i < json_data["videos"].length; i++) {
-                                $("#youtube-video-list-id").append(
-                                    '<li>' +
-                                    '<div class="youtube-video-item youtube-item" id="' + json_data["videos"][i][0] + '">' +
-                                    '<img class="youtube-video-picture youtube-video-itemlist"' +
-                                    'src="' + json_data["videos"][i][2] + '" />' +
 
-                                    '<div class="youtube-video-itemlist">' +
-                                    '<ul>' +
-                                    '<li>' +
-                                    '<div class="itemlist-title" > ' + json_data["videos"][i][1] + ' </div>' +
-                                    '</li>' +
-                                    '</ul>' +
-                                    '</div>' +
-                                    '<div class="checkbox-listitem">' +
-                                    ' <button data-video-id="' + json_data["videos"][i][0] + '" class="ignore-button-item"type="button">IGNORE</button> ' +
-                                    '</div>' +
-                                    '</div>' +
+                                var ignoredElement = document.querySelector('[data-ignored-video-id="' + json_data["videos"][i][0] + '"]');
+                                if (ignoredElement == null) {
+                                    $("#youtube-video-list-id").append(
+                                        '<li>' +
+                                        '<div class="youtube-video-item youtube-item" data-video-image-url="' + json_data["videos"][i][2] + '" data-video-title="' + json_data["videos"][i][1] + '" id="' + json_data["videos"][i][0] + '">' +
+                                        '<img class="youtube-video-picture youtube-video-itemlist"' +
+                                        'src="' + json_data["videos"][i][2] + '" />' +
 
-                                    '</li>'
-                                );
+                                        '<div class="youtube-video-itemlist">' +
+                                        '<ul>' +
+                                        '<li>' +
+                                        '<div class="itemlist-title" > <a target="_blank" href="https://www.youtube.com/watch?v=' + json_data["videos"][i][0] + '"> ' + json_data["videos"][i][1] + ' </a> </div>' +
+                                        '</li>' +
+                                        '</ul>' +
+                                        '</div>' +
+                                        '<div class="checkbox-listitem">' +
+                                        ' <button data-video-id="' + json_data["videos"][i][0] + '" class="ignore-button-item"type="button">IGNORE</button> ' +
+                                        '</div>' +
+                                        '</div>' +
+
+                                        '</li>'
+                                    );
+                                }
+                                else {
+                                    $("#youtube-video-list-id").append(
+                                        '<li>' +
+                                        '<div class="youtube-video-item youtube-item video-ignored" data-video-image-url="' + json_data["videos"][i][2] + '" data-video-title="' + json_data["videos"][i][1] + '" id="' + json_data["videos"][i][0] + '">' +
+                                        '<img class="youtube-video-picture youtube-video-itemlist"' +
+                                        'src="' + json_data["videos"][i][2] + '" />' +
+
+                                        '<div class="youtube-video-itemlist">' +
+                                        '<ul>' +
+                                        '<li>' +
+                                        '<div class="itemlist-title" > <a target="_blank" href="https://www.youtube.com/watch?v=' + json_data["videos"][i][0] + '"> ' + json_data["videos"][i][1] + ' </a> </div>' +
+                                        '</li>' +
+                                        '</ul>' +
+                                        '</div>' +
+                                        '<div class="checkbox-listitem">' +
+                                        ' <button data-video-id="' + json_data["videos"][i][0] + '" class="ignore-button-item button-ignored"type="button">UNDO</button> ' +
+                                        '</div>' +
+                                        '</div>' +
+
+                                        '</li>'
+                                    );
+                                }
+
+
                             }
                         }
 
                         var arrows = document.getElementsByClassName("ignore-button-item");
                         for (var i = 0; i < arrows.length; i++) {
-                            arrows[i].addEventListener("click", function () { 
-/*
-                                alert(this.getAttribute("data-video-id")); 
+                            arrows[i].addEventListener("click", function () {
+
                                 var videoItem = this.closest(".youtube-item");
-                                alert(videoItem.id);
-*/
-                                });
+
+                                var ignoredElement = document.querySelector('[data-ignored-video-id="' + videoItem.id + '"]');
+                                if (ignoredElement != null) {
+                                    videoItem.classList.remove("video-ignored");
+                                    this.classList.remove("button-ignored");
+                                    this.innerHTML = "IGNORE";
+                                    ignoredElement.closest("li").remove();
+                                }
+                                else {
+                                    videoItem.classList.add("video-ignored");
+                                    this.classList.add("button-ignored");
+                                    this.innerHTML = "UNDO";
+
+                                    $("#modal-ignored-list-id").append(
+                                        '<li>' +
+                                        '<div class="ignored-video-list-item" data-ignored-video-id="' + videoItem.id + '">' +
+                                        '<img class="ignored-picture"' +
+                                        'src="' + videoItem.dataset.videoImageUrl + '" />' +
+                                        '<div class="ignored-title">' +
+                                        '<a target="_blank" href="https://www.youtube.com/watch?v=' + videoItem.id + '" >' + videoItem.dataset.videoTitle + '</a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</li>'
+                                    );
+                                }
+
+                                var ignoredElement = document.querySelector('[data-ignored-video-id]');
+                                if (ignoredElement == null) {
+                                    document.getElementById("ignore-message-id").classList.add("active");
+                                }
+                                else {
+                                    document.getElementById("ignore-message-id").classList.remove("active");
+                                }
+                            });
                         };
-
-                        
-
                     },
                 });
             };
@@ -631,7 +835,7 @@
                                 '<div class="youtube-playlist-itemlist">' +
                                 '<ul>' +
                                 '<li>' +
-                                '<div> ' + json_data["title"] + ' </div>' +
+                                '<div> <a target="_blank" href="https://www.youtube.com/watch?v=' + json_data["id"] + '" > ' + json_data["title"] + ' </a> </div>' +
                                 '</li>' +
                                 '<li>' +
                                 '<div> ' + json_data["counter"] + ' <span>Videos </span></div>' +

@@ -32,6 +32,7 @@ class CreatePlaylist:
         self.playlist_lister = {}
         self.playlist_collection = []
         self.user_uri_list = []
+        self.list_item_count = ""
 
     def get_user_info(self):
         self.youtube_client = self.get_youtube_client()
@@ -79,7 +80,8 @@ class CreatePlaylist:
 
         response = request.execute()
 
-        print(response)
+        self.list_item_count = response["pageInfo"]["totalResults"]
+        print(self.list_item_count)
 
         for item in response["items"]:
             self.menu.append([item["id"], item["snippet"]["title"], item["snippet"]["thumbnails"]["medium"]["url"],
@@ -101,6 +103,8 @@ class CreatePlaylist:
 
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
                 flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
                     client_secrets_file, scopes)
 
@@ -108,15 +112,7 @@ class CreatePlaylist:
                     host='localhost',
                     port=8088,
                     authorization_prompt_message='Please visit this URL: {url}',
-                    success_message='<script>' +
-
-                                    'function closeWin() {' +
-                                    'myWindow.close();   // Closes the new window' +
-                                    '} ' +
-
-                                    'document.addEventListener("DOMContentLoaded", closeWin);' +
-
-                                    '</script>',
+                    success_message='Authorization completed: Please close this tab.',
                     open_browser=True)
 
             with open('token.pickle', 'wb') as token:
@@ -260,19 +256,19 @@ class CreatePlaylist:
             response_json = response.json()
             return response_json
 
-    def add_songs_to_spotify(self, playlist_name, playlist_url):
+    def add_songs_to_spotify(self, playlist_name, playlist_url, ignored_array):
         print("add_songs_to_spotify")
         playlist_id = self.playlist_exists(playlist_name)
 
         if playlist_id:
             print("Playlist exists")
             user_uri_list = self.feed_user_uri_list(playlist_id)
-            self.get_songs_per_page(playlist_id, playlist_url, user_uri_list, playlist_name)
+            self.get_songs_per_page(playlist_id, playlist_url, user_uri_list, playlist_name, ignored_array)
             print(self.playlist_lister)
         else:
             print("Playlist doesn't exists")
             playlist_id = self.create_spotify_playlist(playlist_name)
-            self.get_songs_per_page(playlist_id, playlist_url, None, playlist_name)
+            self.get_songs_per_page(playlist_id, playlist_url, None, playlist_name, ignored_array)
 
     def my_id(self):
         print("getting my_id")
@@ -313,7 +309,7 @@ class CreatePlaylist:
                 print("playlist matches")
                 return item[1]
 
-    def get_songs_per_page(self, playlist_id, list_url, user_uri_list, playlist_name):
+    def get_songs_per_page(self, playlist_id, list_url, user_uri_list, playlist_name, ignored_array):
 
         self.playlist_lister[playlist_name] = "no-changes-applied"
 
@@ -348,22 +344,28 @@ class CreatePlaylist:
             for item in response["items"]:
                 video_title = item["snippet"]["title"]
                 youtube_url = "https://www.youtube.com/watch?v={}".format(item["snippet"]["resourceId"]["videoId"])
-                try:
-                    video = youtube_dl.YoutubeDL().extract_info(youtube_url, download=False)
-                    song_name = video['track']
-                    artist = video['artist']
-                    if song_name is not None and artist is not None:
-                        compare_uri = self.get_spotify_uri(song_name, artist)
-                        if compare_uri not in user_uri_list:
-                            print("new song added")
-                            song_info[video_title] = {
-                                "youtube_url": youtube_url,
-                                "song_name": song_name,
-                                "artist": artist,
-                                "spotify_uri": compare_uri
-                            }
-                except:
-                    print("Video not available")
+                youtube_id = item["snippet"]["resourceId"]["videoId"]
+
+                if youtube_id not in ignored_array:
+                    print("not in array")
+                    try:
+                        video = youtube_dl.YoutubeDL().extract_info(youtube_url, download=False)
+                        song_name = video['track']
+                        artist = video['artist']
+                        if song_name is not None and artist is not None:
+                            compare_uri = self.get_spotify_uri(song_name, artist)
+                            if compare_uri not in user_uri_list:
+                                print("new song added")
+                                song_info[video_title] = {
+                                    "youtube_url": youtube_url,
+                                    "song_name": song_name,
+                                    "artist": artist,
+                                    "spotify_uri": compare_uri
+                                }
+                    except:
+                        print("Video not available")
+                else:
+                    print("ignored item")
 
             not_empty_playlist = self.check_if_empy_uris(song_info)
 
@@ -538,7 +540,7 @@ def index(request):
     cp.get_user_info()
     cp.get_youtube_lists()
     return render(request, 'yssync/index2.html',
-                  {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu})
+                  {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu, 'itemCount' : cp.list_item_count})
 
 
 def callback(request):
@@ -550,11 +552,15 @@ def create_playlist_spotify(request):
     cp.get_user_info()
     if request.method == 'POST':
         cp.spotify_token = request.POST['accessToken']
+    try:
+        ignored_array = request.POST['ignored_array']
+    except:
+        ignored_array = None
+
     for playlist_name, url in request.POST.items():
-        if playlist_name != 'accessToken':
-            cp.add_songs_to_spotify(playlist_name, url)
+        if playlist_name != 'accessToken' and playlist_name != 'ignored_array':
+            cp.add_songs_to_spotify(playlist_name, url, ignored_array)
     json_response = json.dumps(cp.playlist_lister)
-    print(json_response)
     return HttpResponse(json_response)
 
 
