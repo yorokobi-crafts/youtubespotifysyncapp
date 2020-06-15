@@ -50,12 +50,12 @@
                                     width="35">
                                 <div>{{username}}</div>
                             </div>
-                            <div class="info-item info-option">
+                            <div data-link="https://www.youtube.com" class="info-item info-option">
                                 <img class="info-picture-user" src="{% static  'yssync/logout.png'  %}" height="20"
                                     width="20">
                                 <div>Log out</div>
                             </div>
-                            <div class="info-item info-option">
+                            <div data-link="https://www.w3schools.com" class="info-item info-option">
                                 <img class="info-picture-user" src="{% static  'yssync/refresh.png'  %}" height="20"
                                     width="20">
                                 <div>Change user</div>
@@ -356,6 +356,30 @@
             const overlay = document.getElementById('dark-screen-id')
             const loadingItem = document.getElementById('loading-item-id')
             const modalResult = document.getElementById("modal-id");
+            const optionMenuItems = document.querySelectorAll('[data-link]')
+
+            optionMenuItems.forEach(div => {
+                div.addEventListener('click', () => {
+                   // const sendLink = div.dataset.link;
+
+                    logOut();
+                   //goToLink(sendLink);
+                })
+            })
+
+            function logOut(){
+                $.ajax({
+                    url: "http://localhost:8000/yssync/ajax_logout/",
+                    type: 'post',
+                    beforeSend: function (request) {
+                        request.setRequestHeader('X-CSRFToken', csrftoken);
+                    },
+                    data: {lol : "lol"},
+                    success: function (data) {
+                        alert(data);
+                    },
+                });
+            }
 
             openModalButtons.forEach(div => {
                 div.addEventListener('click', () => {
@@ -405,7 +429,6 @@
                 modal.classList.add('active');
                 overlay.classList.add('active');
             };
-
 
 
             function closeModal(modal) {
