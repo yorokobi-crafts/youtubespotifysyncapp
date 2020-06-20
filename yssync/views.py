@@ -6,14 +6,12 @@ import googleapiclient.errors
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from oauth2client.client import AccessTokenCredentials
 import os
 import pickle
 import json
 import requests
 import os.path
 import youtube_dl
-import selenium.webdriver
 
 
 class CreatePlaylist:
@@ -35,9 +33,10 @@ class CreatePlaylist:
         self.playlist_collection = []
         self.user_uri_list = []
         self.list_item_count = ""
+        self.session = {}
 
-    def get_user_info(self):
-        self.youtube_client = self.get_youtube_client()
+    def get_user_info(self, creds):
+        self.youtube_client = self.get_youtube_client(creds)
         request = self.youtube_client.channels().list(
             mine="True",
             part="id,snippet,contentDetails"
@@ -91,48 +90,27 @@ class CreatePlaylist:
 
         self.sutoringu = response
 
-    def get_youtube_client(self):
+    def get_youtube_client(self, creds):
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
         api_service_name = "youtube"
         api_version = "v3"
         client_secrets_file = "client_secret.json"
         scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
-        creds = None
 
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
-                creds = pickle.load(token)
+        if not creds:
+            flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
+                client_secrets_file, scopes)
 
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                try:
-                    creds.refresh(Request())
-                except:
-                    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-                        client_secrets_file, scopes)
+            creds = flow.run_local_server(
+                host='localhost',
+                port=8088,
+                authorization_prompt_message='Please visit this URL: {url}',
+                success_message='Authorization completed: Please close this tab.',
+                open_browser=True)
 
-                    creds = flow.run_local_server(
-                        host='localhost',
-                        port=8088,
-                        authorization_prompt_message='Please visit this URL: {url}',
-                        success_message='Authorization completed: Please close this tab.',
-                        open_browser=True)
-            else:
-                flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-                    client_secrets_file, scopes)
-
-                creds = flow.run_local_server(
-                    host='localhost',
-                    port=8088,
-                    authorization_prompt_message='Please visit this URL: {url}',
-                    success_message='Authorization completed: Please close this tab.',
-                    open_browser=True)
-
-            with open('token.pickle', 'wb') as token:
-                pickle.dump(creds, token)
+        self.session = creds
 
         youtube_client = googleapiclient.discovery.build(api_service_name, api_version, credentials=creds)
-
         return youtube_client
 
     def get_songs_list(self, list_url):
@@ -550,9 +528,11 @@ def index2(request):
 
 
 def index(request):
+    creds = request.session.get('sessionCookie', None)
     cp = CreatePlaylist()
-    cp.get_user_info()
+    cp.get_user_info(creds)
     cp.get_youtube_lists()
+    request.session['sessionCookie'] = cp.session
     return render(request, 'yssync/index2.html',
                   {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
                    'itemCount': cp.list_item_count})
@@ -563,8 +543,9 @@ def callback(request):
 
 
 def create_playlist_spotify(request):
+    creds = request.session.get('sessionCookie', None)
     cp = CreatePlaylist()
-    cp.get_user_info()
+    cp.get_user_info(creds)
     if request.method == 'POST':
         cp.spotify_token = request.POST['accessToken']
     try:
@@ -580,8 +561,9 @@ def create_playlist_spotify(request):
 
 
 def retrieve_playlist_url(request):
+    creds = request.session.get('sessionCookie', None)
     cp = CreatePlaylist()
-    cp.get_user_info()
+    cp.get_user_info(creds)
     urlInfoFull = request.POST['playListURL']
     urlInfo = urlInfoFull.lstrip('https://www.youtube.com/playlist?list=')
     playlist_info_dict = cp.get_url_info(urlInfo)
@@ -593,8 +575,9 @@ def retrieve_playlist_url(request):
 
 
 def retrieve_video_list(request):
+    creds = request.session.get('sessionCookie', None)
     cp = CreatePlaylist()
-    cp.get_user_info()
+    cp.get_user_info(creds)
     urlInfoFull = request.POST['playListId']
     goto_page = request.POST['goto_page']
     videos_collection = cp.get_url_videos(urlInfoFull, goto_page)
@@ -603,46 +586,10 @@ def retrieve_video_list(request):
     # return HttpResponse(response_json)
 
 
-def logout_session(request):
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    revoke = requests.post('https://oauth2.googleapis.com/revoke',
-                           params={'token': creds.token},
-                           headers={'content-type': 'application/x-www-form-urlencoded'})
-    status_code = revoke.status_code
-    return HttpResponse(status_code)
-
-
-def cookietest_set(request):
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-    api_service_name = "youtube"
-    api_version = "v3"
-    client_secrets_file = "client_secret.json"
-    scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
-    creds = None
-
-    creds = request.session.get('cookietoken', 0)
-
-    if not creds or not creds.valid:
-        flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-                client_secrets_file, scopes)
-
-        creds = flow.run_local_server(
-                host='localhost',
-                port=8088,
-                authorization_prompt_message='Please visit this URL: {url}',
-                success_message='Authorization completed: Please close this tab.',
-                open_browser=True)
-
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-        request.session['cookietoken'] = creds
-
-    youtube_client = googleapiclient.discovery.build(api_service_name, api_version, credentials=creds)
-
-    return HttpResponse("lol")
-
-
-def cookietest_get(request):
-    return HttpResponse("lol")
+def deleteCookie(request):
+    try:
+        del request.session['sessionCookie']
+        status = "200"
+    except:
+        status="500"
+    return HttpResponse(status)
