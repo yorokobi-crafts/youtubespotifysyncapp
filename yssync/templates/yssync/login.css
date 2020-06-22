@@ -1,0 +1,19 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+
+body{
+    color:green;
+    font-size: 2em;
+}
+
+.base-picture{
+    height: 100vh;
+    width: 100%;
+}
+
+.base-picture-first{
+    background-image: url("static/yssync/logo-picture-step-1.jpg");
+    background-color: red;
+    color:green;
+}

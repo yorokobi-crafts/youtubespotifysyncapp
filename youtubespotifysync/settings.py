@@ -25,7 +25,7 @@ SECRET_KEY = 'n%7_*foo6&tymgv!%5f*=ouo!-d0@_+m_cofsek481g_=jj4i&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -72,7 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'youtubespotifysync.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

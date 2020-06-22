@@ -12,7 +12,7 @@ import json
 import requests
 import os.path
 import youtube_dl
-
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 class CreatePlaylist:
 
@@ -526,7 +526,7 @@ def index2(request):
     return render(request, 'yssync/index.html',
                   {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu})
 
-
+@ensure_csrf_cookie
 def index(request):
     creds = request.session.get('sessionCookie', None)
     cp = CreatePlaylist()
@@ -593,3 +593,6 @@ def deleteCookie(request):
     except:
         status="500"
     return HttpResponse(status)
+
+def login(request):
+    return render(request, 'yssync/login.html')

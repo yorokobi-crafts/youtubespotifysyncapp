@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster:100,200,300,400,500,700');
+
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+body{
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+.container{
+    height: 100vh;
+    width: 100vw;
+}
+
+.container-element{
+    height: 100vh;
+    width: 100vw;
+}
+
+.container-element.login-topic{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container-element.tutorial-topic{
+    background-color: yellow;
+}
+
+.container-element.sharing-topic{
+    background-color: pink;
+}
+
+.container-element.final-topic{
+    background-color: gray;
+}
+
+.picture{
+    position:fixed;
+}
+
+.item-center{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.picture.login-topic-background{
+    height: 100vh;
+    width: 100vw;
+    z-index: -3;
+    object-fit: cover;
+}
+
+.picture.login-topic-laptop{
+    height: 50vh;
+    width: 75vh;
+    overflow: hidden;
+}
+
+.laptop-item{
+    height: 100%;
+    width: 100%;
+    z-index: -2;
+    object-fit: contain;
+}
+
+.inner-img{
+    height: 77%;
+    width: 78%;
+    position: fixed;
+    z-index: -1;
+    object-fit: contain;
+    top: 42%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+}
+
+.yssync-homepage-img{
+    background-color: white;
+    opacity: 1;
+    transition: 200ms;
+}
+
+.yssync-homepage-img.one{
+    opacity: 0;
+}
+
+.logo-title{
+    font-family: lobster;
+    font-weight: 500;
+    font-size: 3em;
+    padding: 20px 40px;
+    color: rgb(59, 57, 57);
+}
+
+.login-frame{
+    height: 150px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    bottom:0;
+    box-shadow: -3px -15px 35px 0px rgba(0, 0, 0, 0.349);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: +1;
+}
+
+button.google-login{
+    outline: none;
+    border: 0;
+    background-color: rgb(53, 172, 219);
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+    scale: 1;
+    transition: 100ms;
+}
+
+button.google-login span{
+    vertical-align: middle;
+    padding-bottom: 1.3rem;
+}
+
+button.google-login:hover{
+    scale: 1.1;
+    background-color: rgb(36, 125, 160);
+}
+
+button.google-login:active{
+    background-color: rgb(90, 195, 236);
+}
+
+.mistery-box{
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    background-color:red;
+    transition: 1s;
+}
+
+.mistery-box.one{
+    background-color:blue;
+}
+
+.mistery-box.one.two{
+    background-color:purple;
+}
+
+.mistery-box.one.two.three{
+    background-color:black;
+}
+
+

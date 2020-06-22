@@ -1062,8 +1062,6 @@ transition: border-color 400ms ease-in-out;
       display: flex;
     }
 
-
-
     .loading-dots{
       font-size: 4rem;
       margin: 0px 10px;
