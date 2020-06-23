@@ -11,15 +11,19 @@
 
 </head>
 
-<body>
+<body class="ready">
     <div class="mistery-box"></div>
     <div class="container">
         <div class="container-element login-topic">
-            <img src="{% static 'yssync/logo-picture-step-1.jpg' %}" class="picture login-topic-background">
+
+            <img src="{% static 'yssync/logo-picture-step-1.jpg' %}" class="fixed login-topic-background">
+            <img src="{% static 'yssync/footer-picture.jpg' %}" class="fixed login-topic-background footer-img">
 
 
-            <div class="picture item-center login-topic-laptop">
+            <div class="fixed item-center login-topic-laptop original">
                 <img src="{% static 'yssync/yssync-screen.png' %}" class="inner-img yssync-homepage-img">
+                <img src="{% static 'yssync/yssync-syncing.png' %}" class="inner-img yssync-syncing-img">
+                <img src="{% static 'yssync/yssync-complete.png' %}" class="inner-img yssync-complete-img">
                 <img src="{% static 'yssync/laptop-item.png' %}" class="laptop-item">
             </div>
 
@@ -54,60 +58,333 @@
         </div>
 
         <div class="container-element tutorial-topic">
+            <div class="dark-background"></div>
+
+            <div class="youtube-playlist-container">
+                <img src="{% static 'yssync/youtube-playlist-3.png' %}" alt="youtube-playlist"
+                    class="youtube-playlist-item item-one">
+                <img src="{% static 'yssync/youtube-playlist-1.png' %}" alt="youtube-playlist"
+                    class="youtube-playlist-item item-two">
+                <img src="{% static 'yssync/youtube-playlist-2.png' %}" alt="youtube-playlist"
+                    class="youtube-playlist-item item-three">
+            </div>
+
+            <div class="spotify-playlist-container">
+                <img src="{% static 'yssync/spotify-playlist-2.png' %}" alt="spotify-playlist"
+                    class="spotify-playlist-item item-one">
+                <img src="{% static 'yssync/spotify-playlist-1.png' %}" alt="spotify-playlist"
+                    class="spotify-playlist-item item-two">
+                <img src="{% static 'yssync/spotify-playlist-3.png' %}" alt="spotify-playlist"
+                    class="spotify-playlist-item item-three">
+            </div>
+
         </div>
+
         <div class="container-element sharing-topic">
+
+            <div class="cursor-icon"><img src="{% static 'yssync/cursor.png' %}" alt="cursor" class="cursor-img"></div>
+
+            <div class="parent">
+                <div class="blue-background"></div>
+                <div class="fixed item-center login-topic-laptop child-item">
+                    <img src="{% static 'yssync/laptop-item-child.png' %}" class="laptop-item">
+                </div>
+            </div>
+
+            <div class="thumbnail-parent">
+
+                <div class="thumbnail-container">
+                    <a target="_blank" href="https://www.youtube.com/watch?v=qGjAWJ2zWWI">
+                        <div class="image-container">
+                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-1.jpg' %}" class="thumbnail-item">
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="thumbnail-container">
+                    <a target="_blank" href="https://www.youtube.com/watch?v=FwkrrU2WYKg">
+                        <div class="image-container">
+                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-2.jpg' %}" class="thumbnail-item">
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="thumbnail-container">
+                    <a target="_blank" href="https://www.youtube.com/watch?v=UyKgYMQ-AlQ">
+                        <div class="image-container">
+                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-3.jpg' %}" class="thumbnail-item">
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+
+            <div class="thumbnail-parent">
+
+                <div class="thumbnail-container back">
+                    <a target="_blank" href="https://www.youtube.com/watch?v=g_QtO0Rhp0w">
+                        <div class="image-container">
+                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-4.jpg' %}" class="thumbnail-item">
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="thumbnail-container back toVanish">
+                    <a target="_blank" href="https://www.youtube.com/watch?v=phaJXp_zMYM">
+                        <div class="image-container">
+                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-5.jpg' %}" class="thumbnail-item">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="thumbnail-parent">
+
+                <div class="thumbnail-container side toVanish">
+                    <a target="_blank" href="https://www.youtube.com/watch?v=GgNK_Tl66tk"></a>
+                    <div class="image-container">
+                        <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                        <img src="{% static 'yssync/youtube-thumbnails/thumbnail-6.jpg' %}" class="thumbnail-item">
+                    </div>
+                    </a>
+                </div>
+
+
+                <div class="thumbnail-container side">
+                    <a target="_blank" href="https://www.youtube.com/watch?v=c4k6h3iGfeA">
+                        <div class="image-container">
+                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-7.jpg' %}" class="thumbnail-item">
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
         </div>
+
         <div class="container-element final-topic">
+            <div class="login-button-space">
+                <button class="google-login"> <span>START NOW</span>
+                    <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
+                        viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
+                        <g>
+                            <path
+                                d="m120 256c0-25.367 6.989-49.13 19.131-69.477v-86.308h-86.308c-34.255 44.488-52.823 98.707-52.823 155.785s18.568 111.297 52.823 155.785h86.308v-86.308c-12.142-20.347-19.131-44.11-19.131-69.477z"
+                                fill="#fbbd00" />
+                            <path
+                                d="m256 392-60 60 60 60c57.079 0 111.297-18.568 155.785-52.823v-86.216h-86.216c-20.525 12.186-44.388 19.039-69.569 19.039z"
+                                fill="#0f9d58" />
+                            <path
+                                d="m139.131 325.477-86.308 86.308c6.782 8.808 14.167 17.243 22.158 25.235 48.352 48.351 112.639 74.98 181.019 74.98v-120c-49.624 0-93.117-26.72-116.869-66.523z"
+                                fill="#31aa52" />
+                            <path
+                                d="m512 256c0-15.575-1.41-31.179-4.192-46.377l-2.251-12.299h-249.557v120h121.452c-11.794 23.461-29.928 42.602-51.884 55.638l86.216 86.216c8.808-6.782 17.243-14.167 25.235-22.158 48.352-48.353 74.981-112.64 74.981-181.02z"
+                                fill="#3c79e6" />
+                            <path
+                                d="m352.167 159.833 10.606 10.606 84.853-84.852-10.606-10.606c-48.352-48.352-112.639-74.981-181.02-74.981l-60 60 60 60c36.326 0 70.479 14.146 96.167 39.833z"
+                                fill="#cf2d48" />
+                            <path
+                                d="m256 120v-120c-68.38 0-132.667 26.629-181.02 74.98-7.991 7.991-15.376 16.426-22.158 25.235l86.308 86.308c23.753-39.803 67.246-66.523 116.87-66.523z"
+                                fill="#eb4132" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="main-footer"></div>
         </div>
     </div>
 
     {% block js %}
     <script>
-        //animation items
+
+        document.addEventListener("DOMContentLoaded", () => {
+            body.classList.add('ready');
+        });
+
         const misteryBox = document.querySelector('.mistery-box');
         const yssyncHomepageImg = document.querySelector('.yssync-homepage-img');
+        const yssyncSyncingImg = document.querySelector('.yssync-syncing-img');
+        const yssyncCompleteImg = document.querySelector('.yssync-complete-img');
 
+
+        const youtubeItem1 = document.querySelector('.youtube-playlist-item.item-one');
+        const youtubeItem2 = document.querySelector('.youtube-playlist-item.item-two');
+        const youtubeItem3 = document.querySelector('.youtube-playlist-item.item-three');
+
+        const spotifyItem1 = document.querySelector('.spotify-playlist-item.item-one');
+        const spotifyItem2 = document.querySelector('.spotify-playlist-item.item-two');
+        const spotifyItem3 = document.querySelector('.spotify-playlist-item.item-three');
+        const cursorIcon = document.querySelector('.cursor-icon');
+
+        const thumbnails = document.querySelectorAll('.thumbnail-container');
+
+        const footerBackgroundImg = document.querySelector('.fixed.fixed.login-topic-background.footer-img');
+
+        const realLaptop = document.querySelector('.fixed.login-topic-laptop.original');
+        const iconLaptop = document.querySelector('.login-topic-laptop.child-item');
 
         const pageHeight = document.documentElement.scrollHeight;
 
         const storeScroll = () => {
             var height = this.scrollY;
+            misteryBox.innerHTML = (height / pageHeight).toFixed(2);
 
-            if(height > pageHeight*0.10){
+            if (height > pageHeight * 0.10) {
                 misteryBox.classList.add('one');
-                yssyncHomepageImg.classList.add('one');
             }
-            else{
+            else {
                 misteryBox.classList.remove('one');
-                yssyncHomepageImg.classList.remove('one');
             }
 
+            if (height >= pageHeight * 0.11) {
+                youtubeItem1.classList.add('one');
             }
+            else {
+                youtubeItem1.classList.remove('one');
+            }
+
+            if (height >= pageHeight * 0.12) {
+                youtubeItem2.classList.add('one');
+            }
+            else {
+                youtubeItem2.classList.remove('one');
+            }
+
+            if (height >= pageHeight * 0.13) {
+                youtubeItem3.classList.add('one');
+            }
+            else {
+                youtubeItem3.classList.remove('one');
+            }
+
+            if (height >= pageHeight * 0.22) {
+                youtubeItem1.classList.add('two');
+                youtubeItem2.classList.add('two');
+                youtubeItem3.classList.add('two');
+
+                yssyncSyncingImg.classList.add('one');
+            }
+            else {
+                youtubeItem1.classList.remove('two');
+                youtubeItem2.classList.remove('two');
+                youtubeItem3.classList.remove('two');
+
+                yssyncSyncingImg.classList.remove('one');
+            }
+
+            if (height >= pageHeight * 0.30) {
+                spotifyItem1.classList.add('one');
+                spotifyItem2.classList.add('one');
+                spotifyItem3.classList.add('one');
+
+                yssyncCompleteImg.classList.add('one');
+            }
+            else {
+                spotifyItem1.classList.remove('one');
+                spotifyItem2.classList.remove('one');
+                spotifyItem3.classList.remove('one');
+
+                yssyncCompleteImg.classList.remove('one');
+            }
+
+            if (height >= pageHeight * 0.37) {
+                spotifyItem1.classList.add('two');
+                spotifyItem2.classList.add('two');
+                spotifyItem3.classList.add('two');
+            }
+            else {
+                spotifyItem1.classList.remove('two');
+                spotifyItem2.classList.remove('two');
+                spotifyItem3.classList.remove('two');
+            }
+
+            if (height >= pageHeight * 0.40) {
+                footerBackgroundImg.classList.add('visible');
+            }
+            else {
+                footerBackgroundImg.classList.remove('visible');
+            }
+
+            if (height >= pageHeight * 0.51) {
+                iconLaptop.classList.add('one');
+                for (var i = 0; i < thumbnails.length; i++) {
+                    thumbnails[i].classList.add('one');
+                }
+            }
+            else {
+                iconLaptop.classList.remove('one');
+                for (var i = 0; i < thumbnails.length; i++) {
+                    thumbnails[i].classList.remove('one');
+                }
+            }
+
+            if (height >= pageHeight * 0.54) {
+                realLaptop.classList.add('hidden');
+                cursorIcon.classList.add('one');
+            }
+            else {
+                realLaptop.classList.remove('hidden');
+                cursorIcon.classList.remove('one');
+            }
+
+            if (height >= pageHeight * 0.56) {
+                cursorIcon.classList.add('kurikku');
+                var eraseThumbnail1 = document.querySelector('.thumbnail-container.back.toVanish.one');
+                eraseThumbnail1.classList.add('vanish');
+            }
+            else {
+                cursorIcon.classList.remove('kurikku');
+                var eraseThumbnail1 = document.querySelector('.thumbnail-container.back.toVanish.one');
+                eraseThumbnail1.classList.remove('vanish');
+            }
+
+            if (height >= pageHeight * 0.58) {
+                cursorIcon.classList.add('two');
+            }
+            else {
+                cursorIcon.classList.remove('two');
+            }
+
+            if (height >= pageHeight * 0.60) {
+                cursorIcon.classList.add('kurikku2');
+                var eraseThumbnail2 = document.querySelector('.thumbnail-container.side.toVanish.one');
+                eraseThumbnail2.classList.add('vanish');
+            }
+            else {
+                cursorIcon.classList.remove('kurikku2');
+                var eraseThumbnail2 = document.querySelector('.thumbnail-container.side.toVanish.one');
+                eraseThumbnail2.classList.remove('vanish');
+            }
+
+
+
+            if (height >= pageHeight * 0.68) {
+                cursorIcon.classList.add('vanish');
+                for (var i = 0; i < thumbnails.length; i++) {
+                    thumbnails[i].classList.add('two');
+                }
+            }
+            else {
+                cursorIcon.classList.remove('vanish');
+                for (var i = 0; i < thumbnails.length; i++) {
+                    thumbnails[i].classList.remove('two');
+                }
+            }
+
+        }
 
         document.addEventListener('scroll', storeScroll);
         storeScroll();
-
-
-        /*
-        const debounce = (fn) => {
-            let frame;
-            return (...params) => {
-                if (frame) {
-                    cancelAnimationFrame(frame);
-                }
-                frame = requestAnimationFrame(() => {
-                    fn(...params);
-                });
-
-            }
-        };
-
-        const storeScroll = () => {
-            document.documentElement.dataset.scroll = window.scrollY;
-        }
-        document.addEventListener('scroll', debounce(storeScroll), { passive: true });
-        storeScroll();
-        */
 
     </script>
     {% endblock %}
