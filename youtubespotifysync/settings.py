@@ -24,7 +24,7 @@ SECRET_KEY = 'n%7_*foo6&tymgv!%5f*=ouo!-d0@_+m_cofsek481g_=jj4i&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://yssync.herokuapp.com/', '127.0.0.1']
 
 # Application definition
 
