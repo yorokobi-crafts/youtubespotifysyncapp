@@ -8,15 +8,24 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'yssync/login.css' %}">
-
 </head>
 
-<body class="ready">
+<body class="body preload">
+
+    
+    
+
     <div class="mistery-box"></div>
+
+    <form action="http://localhost:8000" method="post">{% csrf_token %}
     <div class="container">
         <div class="container-element login-topic">
 
+
             <img src="{% static 'yssync/logo-picture-step-1.jpg' %}" class="fixed login-topic-background">
+
+            <div class="title-item title-1">Your music where you need it.</div>
+
             <img src="{% static 'yssync/footer-picture.jpg' %}" class="fixed login-topic-background footer-img">
 
 
@@ -29,7 +38,8 @@
 
             <div class="logo-title">YSSYNC</div>
             <div class="login-frame">
-                <button class="google-login"> <span>START NOW</span>
+                <button type="submit" name="sessionKey" value="sessionKey" class="google-login"> 
+                    <span>START NOW</span>
                     <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
                         viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
                         <g>
@@ -60,6 +70,8 @@
         <div class="container-element tutorial-topic">
             <div class="dark-background"></div>
 
+            <div class="title-item title-2">Send your Youtube playlist to Spotify</div>
+
             <div class="youtube-playlist-container">
                 <img src="{% static 'yssync/youtube-playlist-3.png' %}" alt="youtube-playlist"
                     class="youtube-playlist-item item-one">
@@ -82,14 +94,22 @@
 
         <div class="container-element sharing-topic">
 
+
+
             <div class="cursor-icon"><img src="{% static 'yssync/cursor.png' %}" alt="cursor" class="cursor-img"></div>
 
             <div class="parent">
+
+
+
                 <div class="blue-background"></div>
+                <div class="title-item title-3">Select only the music you want.</div>
                 <div class="fixed item-center login-topic-laptop child-item">
                     <img src="{% static 'yssync/laptop-item-child.png' %}" class="laptop-item">
                 </div>
             </div>
+
+
 
             <div class="thumbnail-parent">
 
@@ -173,6 +193,7 @@
         </div>
 
         <div class="container-element final-topic">
+            <div class="title-item title-4">Start now with YSSYNC</div>
             <div class="login-button-space">
                 <button class="google-login"> <span>START NOW</span>
                     <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
@@ -200,16 +221,29 @@
                     </svg>
                 </button>
             </div>
-            <div class="main-footer"></div>
+            <div class="main-footer">
+                <div class="footer-info">
+                    <div>Follow us</div>
+                    <div class="contact-nav">
+                        <img src="{% static 'yssync/facebook.png' %}" alt="facebook icon" height="25" width="25">
+                        <img src="{% static 'yssync/twitter.png' %}" alt="facebook icon" height="25" width="25">
+                        <img src="{% static 'yssync/youtube.jpg' %}" alt="facebook icon" height="25" width="25">
+                    </div>
+                </div>
+                <div>© 2020 Yolocobi crafts. All Rights Reserved </div>
+            </div>
         </div>
     </div>
+
+</form>
 
     {% block js %}
     <script>
 
-        document.addEventListener("DOMContentLoaded", () => {
-            body.classList.add('ready');
+        document.addEventListener("DOMContentLoaded", function (event) {
+            document.querySelector('.body').classList.remove('preload');
         });
+
 
         const misteryBox = document.querySelector('.mistery-box');
         const yssyncHomepageImg = document.querySelector('.yssync-homepage-img');
@@ -233,17 +267,29 @@
         const realLaptop = document.querySelector('.fixed.login-topic-laptop.original');
         const iconLaptop = document.querySelector('.login-topic-laptop.child-item');
 
-        const pageHeight = document.documentElement.scrollHeight;
+        const title1 = document.querySelector('.title-item.title-1');
+        const title2 = document.querySelector('.title-item.title-2');
+        const title4 = document.querySelector('.title-item.title-4');
+
+        var pageHeight = document.documentElement.scrollHeight;
+        var height = this.scrollY;
+
 
         const storeScroll = () => {
-            var height = this.scrollY;
+            pageHeight = document.documentElement.scrollHeight;
+            height = this.scrollY;
             misteryBox.innerHTML = (height / pageHeight).toFixed(2);
 
             if (height > pageHeight * 0.10) {
                 misteryBox.classList.add('one');
+                title1.classList.add('hidden');
+                title2.classList.add('shown');
+
             }
             else {
                 misteryBox.classList.remove('one');
+                title1.classList.remove('hidden');
+                title2.classList.remove('shown');
             }
 
             if (height >= pageHeight * 0.11) {
@@ -315,14 +361,18 @@
                 footerBackgroundImg.classList.remove('visible');
             }
 
-            if (height >= pageHeight * 0.51) {
+            if (height >= pageHeight * 0.50) {
                 iconLaptop.classList.add('one');
+                title2.classList.add('hidden');
+                title4.classList.add('shown');
                 for (var i = 0; i < thumbnails.length; i++) {
                     thumbnails[i].classList.add('one');
                 }
             }
             else {
                 iconLaptop.classList.remove('one');
+                title4.classList.remove('shown');
+                title2.classList.remove('hidden');
                 for (var i = 0; i < thumbnails.length; i++) {
                     thumbnails[i].classList.remove('one');
                 }
@@ -384,6 +434,7 @@
         }
 
         document.addEventListener('scroll', storeScroll);
+        document.addEventListener('resize', storeScroll);
         storeScroll();
 
     </script>

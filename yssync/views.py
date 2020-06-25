@@ -529,13 +529,21 @@ def index2(request):
 @ensure_csrf_cookie
 def index(request):
     creds = request.session.get('sessionCookie', None)
-    cp = CreatePlaylist()
-    cp.get_user_info(creds)
-    cp.get_youtube_lists()
-    request.session['sessionCookie'] = cp.session
-    return render(request, 'yssync/index2.html',
-                  {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
-                   'itemCount': cp.list_item_count})
+    try:
+        sessionKey = request.POST['sessionKey']
+    except:
+        sessionKey = None
+
+    if creds or sessionKey:
+        cp = CreatePlaylist()
+        cp.get_user_info(creds)
+        cp.get_youtube_lists()
+        request.session['sessionCookie'] = cp.session
+        return render(request, 'yssync/index2.html',
+                      {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
+                       'itemCount': cp.list_item_count})
+    else:
+        return render(request, 'yssync/login.html')
 
 
 def callback(request):
