@@ -1,0 +1,1 @@
+web: gunicorn youtubespotifysync.wsgi --log-file -
