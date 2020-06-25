@@ -14,6 +14,7 @@ import os.path
 import youtube_dl
 from django.views.decorators.csrf import ensure_csrf_cookie
 
+
 class CreatePlaylist:
 
     def __init__(self):
@@ -526,6 +527,7 @@ def index2(request):
     return render(request, 'yssync/index.html',
                   {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu})
 
+
 @ensure_csrf_cookie
 def index(request):
     creds = request.session.get('sessionCookie', None)
@@ -534,16 +536,13 @@ def index(request):
     except:
         sessionKey = None
 
-    if creds or sessionKey:
-        cp = CreatePlaylist()
-        cp.get_user_info(creds)
-        cp.get_youtube_lists()
-        request.session['sessionCookie'] = cp.session
-        return render(request, 'yssync/index2.html',
-                      {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
-                       'itemCount': cp.list_item_count})
-    else:
-        return render(request, 'yssync/login.html')
+    cp = CreatePlaylist()
+    cp.get_user_info(creds)
+    cp.get_youtube_lists()
+    request.session['sessionCookie'] = cp.session
+    return render(request, 'yssync/index2.html',
+                  {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
+                   'itemCount': cp.list_item_count})
 
 
 def callback(request):
@@ -599,8 +598,9 @@ def deleteCookie(request):
         del request.session['sessionCookie']
         status = "200"
     except:
-        status="500"
+        status = "500"
     return HttpResponse(status)
+
 
 def login(request):
     return render(request, 'yssync/login.html')
