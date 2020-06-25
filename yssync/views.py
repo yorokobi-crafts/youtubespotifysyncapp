@@ -99,8 +99,13 @@ class CreatePlaylist:
         scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
         if not creds:
+
             flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
                 client_secrets_file, scopes)
+
+            oauth_callback = 'https://yssync.herokuapp.com/'
+            flow.redirect_uri = oauth_callback
+            url = flow.step1_get_authorize_url()
 
             creds = flow.run_local_server(
                 host='localhost',
@@ -536,13 +541,16 @@ def index(request):
     except:
         sessionKey = None
 
-    cp = CreatePlaylist()
-    cp.get_user_info(creds)
-    cp.get_youtube_lists()
-    request.session['sessionCookie'] = cp.session
-    return render(request, 'yssync/index2.html',
-                  {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
-                   'itemCount': cp.list_item_count})
+    if creds or sessionKey:
+        cp = CreatePlaylist()
+        cp.get_user_info(creds)
+        cp.get_youtube_lists()
+        request.session['sessionCookie'] = cp.session
+        return render(request, 'yssync/index2.html',
+                      {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
+                       'itemCount': cp.list_item_count})
+    else:
+        return render(request, 'yssync/login.html')
 
 
 def callback(request):
