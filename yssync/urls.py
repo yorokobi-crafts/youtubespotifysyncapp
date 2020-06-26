@@ -8,5 +8,5 @@ urlpatterns = [
     path('yssync/ajax_url/', views.retrieve_playlist_url, name='retrieve_playlist_url'),
     path('yssync/ajax_videos/', views.retrieve_video_list, name='retrieve_video_list'),
     path('yssync/logout/', views.deleteCookie, name='deleteCookie'),
-    path('login', views.login, name='login')
+    path('login/', views.login, name='login'),
 ]

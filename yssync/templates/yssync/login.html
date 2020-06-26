@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+<meta name="google-signin-client_id" content="125100192294-a23qgdu7mv0volo8fsb1j8tj113jp9i0.apps.googleusercontent.com">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YSSYNC</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    </script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+    </script>
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'yssync/login.css' %}">
@@ -12,12 +17,9 @@
 
 <body class="body preload">
 
-    
-    
-
     <div class="mistery-box"></div>
 
-    <form action="https://yssync.herokuapp.com/" method="post">{% csrf_token %}
+    <!--<form action="http://localhost:8000" method="post">{% csrf_token %}-->
     <div class="container">
         <div class="container-element login-topic">
 
@@ -38,7 +40,7 @@
 
             <div class="logo-title">YSSYNC</div>
             <div class="login-frame">
-                <button type="submit" name="sessionKey" value="sessionKey" class="google-login"> 
+                <button id="signinButton" class="google-login">
                     <span>START NOW</span>
                     <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
                         viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
@@ -94,13 +96,10 @@
 
         <div class="container-element sharing-topic">
 
-
-
-            <div class="cursor-icon"><img src="{% static 'yssync/cursor.png' %}" alt="cursor" class="cursor-img"></div>
+            <div class="cursor-icon"><img src="{% static 'yssync/cursor.png' %}" alt="cursor" class="cursor-img">
+            </div>
 
             <div class="parent">
-
-
 
                 <div class="blue-background"></div>
                 <div class="title-item title-3">Select only the music you want.</div>
@@ -108,8 +107,6 @@
                     <img src="{% static 'yssync/laptop-item-child.png' %}" class="laptop-item">
                 </div>
             </div>
-
-
 
             <div class="thumbnail-parent">
 
@@ -235,10 +232,99 @@
         </div>
     </div>
 
-</form>
+    <!--</form>-->
 
     {% block js %}
     <script>
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '125100192294-a23qgdu7mv0volo8fsb1j8tj113jp9i0.apps.googleusercontent.com',
+                    scope: 'https://www.googleapis.com/auth/youtube.readonly'
+                });
+            });
+        }
+
+        $('#signinButton').click(function () {
+            auth2.grantOfflineAccess().then(signInCallback);
+        });
+
+        function signInCallback(authResult) {
+            if (authResult['code']) {
+
+                $.ajax({
+                    type: 'POST',
+                    beforeSend: function (request) {
+                                request.setRequestHeader('X-CSRFToken', csrftoken);
+                            },
+                    url: 'http://localhost:8000/login/',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (result) {
+                        //location.reload();
+                    },
+                data: {auth_code:authResult['code']}
+                });
+
+                /*
+                $.ajax({
+                    type: 'POST',
+                    beforeSend: function (request) {
+                                request.setRequestHeader('X-CSRFToken', csrftoken);
+                            },
+                    url: 'http://localhost:8000/login/',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    contentType: 'application/octet-stream; charset=utf-8',
+                    success: function (result) {
+                        alert(result);
+                    },
+                processData: false,
+                data: authResult['code']
+                    //data: {auth_code:authResult['code']}
+                });
+                */
+
+
+                /*
+                                $.ajax({
+                                    url: "http://localhost:8000/yssync/ajax_url/",
+                                    type: 'post',
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader('X-CSRFToken', csrftoken);
+                                    },
+                                    data: { authResultItem : authResult['code'] },
+                                    success: function (data) {
+                                    },
+                                });
+                */
+
+            } else {
+                alert('error');
+            }
+        }
+
+
 
         document.addEventListener("DOMContentLoaded", function (event) {
             document.querySelector('.body').classList.remove('preload');

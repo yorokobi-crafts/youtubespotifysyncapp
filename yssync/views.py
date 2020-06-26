@@ -13,6 +13,9 @@ import requests
 import os.path
 import youtube_dl
 from django.views.decorators.csrf import ensure_csrf_cookie
+from oauth2client import client
+
+from oauth2client.client import flow_from_clientsecrets
 
 
 class CreatePlaylist:
@@ -99,13 +102,8 @@ class CreatePlaylist:
         scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
         if not creds:
-
             flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
                 client_secrets_file, scopes)
-
-            oauth_callback = 'https://yssync.herokuapp.com/'
-            flow.redirect_uri = oauth_callback
-            url = flow.step1_get_authorize_url()
 
             creds = flow.run_local_server(
                 host='localhost',
@@ -532,25 +530,36 @@ def index2(request):
     return render(request, 'yssync/index.html',
                   {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu})
 
+@ensure_csrf_cookie
+def index3(request):
+    creds = request.session.get('sessionCookie', None)
+    cp = CreatePlaylist()
+    cp.get_user_info(creds)
+    cp.get_youtube_lists()
+    request.session['sessionCookie'] = cp.session
+    return render(request, 'yssync/index2.html',
+                      {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
+                       'itemCount': cp.list_item_count})
 
 @ensure_csrf_cookie
 def index(request):
-    creds = request.session.get('sessionCookie', None)
-    try:
-        sessionKey = request.POST['sessionKey']
-    except:
-        sessionKey = None
+        creds = request.session.get('sessionCookie', None)
 
-    if creds or sessionKey:
-        cp = CreatePlaylist()
-        cp.get_user_info(creds)
-        cp.get_youtube_lists()
-        request.session['sessionCookie'] = cp.session
-        return render(request, 'yssync/index2.html',
-                      {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
-                       'itemCount': cp.list_item_count})
-    else:
-        return render(request, 'yssync/login.html')
+        try:
+            sessionKey = request.POST['sessionKey']
+        except:
+            sessionKey = None
+
+        if creds or sessionKey:
+            cp = CreatePlaylist()
+            cp.get_user_info(creds)
+            cp.get_youtube_lists()
+            request.session['sessionCookie'] = cp.session
+            return render(request, 'yssync/index2.html',
+                          {'username': cp.username, 'userpicture': cp.userpicture, 'listitem': cp.menu,
+                           'itemCount': cp.list_item_count})
+        else:
+            return render(request, 'yssync/login.html')
 
 
 def callback(request):
@@ -606,9 +615,29 @@ def deleteCookie(request):
         del request.session['sessionCookie']
         status = "200"
     except:
-        status = "500"
+        status="500"
     return HttpResponse(status)
 
-
 def login(request):
-    return render(request, 'yssync/login.html')
+    auth_code = request.POST['auth_code']
+
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+    client_secrets_file = "client_secret.json"
+    scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
+
+    credentials = client.credentials_from_clientsecrets_and_code(
+        client_secrets_file,
+        scopes,
+        auth_code)
+
+    request.session['sessionCookie'] = credentials
+
+    return HttpResponse('lol')
+
+    oauth_flow = flow_from_clientsecrets(client_secrets_file, scopes)
+    oauth_flow.redirect_uri = 'http://localhost:8000'
+    credentials = oauth_flow.step2_exchange(auth_code)
+
+    request.session['sessionCookie'] =  credentials
+
+    return HttpResponse('lol')
