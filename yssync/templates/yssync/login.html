@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YSSYNC</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" async defer>
     </script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
     </script>
@@ -264,6 +264,7 @@
         }
 
         $('#signinButton').click(function () {
+            alert('lol');
             auth2.grantOfflineAccess().then(signInCallback);
         });
 
