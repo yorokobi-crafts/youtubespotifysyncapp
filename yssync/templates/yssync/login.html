@@ -6,11 +6,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YSSYNC</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" async defer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
     </script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
     </script>
-
+    <script>
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '125100192294-a23qgdu7mv0volo8fsb1j8tj113jp9i0.apps.googleusercontent.com',
+                    scope: 'https://www.googleapis.com/auth/youtube.readonly'
+                });
+            });
+        }
+    </script>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'yssync/login.css' %}">
 </head>
@@ -254,17 +263,9 @@
 
         var csrftoken = getCookie('csrftoken');
 
-        function start() {
-            gapi.load('auth2', function () {
-                auth2 = gapi.auth2.init({
-                    client_id: '125100192294-a23qgdu7mv0volo8fsb1j8tj113jp9i0.apps.googleusercontent.com',
-                    scope: 'https://www.googleapis.com/auth/youtube.readonly'
-                });
-            });
-        }
+
 
         $('#signinButton').click(function () {
-            alert('lol');
             auth2.grantOfflineAccess().then(signInCallback);
         });
 
@@ -274,16 +275,16 @@
                 $.ajax({
                     type: 'POST',
                     beforeSend: function (request) {
-                                request.setRequestHeader('X-CSRFToken', csrftoken);
-                            },
-                    url: 'https://yssync.herokuapp.com/login/',
+                        request.setRequestHeader('X-CSRFToken', csrftoken);
+                    },
+                    url: 'http://localhost:8000/login/',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     },
                     success: function (result) {
                         //location.reload();
                     },
-                data: {auth_code:authResult['code']}
+                    data: { auth_code: authResult['code'] }
                 });
 
                 /*
