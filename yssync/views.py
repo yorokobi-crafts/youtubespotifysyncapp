@@ -565,6 +565,8 @@ def index(request):
 def callback(request):
     return render(request, 'yssync/spotifyLoginFinish.html', {})
 
+def comprobation(request):
+    return render(request, 'yssync/google583e06e36e583b27.html', {})
 
 def create_playlist_spotify(request):
     creds = request.session.get('sessionCookie', None)
