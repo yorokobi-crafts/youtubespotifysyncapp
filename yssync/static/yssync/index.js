@@ -50,8 +50,8 @@ const selectAllCheckboxArray = document.querySelectorAll('.playlist-checkbox-inp
 function sendUrlInfo(urlName) {
 
     $.ajax({
-        //url: "https://yssync.herokuapp.com/yssync/ajax_url/",
-        url: "http://localhost:8000/yssync/ajax_url/",
+        url: "https://yssync.herokuapp.com/yssync/ajax_url/",
+        //url: "http://localhost:8000/yssync/ajax_url/",
         type: 'post',
         beforeSend: function (request) {
             request.setRequestHeader('X-CSRFToken', csrftoken);
@@ -145,8 +145,8 @@ function ajaxSender(playlist_id, goTo) {
     loadingIcon.classList.add('active');
 
     $.ajax({
-        //url: "https://yssync.herokuapp.com/yssync/ajax_videos/",
-        url: "http://localhost:8000/yssync/ajax_videos/",
+        url: "https://yssync.herokuapp.com/yssync/ajax_videos/",
+        //url: "http://localhost:8000/yssync/ajax_videos/",
         type: 'post',
         beforeSend: function (request) {
             request.setRequestHeader('X-CSRFToken', csrftoken);
@@ -522,8 +522,8 @@ userMode();
 //Sends an ajax post to delete the sessin cookie and reloads the page
 function logOutfromSession() {
     $.ajax({
-        //url: "https://yssync.herokuapp.com/yssync/logout/",
-        url: "http://localhost:8000/yssync/logout/",
+        url: "https://yssync.herokuapp.com/yssync/logout/",
+        //url: "http://localhost:8000/yssync/logout/",
         type: 'post',
         beforeSend: function (request) {
             request.setRequestHeader('X-CSRFToken', csrftoken);
@@ -726,8 +726,8 @@ window.addEventListener("storage", syncPlaylists);
 //Creates a window with the information od the Spotify App we created and lets the user login.
 function spotifyLogin() {
     var SPOTIPY_CLIENT_ID = "0693e474b35d441987e83f0de3c6fa85"
-    //var SPOTIPY_REDIRECT_URI = "https://yssync.herokuapp.com/yssync/callback/"
-    var SPOTIPY_REDIRECT_URI = "http://localhost:8000/yssync/callback/"
+    var SPOTIPY_REDIRECT_URI = "https://yssync.herokuapp.com/yssync/callback/"
+    //var SPOTIPY_REDIRECT_URI = "http://localhost:8000/yssync/callback/"
     var spotifyScope = "playlist-modify-public"
     var spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
     var wnd = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=500,width=400');
@@ -780,8 +780,8 @@ function syncPlaylists(event) {
             playlistFormData.append('ignored_array', ignoredArray);
 
             xhr = $.ajax({
-                //url: "https://yssync.herokuapp.com/yssync/ajax/",
-                url: "http://localhost:8000/yssync/ajax/",
+                url: "https://yssync.herokuapp.com/yssync/ajax/",
+                //url: "http://localhost:8000/yssync/ajax/",
                 type: 'post',
                 beforeSend: function (request) {
                     request.setRequestHeader('X-CSRFToken', csrftoken);
