@@ -5,28 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width-devide-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
     {% load static %}
+    <script src="{% static 'yssync/start.js' %}" ></script>
+    <script src="{% static 'yssync/general.js' %}" ></script>
+    <script src="{% static 'yssync/dictionary.js' %}" ></script>
     <link rel="stylesheet" type="text/css" href="{% static 'yssync/styles2.css' %}">
-
-    {% load static %}
-    <reference path="{% static 'yssync/languages.ts' %}"></reference>
-
-    {% load static %}
     <script type="text/javascript" src="{% static 'yssync/jquery-3.5.1.min.js' %}"></script>
     <title>Youtube Spotiify Sync</title>
 </head>
 
 <body class="full-height-grow">
 
-
-
     <div id="current-playlist-id" class="current-playlist" data-playlist="NULL"></div>
-
 
     <header class="main-header">
         <div class=left-header>
-            <img class="burger-menu" id="burger-icon" src="{% static 'yssync/burger.png' %}" height="25" width="20">
+            <img class="burger-menu" src="{% static 'yssync/burger.png' %}" height="25" width="20">
             <a href="/" class="brand-logo">
                 {% load static %}
                 <img class="logo-file" src="{% static  'yssync/spotify.png'  %}" height="30" width="30">
@@ -35,9 +30,7 @@
         </div>
 
         <a href="/" class="brand-logo">
-            {% load static %}
-            <img class="logo-file" src="{% static  'yssync/logo.png'  %}" height="40" width="40">
-            <div class="brand-logo-name">Yolocobi Crafts</div>
+            <div class="logo-title">YSSYNC</div>
         </a>
 
         <div class=right-header>
@@ -69,31 +62,32 @@
                                     width="35">
                                 <div>{{username}}</div>
                             </div>
+                            
                             <div class="info-item info-option">
                                 <img class="info-picture-user" src="{% static  'yssync/logout.png'  %}" height="20"
                                     width="20">
-                                <div data-translate-text class="option-text">Log out</div>
+                                <div id="log-out"data-translate-text class="option-text">Log out</div>
                             </div>
+
+                            
                             <div class="info-item info-option">
                                 <img class="info-picture-user" src="{% static  'yssync/refresh.png'  %}" height="20"
                                     width="20">
                                 <div id="change-user" data-translate-text class="option-text">Change user</div>
                             </div>
+
+
                         </div>
 
                         <div id="user-settings-menu-id" class="user-option-menu">
-                            <div class="info-item">
-                                <img class="picture-circle info-picture-user" src="{{userpicture}}" height="35"
-                                    width="35">
-                                <div>{{username}}</div>
+                            <div class="info-item language-info">
+                                <div data-translate-text>Settings</div>
                             </div>
-                            <div class="info-item info-option">
-                                <img class="info-picture-user" src="{% static  'yssync/logout.png'  %}" height="20"
-                                    width="20">
-                                <div class="option-text">Change language</div>
+                            <div data-hidden class="info-item info-option">
+                                <div data-translate-text class="option-text hidden-text">Comming soon...</div>
                             </div>
                             <div id="dark-mode-option" class="info-item info-option">
-                                <img class="info-picture-user" src="{% static  'yssync/refresh.png'  %}" height="20"
+                                <img class="info-picture-user" src="{% static  'yssync/mode.png'  %}" height="20"
                                     width="20">
                                 <div data-translate-text class="option-text">Dark mode</div>
                                 <div class="dark-mode-bar">
@@ -103,10 +97,8 @@
                         </div>
 
                         <div id="user-language-menu-id" class="user-option-menu">
-                            <div class="info-item">
-                                <img class="picture-circle info-picture-user" src="{{userpicture}}" height="35"
-                                    width="35">
-                                <div>{{username}}</div>
+                            <div class="info-item language-info">
+                                <div data-translate-text>Choose your language</div>
                             </div>
                             <div data-translation="English" class="info-item info-option">
                                 <img class="language-icon" id="data-language-img-id"
@@ -134,7 +126,7 @@
     <div id="app-body-container-id" class="app-body-container">
         <div id="app-body-menu-id" class="app-body-menu-container">
 
-            <div id="main-menu-id" class="app-body-menu-list">
+            <div id="main-menu-id" class="menu-list">
 
                 <div class="user-info-main">
                     <div>
@@ -165,17 +157,17 @@
                     </div>
                     <div class="hidden hidden-item" id="hidden-url-append">
                         <input id="searchInput" type="text">
-                        <button id="url-search-button" class="url-append-button button-item button-input"
+                        <button class="url-append-button button-item button-input"
                             type="submit">+</button>
                     </div>
                 </div>
 
                 <div class="item-hover" id="ignored-list" data-modal-target="#modal-ignored-id"
-                    data-hidden-id-info="null">
+                    data-hidden-id-info="noitem">
                     <div class="app-body-menu-list-item">
                         <img class="app-menu-item-image picture-circle" src="{% static  'yssync/ignored.png'  %}"
                             height="30" width="30">
-                        <div data-translate-text >Ignored items</div>
+                        <div data-translate-text>Ignored items</div>
                     </div>
                 </div>
 
@@ -194,7 +186,7 @@
 
             </div>
 
-            <div id="second-menu-id" class="app-body-menu-list-shrink menu-hidden">
+            <div id="second-menu-id" class="menu-list-shrink hidden">
 
                 <div class="item-hover" id="my-playlist" data-hidden-id-info="hidden-my-playlist"
                     data-hidden-playlist-id="playlist-list-id">
@@ -240,7 +232,7 @@
                     <div class="youtube-list-header">
                         <div class="checkbox-listitem">
                             <div data-translate-text>Select all</div>
-                            <input class="youtube-playlist-itemlist playlist-ckeckbox-input" type="checkbox"
+                            <input class="youtube-playlist-itemlist playlist-checkbox-input" type="checkbox"
                                 id="select-all-playlist" data-checkbox-class="playlist-item-checkbox">
                             <label for="select-all-playlist"></label>
                         </div>
@@ -280,11 +272,11 @@
                     </ul>
                 </div>
 
-                <div id="url-list-id" class="playlist-list playlist-hidden">
+                <div id="url-list-id" class="playlist-list hidden">
                     <div class="youtube-list-header">
                         <div class="checkbox-listitem">
                             <div data-translate-text>Select all</div>
-                            <input class="youtube-playlist-itemlist playlist-ckeckbox-input" type="checkbox"
+                            <input class="youtube-playlist-itemlist playlist-checkbox-input" type="checkbox"
                                 id="select-all-url" data-checkbox-class="url-item-checkbox">
                             <label for="select-all-url"></label>
                         </div>
@@ -310,12 +302,12 @@
                 </nav>
             </div>
 
-            
+
             <div id="loading-videos-id" class="loading-videos-icon">
                 <div data-translate-text>Loading</div>
-                   <div class="loading-dots loading-dots-1">.</div>
-                   <div class="loading-dots loading-dots-2">.</div>
-                   <div class="loading-dots loading-dots-3">.</div>
+                <div class="loading-dots loading-dots-1">.</div>
+                <div class="loading-dots loading-dots-2">.</div>
+                <div class="loading-dots loading-dots-3">.</div>
             </div>
 
             <ul id="youtube-video-list-id" class="youtube-video-item-list">
@@ -325,9 +317,8 @@
 
     </div>
 
-
-    <div id="sync-button" class="sync-button-footer">
-        <button data-translate-text id="sync-button-item" type="submit" class="button-item button-sync button-input">SYNC</button>
+    <div class="sync-button-footer">
+        <button data-translate-text class="button-item button-sync button-input">SYNC</button>
     </div>
 
 
@@ -344,8 +335,8 @@
             <div></div>
             <div></div>
         </div>
-        <div data-translate-text class="sync-label sync-info">This may take a while</div>
-        <div data-translate-text class="sync-label wait-info">Synchronizing</div>
+        <div data-translate-text class="sync-label sync-info">Synchronizing</div>
+        <div data-translate-text class="sync-label wait-info">This may take a while</div>
     </div>
 
 
@@ -409,8 +400,6 @@
         </div>
     </div>
 
-
-
     <div id="modal-faq-id" class="modal modal-center modal-faq">
         <div class="modal-faq-header">
             <div data-translate-text>Frequent asked questions:</div>
@@ -457,1045 +446,50 @@
             </ul>
         </div>
     </div>
-
-
-    <footer class="main-footer">
-        <div class="container">
-            <nav class="footer-nav">
-                <ul>
-                    <li><a data-translate-text href="#">About us</a></li>
-                    <li><a data-translate-text href="#">Contact</a></li>
-                </ul>
-            </nav>
-            <nav class="footer-nav">
-                <ul>
-                    <li>
-                        <a href="#" class="social-link">
-                            <img class="picture-circle footer-picture"
-                                src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
-                            Github
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="social-link">
-                            <img class="picture-circle footer-picture"
-                                src="https://cdn.blog.st-hatena.com/images/common/logo-icon.svg">
-                            Hatena
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </footer>
-
-
-    <div id="modal-id" class="modal modal-result">
-
-        <div class="tooltip-wrapper">
-
-            <div class="modal-header header-result">
-                <button id="close-button-id" class="close-button">&times;</button>
-            </div>
-            <div class="modal-body result-body">
-                <ul id="modal-list-id" class="modal-list result">
-                </ul>
-            </div>
-        </div>
-
+<footer class="main-footer">
+    <div class="container">
+        <nav class="footer-nav">
+            <ul>
+                <li><a data-translate-text href="#">About us</a></li>
+                <li><a data-translate-text href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <nav class="footer-nav">
+            <ul>
+                <li>
+                    <a href="#" class="social-link">
+                        <img class="picture-circle footer-picture"
+                            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+                        Github
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="social-link">
+                        <img class="picture-circle footer-picture"
+                            src="https://cdn.blog.st-hatena.com/images/common/logo-icon.svg">
+                        Hatena
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
-
-
-
-    {% block js %}
-    <script>
-        $(function () {
-
-
-            const openModalButtons = document.querySelectorAll('[data-modal-target]');
-            const openOptionButtons = document.querySelectorAll('[data-option-target]');
-            const closeModalButtons = document.querySelectorAll('[data-close-button]');
-            const allModal = document.querySelectorAll('.user-option-menu');
-            const overlay = document.getElementById('dark-screen-id');
-            const loadingItem = document.getElementById('loading-item-id')
-            const modalResult = document.getElementById("modal-id");
-            const allQuestions = document.querySelectorAll('.question');
-            const allActiveQuestions = document.querySelectorAll('li');
-            const allActiveAnswers = document.querySelectorAll('.answer');
-            const leftButton = document.querySelector('button.left');
-            const rigthButton = document.querySelector('button.right');
-            var currentInstruction = document.querySelector('.instruction.active');
-            var currentImage = document.querySelector('.tutorial-image.active');
-            var allTranslateText = document.querySelectorAll('[data-translate-text]');
-            const translateItem = document.querySelectorAll('[data-translation]');
-            const loadingIcon = document.querySelector('.loading-videos-icon');
-            const htmlItem = document.documentElement;
-            const allFlags = document.querySelectorAll('.language');
-            const changeUserButton = document.querySelector('#change-user');
-
-            changeUserButton.addEventListener('click', () => {
-                changeUser();
-            }
-            );
-
-            function changeUser() {
-                logOutfromSession();
-            }
-
-            function setCookie(cookieName, cookieValue){
-                document.cookie = cookieName + "=" + cookieValue + ";path=/";
-            }
-
-            translateItem.forEach(div => {
-                div.addEventListener('click', () => {
-                    upgradeFlag(div.dataset.translation);
-                    allTranslateText = document.querySelectorAll('[data-translate-text]');
-                    translatePage(allTranslateText, div.dataset.translation, translations);
-                })
-            })
-
-            function upgradeFlag(id) {
-                allFlags.forEach(div => {
-                    div.classList.remove('active');
-                });
-
-                document.getElementById(id).classList.add('active');
-            }
-
-            function translatePage(translateArray, language, dictionaryArray) {
-                htmlItem.lang = currentLanguage(language);
-                setCookie("language", language);
-
-                for (var i = 0; i < translateArray.length; i++) {
-                    let sourceText = translateArray[i].innerHTML;
-                    translateArray[i].innerHTML = translateText(sourceText, language, dictionaryArray);
-                }
-
-            };
-
-            function translateText(sourceText, language, dictionaryArray) {
-                function translate(translationObject) {
-                    let valuesOfObject = Object.values(translationObject);
-                    return valuesOfObject.includes(sourceText);
-                };
-                return dictionaryArray.find(translate)[language];
-            };
-
-            function currentLanguage(language){
-                switch(language) {
-                    case "English":
-                        return "en"
-                    case "Japanese":
-                        return "ja"
-                    case "Spanish":
-                        return "es"
-                    default:
-                        return "en"
-                    } 
-            };
-
-            function currentHtmlLanguage(language){
-                switch(language) {
-                    case "en":
-                        return "English"
-                    case "ja":
-                        return "Japanese"
-                    case "es":
-                        return "Spanish"
-
-                    default:
-                        return "en"
-                    } 
-            };
-
-            var appendTranslations = [
-                {
-                    English: "IGNORE",
-                    Japanese: "日本語",
-                    Spanish: "IGNORAR",
-                },
-                {
-                    English: "UNDO",
-                    Japanese: "日本語",
-                    Spanish: "DESHACER",
-                },
-            ];
-
-            var translations = [
-                {
-                    English: "Switch to Spotify",
-                    Japanese: "日本語",
-                    Spanish: "Cambiar a Spotify",
-                },
-                {
-                    English: "Log out",
-                    Japanese: "日本語",
-                    Spanish: "Cerrar sesión",
-                },
-                {
-                    English: "Change user",
-                    Japanese: "日本語",
-                    Spanish: "Cambiar usuario",
-                },
-                {
-                    English: "Dark mode",
-                    Japanese: "日本語",
-                    Spanish: "Tema oscuro",
-                },
-                {
-                    English: "English",
-                    Japanese: "日本語",
-                    Spanish: "Inglés",
-                },
-                {
-                    English: "Japanese",
-                    Japanese: "日本語",
-                    Spanish: "Japonés",
-                },
-                {
-                    English: "Spanish",
-                    Japanese: "日本語",
-                    Spanish: "Español",
-                },
-                {
-                    English: "My playlists",
-                    Japanese: "日本語",
-                    Spanish: "Mis listas de reproducción",
-                },
-                {
-                    English: "Add playlist by URL",
-                    Japanese: "日本語",
-                    Spanish: "Agrega listas con URL",
-                },
-                {
-                    English: "Ignored items",
-                    Japanese: "日本語",
-                    Spanish: "Vídeos ignorados",
-                },
-                {
-                    English: "Information",
-                    Japanese: "日本語",
-                    Spanish: "Información",
-                },
-                {
-                    English: "About us",
-                    Japanese: "日本語",
-                    Spanish: "Nosotros",
-                },
-                {
-                    English: "Select all",
-                    Japanese: "日本語",
-                    Spanish: "Seleccionar todo",
-                },
-                {
-                    English: "SYNC",
-                    Japanese: "日本語",
-                    Spanish: "SINCRONIZAR",
-                },
-                {
-                    English: "This may take a while",
-                    Japanese: "日本語",
-                    Spanish: "Esto podría demorar",
-                },
-                {
-                    English: "Synchronizing",
-                    Japanese: "日本語",
-                    Spanish: "Sincronizando",
-                },
-                
-                {
-                    English: "Ignored items:",
-                    Japanese: "日本語",
-                    Spanish: "Videos ignorados:",
-                },
-                {
-                    English: "No ignored videos",
-                    Japanese: "日本語",
-                    Spanish: "No hay videos ignorados",
-                },
-                {
-                    English: "My playlist section lets you use the playlists in your Youtube channel. Alternatively, you can paste the URL of the playlist you want to migrate to Spotify in the 'Add playlist by URL' section.",
-                    Japanese: "日本語",
-                    Spanish: "La sección 'Mis listas de reproducción' (My playlist) te permite usar las listas en tu canal. Alternativamente puedes usar una URL para agregar la lista que quieres a Spotify en la sección 'Agrega playlist con URL'.",
-                },
-                {
-                    English: "By clicking an item in the playlist section, you can see the videos included on each playlist. You can also click the IGNORE button on each video to exclude it in the synchronization process.",
-                    Japanese: "日本語",
-                    Spanish: "Al hacer click en un elemento en la sección de listas de reproducción, verás los vídeos incluídos en ella. También puedes clickear el botón IGNORAR para excluir el vídeo en la sincronización.",
-                },
-                {
-                    English: "Click the checkbox of the playlist you want to synchronize to your Spotify account. Once you've chosen the playlists you want to synchronize, it's time to click the SYNC button to start the process.",
-                    Japanese: "日本語",
-                    Spanish: "Marca los cuadros en las listas que deseas sincronizar a tu cuenta de Spotify. Después de seleccionar las listas, puedes hacer clic en el botón SINCRONIZAR (SYNC) para comenzar el proceso. ",
-                },
-                {
-                    English: "You can check your ignored videos any time just by clicking on the Ignored items section. You can revert the ignored videos' status by clicking the UNDO button on each video.",
-                    Japanese: "日本語",
-                    Spanish: "Siempre puedes verificar qué videos estás ignorando con solo hacer clic en la sección 'Videos ignorados' (Ignored videos). Puedes revertir el estatus de los vídeos al cliquear el botón DESHACER (UNDO). ",
-                },
-                {
-                    English: "Once the process is complete, a box with the process' results will show up, and that's all! Please enjoy your music.",
-                    Japanese: "日本語",
-                    Spanish: "Una vez que el proceso se complete, aparecerá una caja con los resultados del proceso y, ¡Eso es todo! Ahora puedes disfrutar de tu música.",
-                },
-                {
-                    English: "Prev",
-                    Japanese: "日本語",
-                    Spanish: "Anterior",
-                },
-                {
-                    English: "Next",
-                    Japanese: "日本語",
-                    Spanish: "Siguiente",
-                },
-                {
-                    English: "Thank you for using YSSYNC",
-                    Japanese: "日本語",
-                    Spanish: "Gracias por utilizar YSSYNC",
-                },
-                {
-                    English: "Yolocobi Crafts is a project focused on multimedia, arts, and programming. Our goal is to create compelling projects along with tutorials that can be accessed by anyone. We want our users to enjoy our products and get interested in our projects and learn from them as we develop our abilities. We try every day to master new aspects of the latest technology and make an effort to share our knowledge. Yolocobi Crafts is the result of our team doing their best.",
-                    Japanese: "日本語",
-                    Spanish: "Yolocobi Crafts es un proyecto enfocado en las ramas de la multimedia, el arte y la programación. Nuestra meta es crear proyectos atractivos y tutoriales que sean accesibles para todos. Esperamos que nuestros usuarios disfruten nuestros productos y se interesen en nuestros proyectos y que aprendan de ellos, mientras que, al mismo tiempo, nosotros desarrollamos más habilidades. Intentamos dominar nuevos aspectos de la tecnología más actual y hacemos un esfuerzo para compartir nuestro conocimiento. Yolocobi Crafts es el resultado de nuestro equipo dando su máximo esfuerzo.",
-                },
-                {
-                    English: "Frequent asked questions:",
-                    Japanese: "日本語",
-                    Spanish: "Preguntas frecuentes:",
-                },
-                {
-                    English: "What is YSSYNC?",
-                    Japanese: "日本語",
-                    Spanish: "¿Qué es YSSYNC?",
-                },
-                {
-                    English: "YSSYNC (Youtube-Spotify Synchronizer) is a web application that lets you synchronize your Youtube playlists to Spotify. You can select many playlists at the same time, use URL playlists, and specify videos you don't want to sync from your playlists.",
-                    Japanese: "日本語",
-                    Spanish: "YSSYNC (Youtube-Spotify Synchronizer) es una aplicación web que te permite sincronizar tus listas de reproducción de Youtube a Spotify. Puedes seleccionar varias listas al mismo tiempo, utilizar la URL de las listas y especificar qué vídeos no quieres sincronizar.",
-                },
-                {
-                    English: "Wich videos am I able to sync?",
-                    Japanese: "日本語",
-                    Spanish: "¿Qué videos puedo sincronizar?",
-                },
-                {
-                    English: "You can sync a Youtube video as long as it is identified as a song by Youtube. You can tell by checking the description of the video on Youtube and verifying if it has official information about the song. Usually, automatically-made videos can be synchronized.",
-                    Japanese: "日本語",
-                    Spanish: "Puedes sincronizar un video de Youtube siempre y cuando esté identificado como una canción por Youtube. Puedes saber si se trata de una canción al leer la descripción del video y verificar la información oficial. Usualmente los vídeos generados automáticamente se pueden sincronizar.",
-                },
-                {
-                    English: "What information does YSSYNC get from me?",
-                    Japanese: "日本語",
-                    Spanish: "¿A qué información mía tiene acceso YSSYNC?",
-                },
-                {
-                    English: "YSSYNC can get access to information from your Youtube account and your Spotify account. You grant it access to information such as playlists, videos, and identification data such as your profile information. YSSYNC can't obtain personal information from your Google account, either from your Spotify account.",
-                    Japanese: "日本語",
-                    Spanish: "YSSYNC tiene acceso a información sobre tu cuenta de Youtube y Spotify. La información que colecta es sobre listas de reproducción, videos e información de identificación, como datos de perfil. YSSYNC no puede obtener información de nivel personal de tu cuenta de Google ni de Spotify. ",
-                },
-                {
-                    English: "How does YSSYNC work?",
-                    Japanese: "日本語",
-                    Spanish: "¿Cómo funciona YSSYNC?",
-                },
-                {
-                    English: "YSSYNC retrieves video information from the playlist you select in the application, then, it creates a new playlist in your Spotify account and proceeds to fulfill it with the videos within the previously selected Youtube playlists.",
-                    Japanese: "日本語",
-                    Spanish: "YSSYNC colecciona información sobre los videos en las listas de reproducción que seleccionas dentro de la aplicación, después genera una nueva lista en spotify y añade las canciones de las listas previamente seleccionadas.",
-                },
-                {
-                    English: "Can I modify my Youtube account from YSSYNC?",
-                    Japanese: "日本語",
-                    Spanish: "¿Puedo modificar mi cuenta de Youtube a través de YSSYNC?",
-                },
-                {
-                    English: "No. You can not delete, create, or modify Youtube elements in the YSSYNC app. There is no risk of deleting valuable data. However, you can create new Spotify playlists with the application.",
-                    Japanese: "日本語",
-                    Spanish: "No, no es posible borrar, crar o modificar elementos de Youtube en la aplicación YSSYNC. No existe riesgo de borrar información importante. Sin embargo, la aplicación permite crear y editar listas de reproducción en Spotify.",
-                },
-                {
-                    English: "Can I update a Youtube playlist that I already have in Spotify?",
-                    Japanese: "日本語",
-                    Spanish: "¿Puedo actualizar una lista de Youtube que ya tengo en Spotify?",
-                },
-                {
-                    English: "Yes, you can. You can add songs to an already synchronized playlist in Youtube, and it will be updated when you synchronize it again. YSSYNC will add the new songs to spotify, but won't delete the ones already there.",
-                    Japanese: "日本語",
-                    Spanish: "Sí. Puedes añadir canciones a una lista de Youtube ya sincronizada y se actualizará una vez que la sincronices nuevamente. YSSYNC añadirá las nuevas canciones a Spotify, pero no eliminará las que ya forman parte de la lista.",
-                },
-                {
-                    English: "Why is YSSYNC unable to synchronize my Youtube playlist?",
-                    Japanese: "日本語",
-                    Spanish: "¿Por qué YSSYNC no puede sincronizar mi lista de reproducción?",
-                },
-                {
-                    English: "YSSYNC is unable to synchronize empty playlists. Youtube videos that aren't officially identified as songs by Youtube are ignored by YSSYNC. A playlist made entirely by non-song videos is considered an empty playlist by YSSYNC.",
-                    Japanese: "日本語",
-                    Spanish: "YSSYNC no es capaz de sincronizar listas vacías. Los videos de Youtube que no están clasificados oficialmente como canciones por Youtube son ignorados por YSSYNC. Una lista de reproducción hecha solamente de videos que no contienen canciones es considerada una lista vacía por YSSYNC.",
-                },
-                {
-                    English: "Contact",
-                    Japanese: "日本語",
-                    Spanish: "Contáctanos",
-                },
-                {
-                    English: "Loading",
-                    Japanese: "日本語",
-                    Spanish: "Cargando",
-                },
-                {
-                    English: "IGNORE",
-                    Japanese: "日本語",
-                    Spanish: "IGNORAR",
-                },
-                {
-                    English: "UNDO",
-                    Japanese: "日本語",
-                    Spanish: "DESHACER",
-                },
-            ];
-
-
-            leftButton.addEventListener('click', function () { prevInstruction() });
-            rigthButton.addEventListener('click', function () { nextInstruction() });
-
-            function prevInstruction() {
-                currentInstruction = document.querySelector('.instruction.active');
-                currentImage = document.querySelector('.tutorial-image.active');
-
-                if (currentInstruction.previousElementSibling) {
-                    currentInstruction.classList.remove('active')
-                    currentInstruction.previousElementSibling.classList.add('active');
-
-                    currentImage.classList.remove('active')
-                    currentImage.previousElementSibling.classList.add('active');
-                }
-
-                currentInstruction = document.querySelector('.instruction.active');
-
-                if (currentInstruction.nextElementSibling) {
-                    rigthButton.classList.add('active')
-                }
-
-                if (!currentInstruction.previousElementSibling) {
-                    leftButton.classList.remove('active')
-                }
-
-            }
-
-            function nextInstruction() {
-                currentInstruction = document.querySelector('.instruction.active');
-                currentImage = document.querySelector('.tutorial-image.active');
-
-                if (currentInstruction.nextElementSibling) {
-                    currentInstruction.classList.remove('active')
-                    currentInstruction.nextElementSibling.classList.add('active');
-
-                    currentImage.classList.remove('active')
-                    currentImage.nextElementSibling.classList.add('active');
-                }
-
-                currentInstruction = document.querySelector('.instruction.active');
-
-                if (currentInstruction.previousElementSibling) {
-                    leftButton.classList.add('active')
-                }
-
-                if (!currentInstruction.nextElementSibling) {
-                    rigthButton.classList.remove('active')
-                }
-            }
-
-            allQuestions.forEach(div => {
-                div.addEventListener('click', () => {
-
-                    for (var i = 0; i < allActiveQuestions.length; i++) {
-                        allActiveQuestions[i].classList.remove('active');
-                    }
-
-                    for (var i = 0; i < allActiveAnswers.length; i++) {
-                        allActiveAnswers[i].classList.remove('active');
-                    }
-
-                    div.closest('li').classList.add('active');
-                    div.nextElementSibling.classList.add('active');
-                })
-            })
-
-
-            document.querySelector("#dark-mode-option").addEventListener('click', () => {
-                document.querySelector(".dark-mode-item").classList.toggle('active');
-
-                if (document.body.classList.contains('dark')){
-                    document.body.classList.remove('dark');
-                    document.cookie = "mode=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                }
-                else{
-                    document.body.classList.add('dark');
-                    setCookie("mode", "dark");
-                }
-            });
-
-            openModalButtons.forEach(div => {
-                div.addEventListener('click', () => {
-                    const modal = document.querySelector(div.dataset.modalTarget)
-                    openModal(modal)
-                })
-            })
-
-            openOptionButtons.forEach(div => {
-                div.addEventListener('click', () => {
-                    const modal = document.querySelector(div.dataset.optionTarget)
-                    openOption(modal)
-                })
-            })
-
-            function openOption(modal) {
-
-                if (modal == null) return
-
-                if (modal.classList.contains('active')) {
-                    modal.classList.remove('active');
-                }
-                else {
-
-                    for (var i = 0; i < allModal.length; i++) {
-                        allModal[i].classList.remove('active');
-                    }
-
-                    modal.classList.add('active');
-                }
-            };
-
-            document.addEventListener('click', hideOptionMenu);
-
-            function hideOptionMenu(event) {
-                if (!event.target.closest('.user-option-menu') && !event.target.dataset.close) {
-                    const closeOptionItem = document.querySelector('.user-option-menu.active');
-                    closeOptionItem.classList.remove('active');
-                }
-            }
-
-            closeModalButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modal = button.closest('.modal')
-                    closeModal(modal)
-                })
-            })
-
-            overlay.addEventListener('click', () => {
-                const modals = document.querySelectorAll('.modal.active')
-                modals.forEach(modal => {
-                    closeModal(modal)
-                })
-            })
-
-            function openModal(modal) {
-                if (modal == null) return
-                modal.classList.add('active');
-                overlay.classList.add('active');
-            };
-
-            function closeModal(modal) {
-                if (modal == null) return
-                modal.classList.remove('active');
-                overlay.classList.remove('active');
-            };
-
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-
-            var csrftoken = getCookie('csrftoken');
-
-            document.getElementById("sync-button").addEventListener("click", function () {
-
-                if (document.getElementById("sync-button-item").className == 'button-item button-sync button-input') {
-                    spotifyLogin();
-                }
-                else {
-                    abortAjax();
-                }
-                return false;
-            });
-
-            document.getElementById("close-button-id").addEventListener("click", function () {
-                document.getElementById("modal-id").classList.remove('active');
-            });
-
-            window.addEventListener("storage", syncPlaylists);
-
-            function spotifyLogin() {
-                var SPOTIPY_CLIENT_ID = "0693e474b35d441987e83f0de3c6fa85"
-                var SPOTIPY_REDIRECT_URI = "https://yssync.herokuapp.com/yssync/callback/"
-                var spotifyScope = "playlist-modify-public"
-                var spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
-                var wnd = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=500,width=400');
-            }
-
-            document.getElementById("burger-icon").addEventListener("click", function () {
-                hideMenu();
-                return false;
-            });
-
-            function hideMenu() {
-                if (document.getElementById("main-menu-id").className == 'app-body-menu-list') {
-                    document.getElementById("main-menu-id").className = 'app-body-menu-list menu-hidden';
-                    document.getElementById("second-menu-id").className = 'app-body-menu-list-hidden';
-                }
-                else {
-                    document.getElementById("main-menu-id").className = 'app-body-menu-list';
-                    document.getElementById("second-menu-id").className = 'app-body-menu-list-hidden menu-hidden';
-                }
-            }
-
-            function insertAfter(referenceNode, newNode) {
-                referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-            }
-
-            function syncPlaylists(event) {
-                if (event.key == "accessToken") {
-
-                    var isEmpty = true;
-                    const checkboxList = document.querySelectorAll('input[type=checkbox]');
-                    for (var i = 0; i < checkboxList.length; i++) {
-                        if (checkboxList[i].checked == true) {
-                            isEmpty = false;
-                        }
-                    }
-
-                    if (isEmpty == true) {
-                        alert("Please select at least one playlist");
-                    }
-                    else {
-
-                        overlay.classList.add('active');
-                        loadingItem.classList.add('active');
-                        modalResult.classList.remove("active");
-
-                        ignoredArray = [];
-                        ignoredItems = document.querySelectorAll('[data-ignored-video-id]')
-                        for (var i = 0; i < ignoredItems.length; i++) {
-                            ignoredArray.push(ignoredItems[i].dataset.ignoredVideoId);
-                        }
-
-                        var spAccessToken = event.newValue;
-                        var playlistForm = document.getElementById("form-id");
-                        var playlistFormData = new FormData(playlistForm);
-
-                        playlistFormData.append('accessToken', spAccessToken);
-                        playlistFormData.append('ignored_array', ignoredArray);
-
-                        xhr = $.ajax({
-                            url: "https://yssync.herokuapp.com/yssync/ajax/",
-                            type: 'post',
-                            beforeSend: function (request) {
-                                request.setRequestHeader('X-CSRFToken', csrftoken);
-                            },
-                            data: playlistFormData,
-                            processData: false,
-                            contentType: false,
-                            success: function (response) {
-
-                                overlay.classList.remove('active');
-                                loadingItem.classList.remove('active');
-                                modalResult.classList.add("active");
-                                var json_data = JSON.parse(response);
-
-                                var list = document.getElementById("modal-list-id");
-                                while (list.firstChild) {
-                                    list.removeChild(list.firstChild);
-                                }
-                                Object.keys(json_data).forEach(function (key) {
-                                    $("#modal-list-id").append(
-                                        '<li>' +
-                                        '<div class="list-name">' + key + '</div>' +
-                                        '<div class="list-status ' + json_data[key] + ' "></div>' +
-                                        '</li>'
-                                    );
-                                })
-                            },
-                        });
-                    }
-                }
-            }
-
-            $(document).ready(function () {
-
-                var defaultSession = getCookie("session");
-                if(defaultSession){
-                    alert("Welcome");
-                };
-
-                var defaultMode = getCookie("mode");
-                if(defaultMode){
-                    document.querySelector(".dark-mode-item").classList.add('active');
-                    document.body.classList.add(defaultMode);
-                };
-
-                var defaultLanguage = getCookie("language");
-                if (defaultLanguage) {
-                    translatePage(allTranslateText, defaultLanguage, translations);
-                    upgradeFlag(defaultLanguage);
-                }
-                else{
-                    upgradeFlag("English");
-                }
-
-                var xhr;
-                document.getElementById("my-playlist").className = 'selected item-hover';
-                document.getElementById("hidden-my-playlist").className = 'shown hidden-item';
-                document.getElementById("playlist-list-id").className = 'playlist-list';
-
-                var elements = document.getElementsByClassName(checkboxClass);
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].checked = false;
-                };
-            });
-
-            var inputs = document.getElementsByClassName('playlist-ckeckbox-input');
-            for (var i = 0; i < inputs.length; i++) {
-                inputs[i].addEventListener("click", function () { selectAllCheckbox(this.id, this.getAttribute('data-checkbox-class')); return false; });
-            }
-
-            function selectAllCheckbox(id, checkboxClass) {
-                var elements = document.getElementsByClassName(checkboxClass);
-                if (document.getElementById(id).checked) {
-                    for (var i = 0; i < elements.length; i++) {
-                        elements[i].checked = true;
-                    };
-                } else {
-                    for (var i = 0; i < elements.length; i++) {
-                        elements[i].checked = false;
-                    };
-                }
-            }
-
-            var inputs = document.getElementsByClassName('item-hover');
-            for (var i = 0; i < inputs.length; i++) {
-                inputs[i].addEventListener("click", function () { SelectItems(this.id, this.getAttribute('data-hidden-id-info'), this.getAttribute('data-hidden-playlist-id')) });
-            }
-
-            function SelectItems(id, childId, playlistId) {
-                clearSelected(id);
-                document.getElementById(id).className = 'selected item-hover';
-                document.getElementById(childId).className = 'shown hidden-item';
-                if (id != "app-info" && id != "ignored-list") {
-                    document.getElementById(playlistId).className = 'playlist-list';
-                }
-            };
-
-            function clearSelected(id) {
-
-
-
-                var elements = document.getElementsByClassName('selected');
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].className = 'item-hover';
-                };
-
-                var elements = document.getElementsByClassName('shown');
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].className = 'hidden hidden-item';
-                };
-
-                if (id != "app-info" && id != "ignored-list") {
-
-                    var ul = document.getElementById("youtube-video-list-id");
-                    while (ul.firstChild) ul.removeChild(ul.firstChild);
-
-                    var elements = document.getElementsByClassName('playlist-list');
-                    for (var i = 0; i < elements.length; i++) {
-                        elements[i].className = 'playlist-list playlist-hidden';
-                    };
-                }
-            }
-
-            var playlistInputs = document.getElementsByClassName('youtube-list-item');
-            for (var i = 0; i < playlistInputs.length; i++) {
-                playlistInputs[i].addEventListener("click", function () { SelectPlaylistItems(this.id) });
-            }
-
-            function clearPlaylistsSelected() {
-                var elements = document.getElementsByClassName('playlist-selected');
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].className = 'youtube-list-item';
-                };
-            }
-
-            function SelectPlaylistItems(id) {
-                clearPlaylistsSelected();
-                document.getElementById(id).className = 'playlist-selected youtube-list-item';
-                feedVideoList(id);
-                var currentPlaylist = document.getElementById("current-playlist-id");
-                currentPlaylist.setAttribute("data-playlist", id);
-            };
-
-            var arrows = document.getElementsByClassName("arrow");
-            for (var i = 0; i < arrows.length; i++) {
-                arrows[i].addEventListener("click", function () { goToPage(this.getAttribute("data-page")); });
-            };
-
-            function goToPage(pageData) {
-                var currentPlaylist = document.getElementById("current-playlist-id").getAttribute("data-playlist");
-                ajaxSender(currentPlaylist, pageData);
-            };
-
-            function feedVideoList(playlist_id) {
-                var goTo = "NULL";
-                ajaxSender(playlist_id, goTo);
-            };
-
-
-
-            function ajaxSender(playlist_id, goTo) {
-
-                var ul = document.getElementById("youtube-video-list-id");
-                while (ul.firstChild) ul.removeChild(ul.firstChild);
-
-                document.getElementById("prev-page").classList.remove("active-arrow");
-                document.getElementById("next-page").classList.remove("active-arrow");
-
-                loadingIcon.classList.add('active');
-
-                $.ajax({
-                    url: "https://yssync.herokuapp.com/yssync/ajax_videos/",
-                    type: 'post',
-                    beforeSend: function (request) {
-                        request.setRequestHeader('X-CSRFToken', csrftoken);
-                    },
-                    data: { playListId: playlist_id, goto_page: goTo },
-                    success: function (data) {
-
-                        loadingIcon.classList.remove('active');
-
-                        if (data == "NULL") {
-                            alert("Enlace no válido")
-                        }
-                        else {
-                            var json_data = JSON.parse(data);
-
-                            if (json_data["prev_page"] != "NULL") {
-                                var prevPageItem = document.getElementById("prev-page");
-                                prevPageItem.classList.add("active-arrow");
-                                prevPageItem.setAttribute("data-page", json_data["prev_page"]);
-                            }
-
-                            if (json_data["next_page"] != "NULL") {
-                                var nextPageItem = document.getElementById("next-page");
-                                nextPageItem.classList.add("active-arrow");
-                                nextPageItem.setAttribute("data-page", json_data["next_page"]);
-                            }
-
-                            for (i = 0; i < json_data["videos"].length; i++) {
-
-                                var ignoredElement = document.querySelector('[data-ignored-video-id="' + json_data["videos"][i][0] + '"]');
-                                if (ignoredElement == null) {
-                                    $("#youtube-video-list-id").append(
-                                        '<li>' +
-                                        '<div class="youtube-video-item youtube-item" data-video-image-url="' + json_data["videos"][i][2] + '" data-video-title="' + json_data["videos"][i][1] + '" id="' + json_data["videos"][i][0] + '">' +
-                                        '<img class="youtube-video-picture youtube-video-itemlist"' +
-                                        'src="' + json_data["videos"][i][2] + '" />' +
-
-                                        '<div class="youtube-video-itemlist">' +
-                                        '<ul>' +
-                                        '<li>' +
-                                        '<div class="itemlist-title" > <a target="_blank" href="https://www.youtube.com/watch?v=' + json_data["videos"][i][0] + '"> ' + json_data["videos"][i][1] + ' </a> </div>' +
-                                        '</li>' +
-                                        '</ul>' +
-                                        '</div>' +
-                                        '<div class="checkbox-listitem">' +
-                                        ' <button data-video-id="' + json_data["videos"][i][0] + '" class="ignore-button-item"type="button" data-translate-text data-translate-button>IGNORE</button> ' +
-                                        '</div>' +
-                                        '</div>' +
-
-                                        '</li>'
-                                    );
-                                }
-                                else {
-                                    $("#youtube-video-list-id").append(
-                                        '<li>' +
-                                        '<div class="youtube-video-item youtube-item video-ignored" data-video-image-url="' + json_data["videos"][i][2] + '" data-video-title="' + json_data["videos"][i][1] + '" id="' + json_data["videos"][i][0] + '">' +
-                                        '<img class="youtube-video-picture youtube-video-itemlist"' +
-                                        'src="' + json_data["videos"][i][2] + '" />' +
-
-                                        '<div class="youtube-video-itemlist">' +
-                                        '<ul>' +
-                                        '<li>' +
-                                        '<div class="itemlist-title" > <a target="_blank" href="https://www.youtube.com/watch?v=' + json_data["videos"][i][0] + '"> ' + json_data["videos"][i][1] + ' </a> </div>' +
-                                        '</li>' +
-                                        '</ul>' +
-                                        '</div>' +
-                                        '<div class="checkbox-listitem">' +
-                                        ' <button data-video-id="' + json_data["videos"][i][0] + '" class="ignore-button-item button-ignored"type="button" data-translate-text data-translate-button>UNDO</button> ' +
-                                        '</div>' +
-                                        '</div>' +
-
-                                        '</li>'
-                                    );
-                                }
-
-
-                            }
-                        }
-                        var appendButtons = document.querySelectorAll('[data-translate-button]');
-
-                        var arrows = document.getElementsByClassName("ignore-button-item");
-                        for (var i = 0; i < arrows.length; i++) {
-                            arrows[i].addEventListener("click", function () {
-
-                                var videoItem = this.closest(".youtube-item");
-
-                                var ignoredElement = document.querySelector('[data-ignored-video-id="' + videoItem.id + '"]');
-                                if (ignoredElement != null) {
-                                    videoItem.classList.remove("video-ignored");
-                                    this.classList.remove("button-ignored");
-                                    this.innerHTML = "IGNORE";
-                                    ignoredElement.closest("li").remove();
-                                    if (appendButtons) {
-                                        translatePage(appendButtons, currentHtmlLanguage(htmlItem.lang), appendTranslations);
-                                    }
-
-                                }
-                                else {
-                                    videoItem.classList.add("video-ignored");
-                                    this.classList.add("button-ignored");
-                                    this.innerHTML = "UNDO";
-                                    if (appendButtons) {
-                                        translatePage(appendButtons, currentHtmlLanguage(htmlItem.lang), appendTranslations);
-                                    }
-
-                                    $("#modal-ignored-list-id").append(
-                                        '<li>' +
-                                        '<div class="ignored-video-list-item" data-ignored-video-id="' + videoItem.id + '">' +
-                                        '<img class="ignored-picture"' +
-                                        'src="' + videoItem.dataset.videoImageUrl + '" />' +
-                                        '<div class="ignored-title">' +
-                                        '<a target="_blank" href="https://www.youtube.com/watch?v=' + videoItem.id + '" >' + videoItem.dataset.videoTitle + '</a>' +
-                                        '</div>' +
-                                        '</div>' +
-                                        '</li>'
-                                    );
-
-
-                                }
-
-                                var ignoredElement = document.querySelector('[data-ignored-video-id]');
-                                if (ignoredElement == null) {
-                                    document.getElementById("ignore-message-id").classList.add("active");
-                                }
-                                else {
-                                    document.getElementById("ignore-message-id").classList.remove("active");
-                                }
-                            });
-                        };
-                    
-                        if (appendButtons) {
-                            translatePage(appendButtons, currentHtmlLanguage(htmlItem.lang), appendTranslations);
-                        }
-                    },
-                });
-           
-                
-            };
-
-            document.getElementById("url-search-button").onclick = function () { verifyPlaylist(); };
-
-            function verifyPlaylist() {
-                var urlInfo = document.getElementById("searchInput");
-                var urlName = urlInfo.value.split("=").pop();
-                var elementExists = document.getElementById(urlName);
-
-
-                if (elementExists) {
-                    alert("Playlist already added");
-                }
-                else {
-                    sendUrlInfo(urlName);
-                }
-            }
-
-            function sendUrlInfo(urlName) {
-                var urlInfo = document.getElementById("searchInput");
-
-                $.ajax({
-                    url: "https://yssync.herokuapp.com/yssync/ajax_url/",
-                    type: 'post',
-                    beforeSend: function (request) {
-                        request.setRequestHeader('X-CSRFToken', csrftoken);
-                    },
-                    data: { playListURL: urlName },
-                    success: function (data) {
-
-                        if (data == "NULL") {
-                            alert("Enlace no válido")
-                        }
-                        else {
-                            var json_data = JSON.parse(data);
-
-                            $("#url-append-list").append(
-                                '<li class="youtube-list-item-element">' +
-                                '<div class="youtube-list-item" id="' + json_data["id"] + '">' +
-
-                                '<img class="youtube-list-picture youtube-playlist-itemlist" src="' + json_data["thumbnail"] + '" />' +
-
-                                '<div class="youtube-playlist-itemlist">' +
-                                '<ul>' +
-                                '<li>' +
-                                '<div> <a target="_blank" href="https://www.youtube.com/watch?v=' + json_data["id"] + '" > ' + json_data["title"] + ' </a> </div>' +
-                                '</li>' +
-                                '<li>' +
-                                '<div> ' + json_data["counter"] + ' <span>Videos </span></div>' +
-                                '</li>' +
-                                '</ul>' +
-                                '</div>' +
-
-                                '<div class="checkbox-listitem">' +
-                                '<input class="youtube-playlist-itemlist playlist-checkbox url-item-checkbox" type="checkbox" checked id="' + json_data["title"] + '" name="' + json_data["title"] + '" value="' + json_data["id"] + '">' +
-                                '<label for="' + json_data["title"] + '"></label>' +
-                                '</div>' +
-
-                                '</div>' +
-                                '</li>'
-                            );
-
-                            var playlistInputs = document.getElementsByClassName('youtube-list-item');
-                            for (var i = 0; i < playlistInputs.length; i++) {
-                                playlistInputs[i].addEventListener("click", function () { SelectPlaylistItems(this.id) });
-                            }
-                        }
-                    },
-                });
-            }
-
-
-            function logOutfromSession(){
-                var status;
-                $.ajax({
-                    url: "https://yssync.herokuapp.com/yssync/logout/",
-                    type: 'post',
-                    beforeSend: function(request){
-                        request.setRequestHeader('X-CSRFToken', csrftoken);
-                    },
-                    data: {lol: "lol"}.className,
-                    success: function(response){
-                        window.location.reload(true);
-                    },
-                });
-            }
-        });
-    </script>
-    {% endblock %}
+</footer>
+
+
+<div class="modal modal-result">
+    <div class="tooltip-wrapper">
+        <div class="modal-header header-result">
+            <button data-close-button class="close-button">&times;</button>
+        </div>
+        <div class="modal-body result-body">
+            <ul id="modal-list-id" class="modal-list result">
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% load static %}
+<script src="{% static 'yssync/index.js' %}"></script>
 
 </body>
 

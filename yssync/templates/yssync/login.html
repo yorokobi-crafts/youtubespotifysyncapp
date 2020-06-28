@@ -6,39 +6,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YSSYNC</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-    </script>
-    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
-    </script>
-    <script>
-        function start() {
-            gapi.load('auth2', function () {
-                auth2 = gapi.auth2.init({
-                    client_id: '125100192294-a23qgdu7mv0volo8fsb1j8tj113jp9i0.apps.googleusercontent.com',
-                    scope: 'https://www.googleapis.com/auth/youtube.readonly'
-                });
-            });
-        }
-    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
     {% load static %}
+    <script src="{% static 'yssync/start.js' %}"></script>
+    <script src="{% static 'yssync/general.js' %}" ></script>
+    <script src="{% static 'yssync/login.js' %}" defer></script>
     <link rel="stylesheet" type="text/css" href="{% static 'yssync/login.css' %}">
 </head>
 
 <body class="body preload">
 
     <div class="mistery-box"></div>
-
-    <!--<form action="http://localhost:8000" method="post">{% csrf_token %}-->
     <div class="container">
         <div class="container-element login-topic">
-
 
             <img src="{% static 'yssync/logo-picture-step-1.jpg' %}" class="fixed login-topic-background">
 
             <div class="title-item title-1">Your music where you need it.</div>
 
             <img src="{% static 'yssync/footer-picture.jpg' %}" class="fixed login-topic-background footer-img">
-
 
             <div class="fixed item-center login-topic-laptop original">
                 <img src="{% static 'yssync/yssync-screen.png' %}" class="inner-img yssync-homepage-img">
@@ -49,7 +36,7 @@
 
             <div class="logo-title">YSSYNC</div>
             <div class="login-frame">
-                <button id="signinButton" class="google-login">
+                <button class="google-login">
                     <span>START NOW</span>
                     <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
                         viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
@@ -148,7 +135,6 @@
                     </a>
                 </div>
 
-
             </div>
 
             <div class="thumbnail-parent">
@@ -193,9 +179,7 @@
                         </div>
                     </a>
                 </div>
-
             </div>
-
         </div>
 
         <div class="container-element final-topic">
@@ -240,296 +224,5 @@
             </div>
         </div>
     </div>
-
-    <!--</form>-->
-
-    {% block js %}
-    <script>
-
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        var csrftoken = getCookie('csrftoken');
-
-
-
-        $('#signinButton').click(function () {
-            auth2.grantOfflineAccess().then(signInCallback);
-        });
-
-        function signInCallback(authResult) {
-            if (authResult['code']) {
-
-                $.ajax({
-                    type: 'POST',
-                    beforeSend: function (request) {
-                        request.setRequestHeader('X-CSRFToken', csrftoken);
-                    },
-                    url: 'https://yssync.herokuapp.com/login/',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function (result) {
-                        //location.reload();
-                    },
-                    data: { auth_code: authResult['code'] }
-                });
-
-                /*
-                $.ajax({
-                    type: 'POST',
-                    beforeSend: function (request) {
-                                request.setRequestHeader('X-CSRFToken', csrftoken);
-                            },
-                    url: 'http://localhost:8000/login/',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    contentType: 'application/octet-stream; charset=utf-8',
-                    success: function (result) {
-                        alert(result);
-                    },
-                processData: false,
-                data: authResult['code']
-                    //data: {auth_code:authResult['code']}
-                });
-                */
-
-
-                /*
-                                $.ajax({
-                                    url: "http://localhost:8000/yssync/ajax_url/",
-                                    type: 'post',
-                                    beforeSend: function (request) {
-                                        request.setRequestHeader('X-CSRFToken', csrftoken);
-                                    },
-                                    data: { authResultItem : authResult['code'] },
-                                    success: function (data) {
-                                    },
-                                });
-                */
-
-            } else {
-                alert('error');
-            }
-        }
-
-
-
-        document.addEventListener("DOMContentLoaded", function (event) {
-            document.querySelector('.body').classList.remove('preload');
-        });
-
-
-        const misteryBox = document.querySelector('.mistery-box');
-        const yssyncHomepageImg = document.querySelector('.yssync-homepage-img');
-        const yssyncSyncingImg = document.querySelector('.yssync-syncing-img');
-        const yssyncCompleteImg = document.querySelector('.yssync-complete-img');
-
-
-        const youtubeItem1 = document.querySelector('.youtube-playlist-item.item-one');
-        const youtubeItem2 = document.querySelector('.youtube-playlist-item.item-two');
-        const youtubeItem3 = document.querySelector('.youtube-playlist-item.item-three');
-
-        const spotifyItem1 = document.querySelector('.spotify-playlist-item.item-one');
-        const spotifyItem2 = document.querySelector('.spotify-playlist-item.item-two');
-        const spotifyItem3 = document.querySelector('.spotify-playlist-item.item-three');
-        const cursorIcon = document.querySelector('.cursor-icon');
-
-        const thumbnails = document.querySelectorAll('.thumbnail-container');
-
-        const footerBackgroundImg = document.querySelector('.fixed.fixed.login-topic-background.footer-img');
-
-        const realLaptop = document.querySelector('.fixed.login-topic-laptop.original');
-        const iconLaptop = document.querySelector('.login-topic-laptop.child-item');
-
-        const title1 = document.querySelector('.title-item.title-1');
-        const title2 = document.querySelector('.title-item.title-2');
-        const title4 = document.querySelector('.title-item.title-4');
-
-        var pageHeight = document.documentElement.scrollHeight;
-        var height = this.scrollY;
-
-
-        const storeScroll = () => {
-            pageHeight = document.documentElement.scrollHeight;
-            height = this.scrollY;
-            misteryBox.innerHTML = (height / pageHeight).toFixed(2);
-
-            if (height > pageHeight * 0.10) {
-                misteryBox.classList.add('one');
-                title1.classList.add('hidden');
-                title2.classList.add('shown');
-
-            }
-            else {
-                misteryBox.classList.remove('one');
-                title1.classList.remove('hidden');
-                title2.classList.remove('shown');
-            }
-
-            if (height >= pageHeight * 0.11) {
-                youtubeItem1.classList.add('one');
-            }
-            else {
-                youtubeItem1.classList.remove('one');
-            }
-
-            if (height >= pageHeight * 0.12) {
-                youtubeItem2.classList.add('one');
-            }
-            else {
-                youtubeItem2.classList.remove('one');
-            }
-
-            if (height >= pageHeight * 0.13) {
-                youtubeItem3.classList.add('one');
-            }
-            else {
-                youtubeItem3.classList.remove('one');
-            }
-
-            if (height >= pageHeight * 0.22) {
-                youtubeItem1.classList.add('two');
-                youtubeItem2.classList.add('two');
-                youtubeItem3.classList.add('two');
-
-                yssyncSyncingImg.classList.add('one');
-            }
-            else {
-                youtubeItem1.classList.remove('two');
-                youtubeItem2.classList.remove('two');
-                youtubeItem3.classList.remove('two');
-
-                yssyncSyncingImg.classList.remove('one');
-            }
-
-            if (height >= pageHeight * 0.30) {
-                spotifyItem1.classList.add('one');
-                spotifyItem2.classList.add('one');
-                spotifyItem3.classList.add('one');
-
-                yssyncCompleteImg.classList.add('one');
-            }
-            else {
-                spotifyItem1.classList.remove('one');
-                spotifyItem2.classList.remove('one');
-                spotifyItem3.classList.remove('one');
-
-                yssyncCompleteImg.classList.remove('one');
-            }
-
-            if (height >= pageHeight * 0.37) {
-                spotifyItem1.classList.add('two');
-                spotifyItem2.classList.add('two');
-                spotifyItem3.classList.add('two');
-            }
-            else {
-                spotifyItem1.classList.remove('two');
-                spotifyItem2.classList.remove('two');
-                spotifyItem3.classList.remove('two');
-            }
-
-            if (height >= pageHeight * 0.40) {
-                footerBackgroundImg.classList.add('visible');
-            }
-            else {
-                footerBackgroundImg.classList.remove('visible');
-            }
-
-            if (height >= pageHeight * 0.50) {
-                iconLaptop.classList.add('one');
-                title2.classList.add('hidden');
-                title4.classList.add('shown');
-                for (var i = 0; i < thumbnails.length; i++) {
-                    thumbnails[i].classList.add('one');
-                }
-            }
-            else {
-                iconLaptop.classList.remove('one');
-                title4.classList.remove('shown');
-                title2.classList.remove('hidden');
-                for (var i = 0; i < thumbnails.length; i++) {
-                    thumbnails[i].classList.remove('one');
-                }
-            }
-
-            if (height >= pageHeight * 0.54) {
-                realLaptop.classList.add('hidden');
-                cursorIcon.classList.add('one');
-            }
-            else {
-                realLaptop.classList.remove('hidden');
-                cursorIcon.classList.remove('one');
-            }
-
-            if (height >= pageHeight * 0.56) {
-                cursorIcon.classList.add('kurikku');
-                var eraseThumbnail1 = document.querySelector('.thumbnail-container.back.toVanish.one');
-                eraseThumbnail1.classList.add('vanish');
-            }
-            else {
-                cursorIcon.classList.remove('kurikku');
-                var eraseThumbnail1 = document.querySelector('.thumbnail-container.back.toVanish.one');
-                eraseThumbnail1.classList.remove('vanish');
-            }
-
-            if (height >= pageHeight * 0.58) {
-                cursorIcon.classList.add('two');
-            }
-            else {
-                cursorIcon.classList.remove('two');
-            }
-
-            if (height >= pageHeight * 0.60) {
-                cursorIcon.classList.add('kurikku2');
-                var eraseThumbnail2 = document.querySelector('.thumbnail-container.side.toVanish.one');
-                eraseThumbnail2.classList.add('vanish');
-            }
-            else {
-                cursorIcon.classList.remove('kurikku2');
-                var eraseThumbnail2 = document.querySelector('.thumbnail-container.side.toVanish.one');
-                eraseThumbnail2.classList.remove('vanish');
-            }
-
-
-
-            if (height >= pageHeight * 0.68) {
-                cursorIcon.classList.add('vanish');
-                for (var i = 0; i < thumbnails.length; i++) {
-                    thumbnails[i].classList.add('two');
-                }
-            }
-            else {
-                cursorIcon.classList.remove('vanish');
-                for (var i = 0; i < thumbnails.length; i++) {
-                    thumbnails[i].classList.remove('two');
-                }
-            }
-
-        }
-
-        document.addEventListener('scroll', storeScroll);
-        document.addEventListener('resize', storeScroll);
-        storeScroll();
-
-    </script>
-    {% endblock %}
-
-
-
 </body>
-
 </html>
