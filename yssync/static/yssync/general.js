@@ -32,7 +32,7 @@ function signInCallback(authResult) {
                 'X-Requested-With': 'XMLHttpRequest'
             },
             success: function (result) {
-                location.reload();
+                location.reload(true);
             },
             data: { auth_code: authResult['code'] }
         });
