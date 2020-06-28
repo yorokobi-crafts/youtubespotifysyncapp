@@ -6,8 +6,20 @@
     <meta name="viewport" content="width-devide-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+
+    <script>
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '125100192294-a23qgdu7mv0volo8fsb1j8tj113jp9i0.apps.googleusercontent.com',
+                    scope: 'https://www.googleapis.com/auth/youtube.readonly'
+                });
+            });
+        }
+    </script>
+
+
     {% load static %}
-    <script src="{% static 'yssync/start.js' %}" async ></script>
     <script src="{% static 'yssync/general.js' %}" ></script>
     <script src="{% static 'yssync/dictionary.js' %}" ></script>
     <link rel="stylesheet" type="text/css" href="{% static 'yssync/styles2.css' %}">
