@@ -97,6 +97,9 @@ function sendUrlInfo(urlName) {
                 });
             }
         },
+        error: function (data) {
+
+        }
     });
 }
 
@@ -530,7 +533,7 @@ function logOutfromSession() {
         },
         data: 'dummyData',
         success: function (response) {
-           location.reload(true);
+            location.reload(true);
         },
     });
 }
@@ -539,7 +542,7 @@ function logOutfromSession() {
 logOutButton.addEventListener('click', () => { logOutfromSession(); });
 
 //Listen the user when change unser button is clicked to start change user function.
-changeUserButton.addEventListener('click', function(){ auth2.grantOfflineAccess().then(signInCallback) } )
+changeUserButton.addEventListener('click', function () { auth2.grantOfflineAccess().then(signInCallback) })
 
 //#endregion
 
@@ -809,6 +812,21 @@ function syncPlaylists(event) {
                         );
                     })
                 },
+                error: function (response) {
+                    overlay.classList.remove('active');
+                    loadingItem.classList.remove('active');
+
+                    switch (htmlItem.lang) {
+                        case es:
+                            alert("This is a trail version of YSSYNC. This playlist can't be synchronized because it's too large and can't be processed by HEROKU. Official version of YSSYNC is comming soon.");
+                            break;
+                        case en:
+                            alert("Esta es una versión de prueba de YSSYNC. Esta playlist no puede ser sincronizada porque es muy larga y no puede ser procesada por HEROKU. La versión oficial de YSSYNC estará disponible próximamente");
+                            break;
+                        default:
+                            alert("This is a trail version of YSSYNC. This playlist can't be synchronized because it's too large. Official version of YSSYNC is comming soon.");
+                    }
+                }
             });
         }
     }
@@ -840,11 +858,11 @@ function clearSelected(id) {
     var selectedOption = document.querySelector('.item-hover.selected');
     selectedOption.classList.remove('selected');
 
-    try{
-    var selectedItem = document.querySelector('.hidden-item.shown');
-    selectedItem.classList.remove('shown');
+    try {
+        var selectedItem = document.querySelector('.hidden-item.shown');
+        selectedItem.classList.remove('shown');
     }
-    catch(err){
+    catch (err) {
 
     }
 
@@ -867,11 +885,11 @@ function SelectItems(id, childId, playlistId) {
     clearSelected(id);
     document.getElementById(id).classList.add('selected');
 
-    try{
+    try {
         document.getElementById(childId).classList.add('shown');
     }
-    catch(err){
-        
+    catch (err) {
+
     }
 
     if (id != "app-info" && id != "ignored-list") {
