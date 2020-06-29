@@ -816,16 +816,13 @@ function syncPlaylists(event) {
                     overlay.classList.remove('active');
                     loadingItem.classList.remove('active');
 
-                    switch (htmlItem.lang) {
-                        case es:
-                            alert("This is a trail version of YSSYNC. This playlist can't be synchronized because it's too large and can't be processed by HEROKU. Official version of YSSYNC is comming soon.");
-                            break;
-                        case en:
-                            alert("Esta es una versión de prueba de YSSYNC. Esta playlist no puede ser sincronizada porque es muy larga y no puede ser procesada por HEROKU. La versión oficial de YSSYNC estará disponible próximamente");
-                            break;
-                        default:
-                            alert("This is a trail version of YSSYNC. This playlist can't be synchronized because it's too large. Official version of YSSYNC is comming soon.");
+                    if(htmlItem.lang == es){
+                        alert("This is a trail version of YSSYNC. This playlist can't be synchronized because it's too large and can't be processed by HEROKU. Official version of YSSYNC is comming soon.");
                     }
+
+                    if(htmlItem.lang == en){
+                        alert("Esta es una versión de prueba de YSSYNC. Esta playlist no puede ser sincronizada porque es muy larga y no puede ser procesada por HEROKU. La versión oficial de YSSYNC estará disponible próximamente");
+                     }       
                 }
             });
         }
