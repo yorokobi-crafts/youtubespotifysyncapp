@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74a76cd7-9df1-444e-98b2-8762308ab4e6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yssync/static/yssync/general.js" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/static/yssync/general.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yssync/static/yssync/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/static/yssync/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yssync/templates/yssync/index2.html" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/templates/yssync/index2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yssync/templates/yssync/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/templates/yssync/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yssync/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yssync/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/yssync/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

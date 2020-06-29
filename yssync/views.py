@@ -514,6 +514,23 @@ def delete_cookie(request):
     return HttpResponse(status)
 
 
+def create_playlist_spotify(request):
+    creds = request.session.get('sessionCookie', None)
+    cp = CreatePlaylist()
+    cp.get_user_info(creds)
+    if request.method == 'POST':
+        cp.spotify_token = request.POST['accessToken']
+    try:
+        ignored_array = request.POST['ignored_array']
+    except:
+        ignored_array = None
+
+    for playlist_name, url in request.POST.items():
+        if playlist_name != 'accessToken' and playlist_name != 'ignored_array':
+            cp.add_songs_to_spotify(playlist_name, url, ignored_array)
+    json_response = json.dumps(cp.playlist_lister)
+    return HttpResponse(json_response)
+
 # The login function let's the user login if there's not session data stored in cookies. It prevents the user to go
 # to the core application without loggin in previously. It is also used in the core applications for swapping the
 # current user. Once the authentication proccess is done in the frontend, the resulting authentication code is sent
