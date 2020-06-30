@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n%7_*foo6&tymgv!%5f*=ouo!-d0@_+m_cofsek481g_=jj4i&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['yssync.herokuapp.com', 'localhost']
 
@@ -54,7 +54,6 @@ MIDDLEWARE = [
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
 SECURE_SSL_REDIRECT = True
 
 ROOT_URLCONF = 'youtubespotifysync.urls'
