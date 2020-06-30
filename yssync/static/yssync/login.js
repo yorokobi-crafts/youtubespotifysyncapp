@@ -42,7 +42,6 @@ const mobileChecker = () => {
     else {
         const pcMode = document.querySelector('.pc-mode');
         pcMode.classList.add('active');
-        
     }
 }
 
