@@ -50,8 +50,8 @@ const selectAllCheckboxArray = document.querySelectorAll('.playlist-checkbox-inp
 function sendUrlInfo(urlName) {
 
     $.ajax({
-        //url: "https://yssync.herokuapp.com/yssync/ajax_url/",
-        url: "http://localhost:8000/yssync/ajax_url/",
+        url: "https://yssync.herokuapp.com/yssync/ajax_url/",
+        //url: "http://localhost:8000/yssync/ajax_url/",
         type: 'post',
         beforeSend: function (request) {
             request.setRequestHeader('X-CSRFToken', csrftoken);
@@ -97,6 +97,9 @@ function sendUrlInfo(urlName) {
                 });
             }
         },
+        error: function (data) {
+
+        }
     });
 }
 
@@ -145,8 +148,8 @@ function ajaxSender(playlist_id, goTo) {
     loadingIcon.classList.add('active');
 
     $.ajax({
-        //url: "https://yssync.herokuapp.com/yssync/ajax_videos/",
-        url: "http://localhost:8000/yssync/ajax_videos/",
+        url: "https://yssync.herokuapp.com/yssync/ajax_videos/",
+        //url: "http://localhost:8000/yssync/ajax_videos/",
         type: 'post',
         beforeSend: function (request) {
             request.setRequestHeader('X-CSRFToken', csrftoken);
@@ -522,15 +525,15 @@ userMode();
 //Sends an ajax post to delete the sessin cookie and reloads the page
 function logOutfromSession() {
     $.ajax({
-        //url: "https://yssync.herokuapp.com/yssync/logout/",
-        url: "http://localhost:8000/yssync/logout/",
+        url: "https://yssync.herokuapp.com/yssync/logout/",
+        //url: "http://localhost:8000/yssync/logout/",
         type: 'post',
         beforeSend: function (request) {
             request.setRequestHeader('X-CSRFToken', csrftoken);
         },
         data: 'dummyData',
         success: function (response) {
-           location.reload(true);
+            location.reload(true);
         },
     });
 }
@@ -539,7 +542,7 @@ function logOutfromSession() {
 logOutButton.addEventListener('click', () => { logOutfromSession(); });
 
 //Listen the user when change unser button is clicked to start change user function.
-changeUserButton.addEventListener('click', function(){ auth2.grantOfflineAccess().then(signInCallback) } )
+changeUserButton.addEventListener('click', function () { auth2.grantOfflineAccess().then(signInCallback) })
 
 //#endregion
 
@@ -726,8 +729,8 @@ window.addEventListener("storage", syncPlaylists);
 //Creates a window with the information od the Spotify App we created and lets the user login.
 function spotifyLogin() {
     var SPOTIPY_CLIENT_ID = "0693e474b35d441987e83f0de3c6fa85"
-    //var SPOTIPY_REDIRECT_URI = "https://yssync.herokuapp.com/yssync/callback/"
-    var SPOTIPY_REDIRECT_URI = "http://localhost:8000/yssync/callback/"
+    var SPOTIPY_REDIRECT_URI = "https://yssync.herokuapp.com/yssync/callback/"
+    //var SPOTIPY_REDIRECT_URI = "http://localhost:8000/yssync/callback/"
     var spotifyScope = "playlist-modify-public"
     var spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
     var wnd = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=500,width=400');
@@ -780,8 +783,8 @@ function syncPlaylists(event) {
             playlistFormData.append('ignored_array', ignoredArray);
 
             xhr = $.ajax({
-                //url: "https://yssync.herokuapp.com/yssync/ajax/",
-                url: "http://localhost:8000/yssync/ajax/",
+                url: "https://yssync.herokuapp.com/yssync/ajax/",
+                //url: "http://localhost:8000/yssync/ajax/",
                 type: 'post',
                 beforeSend: function (request) {
                     request.setRequestHeader('X-CSRFToken', csrftoken);
@@ -809,6 +812,18 @@ function syncPlaylists(event) {
                         );
                     })
                 },
+                error: function (response) {
+                    overlay.classList.remove('active');
+                    loadingItem.classList.remove('active');
+
+                    if(htmlItem.lang == "es"){
+                        alert("This is a trail version of YSSYNC. This playlist can't be synchronized because it's too large and can't be processed by HEROKU. Official version of YSSYNC is comming soon.");
+                    }
+
+                    if(htmlItem.lang == "en"){
+                        alert("Esta es una versión de prueba de YSSYNC. Esta playlist no puede ser sincronizada porque es muy larga y no puede ser procesada por HEROKU. La versión oficial de YSSYNC estará disponible próximamente");
+                     }       
+                }
             });
         }
     }
@@ -840,11 +855,11 @@ function clearSelected(id) {
     var selectedOption = document.querySelector('.item-hover.selected');
     selectedOption.classList.remove('selected');
 
-    try{
-    var selectedItem = document.querySelector('.hidden-item.shown');
-    selectedItem.classList.remove('shown');
+    try {
+        var selectedItem = document.querySelector('.hidden-item.shown');
+        selectedItem.classList.remove('shown');
     }
-    catch(err){
+    catch (err) {
 
     }
 
@@ -867,11 +882,11 @@ function SelectItems(id, childId, playlistId) {
     clearSelected(id);
     document.getElementById(id).classList.add('selected');
 
-    try{
+    try {
         document.getElementById(childId).classList.add('shown');
     }
-    catch(err){
-        
+    catch (err) {
+
     }
 
     if (id != "app-info" && id != "ignored-list") {

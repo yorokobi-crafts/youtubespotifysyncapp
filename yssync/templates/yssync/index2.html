@@ -8,6 +8,8 @@
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 
     <script>
+
+        
         function start() {
             gapi.load('auth2', function () {
                 auth2 = gapi.auth2.init({
@@ -28,6 +30,7 @@
 </head>
 
 <body class="full-height-grow">
+
 
     <div id="current-playlist-id" class="current-playlist" data-playlist="NULL"></div>
 
@@ -502,6 +505,12 @@
 
 {% load static %}
 <script src="{% static 'yssync/index.js' %}"></script>
+
+
+
+
+
+
 
 </body>
 

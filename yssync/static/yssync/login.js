@@ -34,6 +34,19 @@ var height = this.scrollY;
 
 const logInButtons = document.querySelectorAll('.google-login');
 
+const mobileChecker = () => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        const mobileMode = document.querySelector('.mobile-mode');
+        mobileMode.classList.add('active');
+    }
+    else {
+        const pcMode = document.querySelector('.pc-mode');
+        pcMode.classList.add('active');
+    }
+}
+
+mobileChecker();
+
 //Add the log in function to every button on click
 logInButtons.forEach(button => {
     button.addEventListener('click', function(){ auth2.grantOfflineAccess().then(signInCallback) } )

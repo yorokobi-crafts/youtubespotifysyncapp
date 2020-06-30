@@ -3,48 +3,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     document.querySelector('.body').classList.remove('preload');
 });
 
-//Get the csrftoken to be able to comunicate with the backend
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-var csrftoken = getCookie('csrftoken');
-
-//Let the user log in
-function signInCallback(authResult) {
-    if (authResult['code']) {
-
-        $.ajax({
-            type: 'POST',
-            beforeSend: function (request) {
-                request.setRequestHeader('X-CSRFToken', csrftoken);
-            },
-            //url: 'https://yssync.herokuapp.com/login/',
-            url: 'http://localhost:8000/login/',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            success: function (result) {
-                location.reload();
-            },
-            data: { auth_code: authResult['code'] }
-        });
-    } else {
-        alert('error');
-    }
-}
-
 //Variable declarations
 const misteryBox = document.querySelector('.mistery-box');
 const yssyncHomepageImg = document.querySelector('.yssync-homepage-img');
@@ -75,6 +33,19 @@ var pageHeight = document.documentElement.scrollHeight;
 var height = this.scrollY;
 
 const logInButtons = document.querySelectorAll('.google-login');
+
+const mobileChecker = () => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        const mobileMode = document.querySelector('.mobile-mode');
+        mobileMode.classList.add('active');
+    }
+    else {
+        const pcMode = document.querySelector('.pc-mode');
+        pcMode.classList.add('active');
+    }
+}
+
+mobileChecker();
 
 //Add the log in function to every button on click
 logInButtons.forEach(button => {

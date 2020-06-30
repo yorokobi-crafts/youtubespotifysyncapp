@@ -1,3 +1,5 @@
+
+
 //Reads a stored cookie by its name.
 function getCookie(name) {
     var cookieValue = null;

@@ -6,6 +6,44 @@
     box-sizing: border-box;
 }
 
+
+.pc-mode{
+    display:none;
+}
+
+.mobile-mode{
+    display:none;
+}
+
+.pc-mode.active{
+    display:block;
+}
+
+.inner-mode{
+    flex-grow: 1;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-mode.active{
+    height: 100vh;
+    display:flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 47%, rgba(164,240,255,1) 88%, rgba(120,221,241,1) 100%); 
+}
+
+.content{
+    padding: 1.5rem;
+    background-color: white;
+    border: 1px solid rgb(48, 48, 48);
+    border-radius: 0.2rem;
+}
+
 button{
     font-family: Poppins;
 }
@@ -157,6 +195,7 @@ body{
     font-size: 3em;
     padding: 20px 40px;
     color: rgb(59, 57, 57);
+    text-align: center;
 }
 
 .login-frame{

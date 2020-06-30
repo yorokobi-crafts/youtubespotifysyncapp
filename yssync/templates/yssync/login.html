@@ -10,6 +10,7 @@
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 
     <script>
+
         function start() {
             gapi.load('auth2', function () {
                 auth2 = gapi.auth2.init({
@@ -21,219 +22,237 @@
     </script>
 
     {% load static %}
-    <script src="{% static 'yssync/general.js' %}" ></script>
+    <script src="{% static 'yssync/general.js' %}"></script>
     <script src="{% static 'yssync/login.js' %}" defer></script>
     <link rel="stylesheet" type="text/css" href="{% static 'yssync/login.css' %}">
 </head>
 
 <body class="body preload">
 
-    <div class="mistery-box"></div>
-    <div class="container">
-        <div class="container-element login-topic">
+    <div class="pc-mode">
+        <div class="mistery-box"></div>
+        <div class="container">
+            <div class="container-element login-topic">
 
-            <img src="{% static 'yssync/logo-picture-step-1.jpg' %}" class="fixed login-topic-background">
+                <img src="{% static 'yssync/logo-picture-step-1.jpg' %}" class="fixed login-topic-background">
 
-            <div class="title-item title-1">Your music where you need it.</div>
+                <div class="title-item title-1">Your music where you need it.</div>
 
-            <img src="{% static 'yssync/footer-picture.jpg' %}" class="fixed login-topic-background footer-img">
+                <img src="{% static 'yssync/footer-picture.jpg' %}" class="fixed login-topic-background footer-img">
 
-            <div class="fixed item-center login-topic-laptop original">
-                <img src="{% static 'yssync/yssync-screen.png' %}" class="inner-img yssync-homepage-img">
-                <img src="{% static 'yssync/yssync-syncing.png' %}" class="inner-img yssync-syncing-img">
-                <img src="{% static 'yssync/yssync-complete.png' %}" class="inner-img yssync-complete-img">
-                <img src="{% static 'yssync/laptop-item.png' %}" class="laptop-item">
-            </div>
+                <div class="fixed item-center login-topic-laptop original">
+                    <img src="{% static 'yssync/yssync-screen.png' %}" class="inner-img yssync-homepage-img">
+                    <img src="{% static 'yssync/yssync-syncing.png' %}" class="inner-img yssync-syncing-img">
+                    <img src="{% static 'yssync/yssync-complete.png' %}" class="inner-img yssync-complete-img">
+                    <img src="{% static 'yssync/laptop-item.png' %}" class="laptop-item">
+                </div>
 
-            <div class="logo-title">YSSYNC</div>
-            <div class="login-frame">
-                <button class="google-login">
-                    <span>START NOW</span>
-                    <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
-                        viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
-                        <g>
-                            <path
-                                d="m120 256c0-25.367 6.989-49.13 19.131-69.477v-86.308h-86.308c-34.255 44.488-52.823 98.707-52.823 155.785s18.568 111.297 52.823 155.785h86.308v-86.308c-12.142-20.347-19.131-44.11-19.131-69.477z"
-                                fill="#fbbd00" />
-                            <path
-                                d="m256 392-60 60 60 60c57.079 0 111.297-18.568 155.785-52.823v-86.216h-86.216c-20.525 12.186-44.388 19.039-69.569 19.039z"
-                                fill="#0f9d58" />
-                            <path
-                                d="m139.131 325.477-86.308 86.308c6.782 8.808 14.167 17.243 22.158 25.235 48.352 48.351 112.639 74.98 181.019 74.98v-120c-49.624 0-93.117-26.72-116.869-66.523z"
-                                fill="#31aa52" />
-                            <path
-                                d="m512 256c0-15.575-1.41-31.179-4.192-46.377l-2.251-12.299h-249.557v120h121.452c-11.794 23.461-29.928 42.602-51.884 55.638l86.216 86.216c8.808-6.782 17.243-14.167 25.235-22.158 48.352-48.353 74.981-112.64 74.981-181.02z"
-                                fill="#3c79e6" />
-                            <path
-                                d="m352.167 159.833 10.606 10.606 84.853-84.852-10.606-10.606c-48.352-48.352-112.639-74.981-181.02-74.981l-60 60 60 60c36.326 0 70.479 14.146 96.167 39.833z"
-                                fill="#cf2d48" />
-                            <path
-                                d="m256 120v-120c-68.38 0-132.667 26.629-181.02 74.98-7.991 7.991-15.376 16.426-22.158 25.235l86.308 86.308c23.753-39.803 67.246-66.523 116.87-66.523z"
-                                fill="#eb4132" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="container-element tutorial-topic">
-            <div class="dark-background"></div>
-
-            <div class="title-item title-2">Send your Youtube playlist to Spotify</div>
-
-            <div class="youtube-playlist-container">
-                <img src="{% static 'yssync/youtube-playlist-3.png' %}" alt="youtube-playlist"
-                    class="youtube-playlist-item item-one">
-                <img src="{% static 'yssync/youtube-playlist-1.png' %}" alt="youtube-playlist"
-                    class="youtube-playlist-item item-two">
-                <img src="{% static 'yssync/youtube-playlist-2.png' %}" alt="youtube-playlist"
-                    class="youtube-playlist-item item-three">
-            </div>
-
-            <div class="spotify-playlist-container">
-                <img src="{% static 'yssync/spotify-playlist-2.png' %}" alt="spotify-playlist"
-                    class="spotify-playlist-item item-one">
-                <img src="{% static 'yssync/spotify-playlist-1.png' %}" alt="spotify-playlist"
-                    class="spotify-playlist-item item-two">
-                <img src="{% static 'yssync/spotify-playlist-3.png' %}" alt="spotify-playlist"
-                    class="spotify-playlist-item item-three">
-            </div>
-
-        </div>
-
-        <div class="container-element sharing-topic">
-
-            <div class="cursor-icon"><img src="{% static 'yssync/cursor.png' %}" alt="cursor" class="cursor-img">
-            </div>
-
-            <div class="parent">
-
-                <div class="blue-background"></div>
-                <div class="title-item title-3">Select only the music you want.</div>
-                <div class="fixed item-center login-topic-laptop child-item">
-                    <img src="{% static 'yssync/laptop-item-child.png' %}" class="laptop-item">
+                <div class="logo-title">YSSYNC</div>
+                <div class="login-frame">
+                    <button class="google-login">
+                        <span>START NOW</span>
+                        <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
+                            viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path
+                                    d="m120 256c0-25.367 6.989-49.13 19.131-69.477v-86.308h-86.308c-34.255 44.488-52.823 98.707-52.823 155.785s18.568 111.297 52.823 155.785h86.308v-86.308c-12.142-20.347-19.131-44.11-19.131-69.477z"
+                                    fill="#fbbd00" />
+                                <path
+                                    d="m256 392-60 60 60 60c57.079 0 111.297-18.568 155.785-52.823v-86.216h-86.216c-20.525 12.186-44.388 19.039-69.569 19.039z"
+                                    fill="#0f9d58" />
+                                <path
+                                    d="m139.131 325.477-86.308 86.308c6.782 8.808 14.167 17.243 22.158 25.235 48.352 48.351 112.639 74.98 181.019 74.98v-120c-49.624 0-93.117-26.72-116.869-66.523z"
+                                    fill="#31aa52" />
+                                <path
+                                    d="m512 256c0-15.575-1.41-31.179-4.192-46.377l-2.251-12.299h-249.557v120h121.452c-11.794 23.461-29.928 42.602-51.884 55.638l86.216 86.216c8.808-6.782 17.243-14.167 25.235-22.158 48.352-48.353 74.981-112.64 74.981-181.02z"
+                                    fill="#3c79e6" />
+                                <path
+                                    d="m352.167 159.833 10.606 10.606 84.853-84.852-10.606-10.606c-48.352-48.352-112.639-74.981-181.02-74.981l-60 60 60 60c36.326 0 70.479 14.146 96.167 39.833z"
+                                    fill="#cf2d48" />
+                                <path
+                                    d="m256 120v-120c-68.38 0-132.667 26.629-181.02 74.98-7.991 7.991-15.376 16.426-22.158 25.235l86.308 86.308c23.753-39.803 67.246-66.523 116.87-66.523z"
+                                    fill="#eb4132" />
+                            </g>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
-            <div class="thumbnail-parent">
+            <div class="container-element tutorial-topic">
+                <div class="dark-background"></div>
 
-                <div class="thumbnail-container">
-                    <a target="_blank" href="https://www.youtube.com/watch?v=qGjAWJ2zWWI">
-                        <div class="image-container">
-                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
-                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-1.jpg' %}" class="thumbnail-item">
-                        </div>
-                    </a>
+                <div class="title-item title-2">Send your Youtube playlist to Spotify</div>
+
+                <div class="youtube-playlist-container">
+                    <img src="{% static 'yssync/youtube-playlist-3.png' %}" alt="youtube-playlist"
+                        class="youtube-playlist-item item-one">
+                    <img src="{% static 'yssync/youtube-playlist-1.png' %}" alt="youtube-playlist"
+                        class="youtube-playlist-item item-two">
+                    <img src="{% static 'yssync/youtube-playlist-2.png' %}" alt="youtube-playlist"
+                        class="youtube-playlist-item item-three">
                 </div>
 
-
-                <div class="thumbnail-container">
-                    <a target="_blank" href="https://www.youtube.com/watch?v=FwkrrU2WYKg">
-                        <div class="image-container">
-                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
-                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-2.jpg' %}" class="thumbnail-item">
-                        </div>
-                    </a>
-                </div>
-
-
-                <div class="thumbnail-container">
-                    <a target="_blank" href="https://www.youtube.com/watch?v=UyKgYMQ-AlQ">
-                        <div class="image-container">
-                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
-                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-3.jpg' %}" class="thumbnail-item">
-                        </div>
-                    </a>
+                <div class="spotify-playlist-container">
+                    <img src="{% static 'yssync/spotify-playlist-2.png' %}" alt="spotify-playlist"
+                        class="spotify-playlist-item item-one">
+                    <img src="{% static 'yssync/spotify-playlist-1.png' %}" alt="spotify-playlist"
+                        class="spotify-playlist-item item-two">
+                    <img src="{% static 'yssync/spotify-playlist-3.png' %}" alt="spotify-playlist"
+                        class="spotify-playlist-item item-three">
                 </div>
 
             </div>
 
-            <div class="thumbnail-parent">
+            <div class="container-element sharing-topic">
 
-                <div class="thumbnail-container back">
-                    <a target="_blank" href="https://www.youtube.com/watch?v=g_QtO0Rhp0w">
-                        <div class="image-container">
-                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
-                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-4.jpg' %}" class="thumbnail-item">
-                        </div>
-                    </a>
+                <div class="cursor-icon"><img src="{% static 'yssync/cursor.png' %}" alt="cursor" class="cursor-img">
                 </div>
 
+                <div class="parent">
 
-                <div class="thumbnail-container back toVanish">
-                    <a target="_blank" href="https://www.youtube.com/watch?v=phaJXp_zMYM">
-                        <div class="image-container">
-                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
-                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-5.jpg' %}" class="thumbnail-item">
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="thumbnail-parent">
-
-                <div class="thumbnail-container side toVanish">
-                    <a target="_blank" href="https://www.youtube.com/watch?v=GgNK_Tl66tk"></a>
-                    <div class="image-container">
-                        <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
-                        <img src="{% static 'yssync/youtube-thumbnails/thumbnail-6.jpg' %}" class="thumbnail-item">
-                    </div>
-                    </a>
-                </div>
-
-
-                <div class="thumbnail-container side">
-                    <a target="_blank" href="https://www.youtube.com/watch?v=c4k6h3iGfeA">
-                        <div class="image-container">
-                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
-                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-7.jpg' %}" class="thumbnail-item">
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="container-element final-topic">
-            <div class="title-item title-4">Start now with YSSYNC</div>
-            <div class="login-button-space">
-                <button class="google-login"> <span>START NOW</span>
-                    <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
-                        viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
-                        <g>
-                            <path
-                                d="m120 256c0-25.367 6.989-49.13 19.131-69.477v-86.308h-86.308c-34.255 44.488-52.823 98.707-52.823 155.785s18.568 111.297 52.823 155.785h86.308v-86.308c-12.142-20.347-19.131-44.11-19.131-69.477z"
-                                fill="#fbbd00" />
-                            <path
-                                d="m256 392-60 60 60 60c57.079 0 111.297-18.568 155.785-52.823v-86.216h-86.216c-20.525 12.186-44.388 19.039-69.569 19.039z"
-                                fill="#0f9d58" />
-                            <path
-                                d="m139.131 325.477-86.308 86.308c6.782 8.808 14.167 17.243 22.158 25.235 48.352 48.351 112.639 74.98 181.019 74.98v-120c-49.624 0-93.117-26.72-116.869-66.523z"
-                                fill="#31aa52" />
-                            <path
-                                d="m512 256c0-15.575-1.41-31.179-4.192-46.377l-2.251-12.299h-249.557v120h121.452c-11.794 23.461-29.928 42.602-51.884 55.638l86.216 86.216c8.808-6.782 17.243-14.167 25.235-22.158 48.352-48.353 74.981-112.64 74.981-181.02z"
-                                fill="#3c79e6" />
-                            <path
-                                d="m352.167 159.833 10.606 10.606 84.853-84.852-10.606-10.606c-48.352-48.352-112.639-74.981-181.02-74.981l-60 60 60 60c36.326 0 70.479 14.146 96.167 39.833z"
-                                fill="#cf2d48" />
-                            <path
-                                d="m256 120v-120c-68.38 0-132.667 26.629-181.02 74.98-7.991 7.991-15.376 16.426-22.158 25.235l86.308 86.308c23.753-39.803 67.246-66.523 116.87-66.523z"
-                                fill="#eb4132" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="main-footer">
-                <div class="footer-info">
-                    <div>Follow us</div>
-                    <div class="contact-nav">
-                        <img src="{% static 'yssync/facebook.png' %}" alt="facebook icon" height="25" width="25">
-                        <img src="{% static 'yssync/twitter.png' %}" alt="facebook icon" height="25" width="25">
-                        <img src="{% static 'yssync/youtube.jpg' %}" alt="facebook icon" height="25" width="25">
+                    <div class="blue-background"></div>
+                    <div class="title-item title-3">Select only the music you want.</div>
+                    <div class="fixed item-center login-topic-laptop child-item">
+                        <img src="{% static 'yssync/laptop-item-child.png' %}" class="laptop-item">
                     </div>
                 </div>
-                <div>© 2020 Yolocobi crafts. All Rights Reserved </div>
+
+                <div class="thumbnail-parent">
+
+                    <div class="thumbnail-container">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=qGjAWJ2zWWI">
+                            <div class="image-container">
+                                <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                                <img src="{% static 'yssync/youtube-thumbnails/thumbnail-1.jpg' %}"
+                                    class="thumbnail-item">
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="thumbnail-container">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=FwkrrU2WYKg">
+                            <div class="image-container">
+                                <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                                <img src="{% static 'yssync/youtube-thumbnails/thumbnail-2.jpg' %}"
+                                    class="thumbnail-item">
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="thumbnail-container">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=UyKgYMQ-AlQ">
+                            <div class="image-container">
+                                <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                                <img src="{% static 'yssync/youtube-thumbnails/thumbnail-3.jpg' %}"
+                                    class="thumbnail-item">
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="thumbnail-parent">
+
+                    <div class="thumbnail-container back">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=g_QtO0Rhp0w">
+                            <div class="image-container">
+                                <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                                <img src="{% static 'yssync/youtube-thumbnails/thumbnail-4.jpg' %}"
+                                    class="thumbnail-item">
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="thumbnail-container back toVanish">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=phaJXp_zMYM">
+                            <div class="image-container">
+                                <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                                <img src="{% static 'yssync/youtube-thumbnails/thumbnail-5.jpg' %}"
+                                    class="thumbnail-item">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="thumbnail-parent">
+
+                    <div class="thumbnail-container side toVanish">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=GgNK_Tl66tk"></a>
+                        <div class="image-container">
+                            <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                            <img src="{% static 'yssync/youtube-thumbnails/thumbnail-6.jpg' %}" class="thumbnail-item">
+                        </div>
+                        </a>
+                    </div>
+
+
+                    <div class="thumbnail-container side">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=c4k6h3iGfeA">
+                            <div class="image-container">
+                                <img src="{% static 'yssync/youtube-thumbnails/play.png' %}" class="play-icon">
+                                <img src="{% static 'yssync/youtube-thumbnails/thumbnail-7.jpg' %}"
+                                    class="thumbnail-item">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-element final-topic">
+                <div class="title-item title-4">Start now with YSSYNC</div>
+                <div class="login-button-space">
+                    <button class="google-login"> <span>START NOW</span>
+                        <svg height="35px" width="35px" enable-background="new 0 0 512 512" height="512"
+                            viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path
+                                    d="m120 256c0-25.367 6.989-49.13 19.131-69.477v-86.308h-86.308c-34.255 44.488-52.823 98.707-52.823 155.785s18.568 111.297 52.823 155.785h86.308v-86.308c-12.142-20.347-19.131-44.11-19.131-69.477z"
+                                    fill="#fbbd00" />
+                                <path
+                                    d="m256 392-60 60 60 60c57.079 0 111.297-18.568 155.785-52.823v-86.216h-86.216c-20.525 12.186-44.388 19.039-69.569 19.039z"
+                                    fill="#0f9d58" />
+                                <path
+                                    d="m139.131 325.477-86.308 86.308c6.782 8.808 14.167 17.243 22.158 25.235 48.352 48.351 112.639 74.98 181.019 74.98v-120c-49.624 0-93.117-26.72-116.869-66.523z"
+                                    fill="#31aa52" />
+                                <path
+                                    d="m512 256c0-15.575-1.41-31.179-4.192-46.377l-2.251-12.299h-249.557v120h121.452c-11.794 23.461-29.928 42.602-51.884 55.638l86.216 86.216c8.808-6.782 17.243-14.167 25.235-22.158 48.352-48.353 74.981-112.64 74.981-181.02z"
+                                    fill="#3c79e6" />
+                                <path
+                                    d="m352.167 159.833 10.606 10.606 84.853-84.852-10.606-10.606c-48.352-48.352-112.639-74.981-181.02-74.981l-60 60 60 60c36.326 0 70.479 14.146 96.167 39.833z"
+                                    fill="#cf2d48" />
+                                <path
+                                    d="m256 120v-120c-68.38 0-132.667 26.629-181.02 74.98-7.991 7.991-15.376 16.426-22.158 25.235l86.308 86.308c23.753-39.803 67.246-66.523 116.87-66.523z"
+                                    fill="#eb4132" />
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <div class="main-footer">
+                    <div class="footer-info">
+                        <div>Follow us</div>
+                        <div class="contact-nav">
+                            <img src="{% static 'yssync/facebook.png' %}" alt="facebook icon" height="25" width="25">
+                            <img src="{% static 'yssync/twitter.png' %}" alt="facebook icon" height="25" width="25">
+                            <img src="{% static 'yssync/youtube.jpg' %}" alt="facebook icon" height="25" width="25">
+                        </div>
+                    </div>
+                    <div>© 2020 Yolocobi crafts. All Rights Reserved </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="mobile-mode">
+        <div class="inner-mode">
+            <div class="logo-title">YSSYNC</div>
+            <div class="content">This application is currently only available on PC</div>
+        </div>
+    </div>
+
+
 </body>
+
 </html>
